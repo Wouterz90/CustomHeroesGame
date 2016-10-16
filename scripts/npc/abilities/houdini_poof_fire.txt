@@ -1,0 +1,79 @@
+"houdini_poof_fire"
+{
+  "BaseClass"                 "ability_datadriven"
+  "AbilityTextureName"      "houdini/poof_fire"
+  "AbilityBehavior"        "DOTA_ABILITY_BEHAVIOR_POINT | DOTA_ABILITY_BEHAVIOR_AOE"
+  "AbilityUnitTargetTeam"      "DOTA_UNIT_TARGET_TEAM_ENEMY"
+  "AbilityUnitTargetType"      "DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
+  "AbilityUnitDamageType"      "DAMAGE_TYPE_MAGICAL"
+  "AoERadius"               "250"
+
+  "AbilityCooldown"        "6"
+  "AbilityManaCost"        "120"
+  "AbilityDamage"          "100 200 300 400"
+
+  "AbilityCastRange"        "600 800 1000 1200"
+  "AbilityCastPoint"        "0.75"
+  "AbilityCastAnimation"      "ACT_DOTA_CAST_ABILITY_1"
+
+  "AbilitySpecial"
+  {
+    "01"
+    {
+      "var_type"      "FIELD_INTEGER"
+      "radius"      "250"
+    }
+    "02"
+    {
+      "var_type"      "FIELD_INTEGER"
+      "damage"      "100 200 300 400"
+    }
+  }
+
+  "precache"
+  {
+    "particle"  "particles/houdini/houdini_poof_fire.vpcf"
+    "soundfile" "soundevents/game_sounds_heroes/game_sounds_huskar.vsndevts"
+  }
+
+  "OnSpellStart"
+  {
+    "CreateThinker"
+    {
+      "ModifierName"  "modifier_poof_fire_thinker"
+      "Target"     "POINT"
+    }
+    "FireSound"
+    {
+      "EffectName"  "Hero_Huskar.Burning_Spear.Cast"
+      "Target"     "POINT"
+    }
+    "Damage"
+    {
+      "Target"
+      {
+        "Center"       "POINT"
+        "Radius"      "%radius"
+        "Teams"       "DOTA_UNIT_TARGET_TEAM_ENEMY"
+        "Types"       "DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
+      }
+      "Type"       "DAMAGE_TYPE_MAGICAL"
+      "Damage"     "%damage"
+    }
+  }
+
+  "Modifiers"
+  {
+    "modifier_poof_fire_thinker"
+    {
+      "Duration"      "1"
+      "Passive"      "0"
+      "IsHidden"      "0"
+      "IsDebuff"      "0"
+  
+      "EffectName"    "particles/houdini/houdini_poof_fire.vpcf"
+      "EffectAttachType"  "follow_origin"
+    }
+  }
+}
+

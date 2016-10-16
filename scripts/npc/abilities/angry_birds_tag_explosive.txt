@@ -1,0 +1,176 @@
+"angry_birds_tag_explosive"
+{
+	"BaseClass"             		"ability_datadriven"
+	"AbilityTextureName"			"angry_birds/tag_explosive"
+	"MaxLevel" 						"4"
+
+	"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_NO_TARGET"
+	"AbilityUnitTargetTeam"			"DOTA_UNIT_TARGET_TEAM_FRIENDLY"
+	"AbilityUnitTargetType"			"DOTA_UNIT_TARGET_HERO"
+	"AbilityUnitDamageType"			"DAMAGE_TYPE_MAGICAL"
+	"AbilityCastPoint"				"0.3"
+	"AbilityCastAnimation"			"ACT_DOTA_CAST_ABILITY_1"
+
+	"AbilityCooldown"				"70"
+	"AbilityManaCost"				"100"
+	"AbilityDamage"					"100 180 260 340"
+
+	"AbilitySpecial"
+	{
+		"01"
+		{
+			"var_type"			"FIELD_FLOAT"
+			"setup_duration"	"6 5 4 3"
+		}
+		"02"
+		{
+			"var_type"			"FIELD_FLOAT"
+			"locked_duration"	"4 3.5 3 2.5"
+		}
+		"03"
+		{
+			"var_type"			"FIELD_INTEGER"
+			"explosion_radius"			"450"
+		}
+		"04"
+		{
+			"var_type"			"FIELD_FLOAT"
+			"stun_duration"		"1.5 1.8 2.1 2.4"
+		}
+		"05"
+		{
+			"var_type"			"FIELD_INTEGER"
+			"explosive_slow"		"-33"
+		}
+	}
+	"precache"
+	{
+		"particle"  "particles/units/heroes/hero_alchemist/alchemist_unstable_concoction_timer.vpcf"
+		"particle"		"particles/units/heroes/hero_techies/techies_remote_mines_detonate.vpcf"
+	}
+
+	"OnSpellStart"
+	{
+		"RunScript"
+		{
+			"ScriptFile"	"heroes/hero_angry_birds/tag_explosive.lua"
+			"Function"		"MarkTime"
+		}
+		"ApplyModifier"
+		{
+			"ModifierName"	"modifier_tag_exploding"
+			"Target" 		"CASTER"
+			"Duration"		"%locked_duration"
+		}
+		"DelayedAction"
+		{
+			"Delay"     "%locked_duration"
+			"Action"    
+			{	
+				
+				
+
+				"RunScript"
+				{
+					"ScriptFile"	"heroes/hero_angry_birds/tag_explosive.lua"
+					"Function"		"KillYourself"
+				}
+			}
+		}
+	}
+	"Modifiers"
+	{
+		"modifier_tag_exploding"
+		{
+			"Passive"			"0"
+			"IsHidden"			"0"
+			"IsDebuff"			"0"
+		
+			"EffectName"		""
+			"EffectAttachType"	"follow_origin"
+		
+			//"States"
+			//{
+			//	"MODIFIER_STATE_STUNNED"		"MODIFIER_STATE_VALUE_ENABLED"
+			//}
+			"ThinkInterval"  "0.5"
+			"OnIntervalThink"
+			{
+				"RunScript"
+				{
+					"ScriptFile"	"heroes/hero_angry_birds/tag_explosive.lua"
+					"Function"		"CountDown"
+				}
+			}
+			"Properties"
+			{
+				"MODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE" "%explosive_slow"
+			}
+			
+		}
+		"modifier_tag_explosion_stun"
+		{
+			"Passive"			"0"
+			"IsHidden"			"0"
+			"IsDebuff"			"0"
+		
+			"EffectName"		""
+			"EffectAttachType"	"follow_origin"
+		
+			"States"
+			{
+				"MODIFIER_STATE_STUNNED"		"MODIFIER_STATE_VALUE_ENABLED"
+			}
+			
+		}
+		"modifier_tag_exploded"
+		{
+			"Passive"			"0"
+			"IsHidden"			"1"
+			"IsDebuff"			"0"
+		
+			"EffectName"		""
+			"EffectAttachType"	"follow_origin"
+
+			"OnCreated"
+			{
+				"FireEffect"
+				{
+					"EffectName"      	"particles/units/heroes/hero_techies/techies_remote_mines_detonate.vpcf"  
+					"EffectAttachType"  "attach_origin"
+					"Target"
+					{
+						"Center"	"CASTER"
+						"Flags"		"DOTA_UNIT_TARGET_FLAG_DEAD"
+					}
+				}
+				"ActOnTargets"
+				{
+					"Target"
+					{
+						"Center"  	"CASTER"
+						"Radius" 	"%explosion_radius"
+						"Teams" 	"DOTA_UNIT_TARGET_TEAM_ENEMY"
+						"Types" 	"DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
+					}
+				
+					"Action"    
+					{
+						"Damage"
+						{
+							"Target"		"TARGET"
+							"Type"			"DAMAGE_TYPE_MAGICAL"
+							"Damage"		"%AbilityDamage"
+						}
+						"ApplyModifier"
+						{
+							"ModifierName"	"modifier_tag_explosion_stun"
+							"Target" 		"TARGET"
+							"Duration"		"%stun_duration"
+						}					
+					}
+				}
+			}
+		}
+	}
+}

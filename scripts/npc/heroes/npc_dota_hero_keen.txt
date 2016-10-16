@@ -1,0 +1,26 @@
+"npc_dota_hero_keen_commander"
+	{
+		"override_hero"				"npc_dota_hero_gyrocopter"
+		"AbilityLayout"				"4"
+		"Ability1"				"keen_commander_recon_systems"		// Ability 1
+		"Ability2"				"keen_commander_mortar_shot"		// Ability 2
+		"Ability3"				"keen_commander_slag_armor"			// Ability 3
+		"Ability5"				"keen_commander_siege_mode"			// Ultimate
+		"Ability4"				"attribute_bonus"
+		"Ability6"				""	
+		"Ability7"				""	
+	
+		"AttributePrimary"		"DOTA_ATTRIBUTE_STRENGTH"			// Primary Attribute
+		"AttributeBaseStrength"		"21"						// Base strength
+		"AttributeStrengthGain"		"2.0"						// Strength bonus per level.
+		"AttributeBaseIntelligence"	"19"						// Base intelligence
+		"AttributeIntelligenceGain"	"2.0"						// Intelligence bonus per level.
+		"AttributeBaseAgility"		"12"						// Base agility
+		"AttributeAgilityGain"		"1.6"						// Agility bonus per level.
+		"ArmorPhysical"			"4"	
+		"AttackRate" 			"1.7"
+		"AttackRange"			"600"
+		"MovementSpeed" 		"310"
+		"AttackDamageMin"		"20"						
+		"AttackDamageMax"		"28"	
+	}

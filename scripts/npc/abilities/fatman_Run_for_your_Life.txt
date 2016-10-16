@@ -1,0 +1,78 @@
+"Run for your Life"
+{
+	//general
+	"BaseClass"             		"ability_datadriven"
+	"AbilityTextureName"			"fatman/Fatman_runforyourlife"
+	"MaxLevel" 						"4"
+	"AbilityBehavior" 				"DOTA_ABILITY_BEHAVIOR_PASSIVE"	
+	"FightRecapLevel"				"0"
+	"AbilityDuration"				"4 5 6 7"
+
+	// Casting
+	"AbilityCastRange"				"0"
+	"AbilityCastPoint" 				"0"
+
+
+	"AbilitySpecial"
+	{
+		"01"
+		{
+			"var_type"				"FIELD_INTEGER"
+			"RunningBonus"			"5"
+		}
+		"02"
+		{
+			"var_type"				"FIELD_INTEGER"
+			"Buff_Duration"			"4 5 6 7"
+		}
+	}
+
+	"OnUpgrade"
+	{
+		"ApplyModifier"
+		{
+			"ModifierName"	"RunforyourLife"
+			"Target" 		"CASTER"
+		}
+
+	}
+
+	"Modifiers"
+	{
+		"RunforyourLife"
+		{
+			
+			"IsHidden" "1"
+			"OnTakeDamage"
+			// "%attack_damage" is set to the damage value after mitigation
+			{
+				"RunScript"
+				{
+					"ScriptFile"	"heroes/fatman/RunforyourLife.lua"
+					"Function"		"Speedboost"
+				}
+				"DelayedAction"
+				{
+					"Delay"     "%Buff_Duration"
+					"Action"    
+					{
+						"RunScript"
+						{
+							"ScriptFile"	"heroes/fatman/RunforyourLife.lua"
+							"Function"		"Decrease"
+						}
+					}
+				}
+
+			}
+			
+		}
+		"Speedboost"
+		{
+			"Properties"
+			{
+		    	"MODIFIER_PROPERTY_MOVESPEED_BONUS_CONSTANT" "%RunningBonus" 
+			}
+		}		
+	}
+}

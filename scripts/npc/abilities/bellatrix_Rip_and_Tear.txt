@@ -1,0 +1,154 @@
+"Rip and Tear"
+	{
+		//General
+		"BaseClass"						"ability_datadriven"
+		"AbilityTextureName"			"bellatrix/Bellatrix_RipandTear"
+		"AbilityBehavior" 				"DOTA_ABILITY_BEHAVIOR_INSTANT|DOTA_ABILITY_BEHAVIOR_NO_TARGET"
+		"AbilityUnitTargetTeam"			"DOTA_UNIT_TARGET_TEAM_ENEMY"
+		"AbilityUnitTargetType"			"DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
+		"AbilityUnitDamageType"			"DAMAGE_TYPE_MAGICAL"	
+		"SpellImmunityType"				"SPELL_IMMUNITY_ENEMIES_NO"
+		"FightRecapLevel"				"1"
+	
+		// Casting
+		"AbilityCastPoint" 				"0.3"
+	
+		//Time
+		"AbilityCooldown"				"12 10 8 6"
+		"AbilityDuration"				"1.5"
+		"AbilityDamage"					"20"
+	
+		//Cost
+		"AbilityManaCost"				"110 125 140 155"
+	
+	
+		"AbilitySpecial"
+		{
+			"01"
+			{
+				"var_type"			"FIELD_INTEGER"
+				"first_strike"		"500"
+			}
+			"02"
+			{
+				"var_type"			"FIELD_INTEGER"
+				"second_strike"		"250"
+			}
+			"03"
+			{
+				"var_type"			"FIELD_INTEGER"
+				"damage_reduction"	"15"
+			}
+			"04"
+			{
+				"var_type"			"FIELD_FLOAT"
+				"int_multiplier_tooltip" "1.6 1.8 2 2.2"
+			}
+			"05"
+			{
+				"var_type"			"FIELD_FLOAT"
+				"ss_delay_tooltip"	"0.8 0.6 0.4 0.2"
+			}
+			"06"
+			{
+				"var_type"			"FIELD_FLOAT"
+				"buff_duration"		"2"
+			}
+			"07"
+			{
+				"var_type"			"FIELD_INTEGER"
+				"damage_healed"		"50 55 60 65"
+			}
+			"08"
+			{
+				"var_type"			"FIELD_INTEGER"
+				"ini_damage"		"20 25 30 35"
+			}
+		}
+		"precache"
+		{
+			"particle"				"particles/bellatrix/bellatrix_ripandtear.vpcf"
+			//"soundfile" "soundevents/game_sounds_heroes/game_sounds_HERO.vsndevts"
+		}
+	
+		"OnSpellStart"
+		{
+			"ApplyModifier"
+			{
+				"ModifierName"	"RipAndTear_dummy"
+				"Target" 		"CASTER"
+				"Duration"		"2"
+			}
+	
+		}
+		"Modifiers"
+		{
+			"RipAndTear_dummy"
+			{
+				"Passive"			"0"
+				"IsHidden"			"1"
+				"IsDebuff"			"0"
+			
+				"OnCreated"
+				{
+					"FireEffect"
+					{
+						"EffectName"        "particles/bellatrix/bellatrix_ripandtear.vpcf"
+						"EffectAttachType"  "follow_origin"
+						"Target"            "CASTER"
+					}
+					"ActOnTargets"
+					{
+						"Target"
+						{
+							"Center"  	"CASTER"
+							"Radius" 	"%first_strike"
+							"Teams" 	"DOTA_UNIT_TARGET_TEAM_ENEMY"
+							"Types" 	"DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
+						}
+					
+						"Action"    
+						{
+							"RunScript"
+							{
+								"ScriptFile"	"heroes/bellatrix/UnholyEcstasy.lua"
+								"Function"		"FirstStrike"
+							}
+						}
+					}
+					"DelayedAction"
+					{
+						"Delay"     "%ss_delay_tooltip"
+						"Action"    
+						{	
+							"FireEffect"
+							{
+								"EffectName"        "particles/bellatrix/bellatrix_ripandtear.vpcf"
+								"EffectAttachType"  "follow_origin"
+								"Target"            "CASTER"
+							}
+							"ActOnTargets"
+							{
+								"Target"
+								{
+									"Center"  	"CASTER"
+									"Radius" 	"%second_strike"
+									"Teams" 	"DOTA_UNIT_TARGET_TEAM_ENEMY"
+									"Types" 	"DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
+								}
+						
+								"Action"    
+								{
+									"RunScript"
+									{
+										"ScriptFile"	"heroes/bellatrix/UnholyEcstasy.lua"
+										"Function"		"SecondStrike"
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+	}

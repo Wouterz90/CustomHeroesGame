@@ -1,0 +1,132 @@
+"Power_Surge"
+{
+	"BaseClass"             		"ability_datadriven"
+	"AbilityTextureName"			"borus/Borus_Power_Surge"
+	"MaxLevel" 						"4"
+	"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_UNIT_TARGET"
+	"AbilityUnitTargetTeam"			"DOTA_UNIT_TARGET_TEAM_FRIENDLY"
+	"AbilityUnitTargetType"			"DOTA_UNIT_TARGET_HERO"
+	"AbilityCastPoint"				"0.3"
+	"AbilityCastRange"				"600"
+	"AbilityCooldown"				"12"
+	"CastFilterRejectCaster" 		"1"
+
+
+	"Precache"
+	{
+		"particle" "particles/units/heroes/hero_medusa/medusa_mana_shield.vpcf"
+	}
+	"AbilitySpecial"
+	{
+		"01"
+		{
+			"var_type"			"FIELD_INTEGER"
+			"push_distance"		"50"
+		}
+		"02"
+		{
+			"var_type"			"FIELD_FLOAT"
+			"push_duration"		"0.1"
+		}
+		"03"
+		{
+			"var_type"			"FIELD_FLOAT"
+			"wrong_type_x"		"0"
+		}
+		"04"
+		{
+			"var_type"			"FIELD_FLOAT"
+			"right_type_x"		"3"
+		}
+		"05"
+		{
+			"var_type"			"FIELD_FLOAT"
+			"transfer_duration"	"8"
+		}
+		"06"
+		{
+			"var_type"			"FIELD_FLOAT"
+			"internal_cooldown"	"4 3 2 1"
+		}
+	}
+	"OnSpellStart"
+	{
+		"RemoveModifier"
+		{
+			"ModifierName"	"modifier_Power_Surge"
+			"Target" 		"CASTER"
+		}
+		"ApplyModifier"
+		{
+			"ModifierName"	"modifier_Power_Surge"
+			"Target" 		"TARGET"
+			"Duration"		"%transfer_duration"
+		}
+
+		"DelayedAction"
+		{
+			"Delay"     "%transfer_duration"
+			"Action"    
+			{
+				"ApplyModifier"
+				{
+					"ModifierName"	"modifier_Power_Surge"
+					"Target" 		"CASTER"
+					"Duration"		"-1"
+				}
+			}
+		}
+	}
+	
+	"Modifiers"
+	{
+		"modifier_Power_Surge"
+		{
+			"IsHidden" 			"0"
+			"Passive"			"1"
+			"IsPurgable"		"0"
+			"IsBuff"			"1"
+			"IsDebuff"			"0"
+			"IsStunDebuff"		"0"
+
+			"EffectName"	"particles/units/heroes/hero_medusa/medusa_mana_shield.vpcf"
+			"EffectAttachType"	"follow_origin"
+
+			"OnCreated"
+			{
+				"RunScript"
+				{
+					"ScriptFile"	"heroes/borus/Power_Surge.lua"
+					"Function"		"Start_Effect"
+				}		
+			}
+
+			"OnTakeDamage"
+			// "%attack_damage" is set to the damage value after mitigation
+			{
+				"RunScript"
+				{
+					"ScriptFile"	"heroes/borus/Power_Surge.lua"
+					"Function"		"PushBack"
+				}
+			}
+			//"OnAttacked"
+			// "%attack_damage" is set to the damage value after mitigation
+			//{
+			//	"RunScript"
+			//	{
+			//		"ScriptFile"	"heroes/borus/Power_Surge.lua"
+			//		"Function"		"PushBack_Attack"
+			//	}
+			//}
+			"OnDestroy"
+			{
+				"RunScript"
+				{
+					"ScriptFile"	"heroes/borus/Power_Surge.lua"
+					"Function"		"Power_Surge_Stop_Target_listen"
+				}
+			}
+		}
+	}
+}

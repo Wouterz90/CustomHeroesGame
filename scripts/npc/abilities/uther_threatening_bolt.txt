@@ -1,0 +1,101 @@
+"Threatening_Bolt"
+{
+	"BaseClass"             		"ability_datadriven"
+	"AbilityTextureName"			"uther/uther_Threatening_Bolt"
+	"MaxLevel" 						"4"
+	"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_POINT"
+	"AbilityUnitTargetTeam"			"DOTA_UNIT_TARGET_TEAM_ENEMY"
+	"AbilityUnitTargetType"			"DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
+	"AbilityUnitDamageType"			"DAMAGE_TYPE_MAGICAL"
+	"AbilityCoolDown"				"7"
+	"AbilityDuration"				"5"
+	"AbilityCastRange"				"2000"
+	"AbilityCastPoint"				"0.3"
+	"AbilityCastAnimation"			"ACT_DOTA_CAST_ABILITY_1"
+	"AbilityManaCost"				"100 110 120 130"
+
+	"precache"
+	{
+		"particle"  "particles/units/heroes/hero_techies/techies_remote_mines_detonate.vpcf"
+		
+	}
+
+	"AbilitySpecial"
+	{
+		"01"
+		{
+			"var_type"			"FIELD_INTEGER"
+			"bolt_speed"			"400"
+		}
+		"02"
+		{
+			"var_type"			"FIELD_INTEGER"
+			"damage"			"125 200 275 350"
+		}
+		"03"
+		{
+			"var_type"			"FIELD_INTEGER"
+			"attacks_needed"	"3"
+		}
+		"04"
+		{
+			"var_type"			"FIELD_INTEGER"
+			"explosion_radius"	"250"
+		}
+
+	}
+
+	"OnSpellStart"
+	{
+		"RunScript"
+		{
+			"ScriptFile"	"heroes/uther/threatening_bolt.lua"
+			"Function"		"Launch_Bolt"
+			"Target" 		"POINT"
+		}
+	}
+	"Modifiers"
+	{
+		"modifier_bolt_dummy"
+		{
+			"Passive"			"0"
+			"IsHidden"			"1"
+			"IsDebuff"			"0"
+	
+			"EffectName"		""
+			"EffectAttachType"	"follow_origin"
+
+			"Properties"
+			{
+			   "MODIFIER_PROPERTY_TURN_RATE_PERCENTAGE" "-99.9%" 
+			}
+	
+			"ThinkInterval"  "0.1"
+			"OnIntervalThink"
+			{
+				"RunScript"
+				{
+					"ScriptFile"	"heroes/uther/threatening_bolt.lua"
+					"Function"		"Direct_Bolt"
+				}
+			}
+			"OnAttacked"
+			// "%attack_damage" is set to the damage value after mitigation
+			{
+				"RunScript"
+				{
+					"ScriptFile"	"heroes/uther/threatening_bolt.lua"
+					"Function"		"LoseHP"
+				}
+			}
+			"OnDestroy"
+			{
+				"RunScript"
+				{
+					"ScriptFile"	"heroes/uther/threatening_bolt.lua"
+					"Function"		"destroy"
+				}
+			}
+		}
+	}
+}

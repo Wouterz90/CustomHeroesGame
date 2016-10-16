@@ -1,0 +1,148 @@
+"Swirling Embrace"
+{	
+	"BaseClass"             		"ability_datadriven"
+	"AbilityTextureName"			"Acheron_Swirling_Embrace"
+	"MaxLevel" 						"4"
+	"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_UNIT_TARGET"
+	"AbilityUnitTargetTeam"			"DOTA_UNIT_TARGET_TEAM_BOTH"
+	"AbilityUnitTargetType"			"DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
+
+	"AbilityDuration" 				"2"
+	"AbilityCooldown"				"22 17 12 7"
+	"AbilityManaCost"				"120 130 140 150"
+	"AbilitySpecial"
+	{
+		"01"
+		{
+			"var_type"			"FIELD_INTEGER"
+			"start_slow"		"-60"
+		}
+		"02"
+		{
+			"var_type"			"FIELD_INTEGER"
+			"mid_slow1"			"-45"
+		}
+		"03"
+		{
+			"var_type"			"FIELD_INTEGER"
+			"mid_slow2"			"-30"
+		}
+		"04"
+		{
+			"var_type"			"FIELD_INTEGER"
+			"mid_slow3"			"-15"
+		}			
+		"05"
+		{
+			"var_type"			"FIELD_INTEGER"
+			"end_slow"			"0"
+		}
+		"02"
+		{
+			"var_type"			"FIELD_FLOAT"
+			"interval"			"0.5"
+		}
+	}
+
+	"OnSpellStart"
+	{
+		"RunScript"
+		{
+			"ScriptFile"	"Swirling_Embrace.lua"
+			"Function"		"swirling_embrace"
+		}
+	}
+	"Modifiers"
+	{
+		"Swirling_Embrace_dummy"
+		{
+			"IsHidden" "1"
+		}
+		"Swirling_Embrace_Start_Slow"
+		{
+			"Passive"			"0"
+			"IsHidden"			"0"
+			"IsDebuff"			"1"
+	
+			//"EffectName"		"particle_name"
+			//"EffectAttachType"	"follow_origin"
+	
+			"Properties"
+			{
+			    "MODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE" "%start_slow" 
+			}
+
+			"OnDestroy"
+			{
+				"ApplyModifier"
+				{
+					"ModifierName"	"Swirling_Embrace_mid_slow1"
+					"Target" 		"TARGET"
+					"Duration"		"%interval"
+				}
+			}
+		}
+		"Swirling_Embrace_mid_slow1"
+		{
+			"Passive"			"0"
+			"IsHidden"			"0"
+			"IsDebuff"			"1"
+	
+			//"EffectName"		"particle_name"
+			//"EffectAttachType"	"follow_origin"
+	
+			"Properties"
+			{
+			    "MODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE" "%mid_slow1" 
+			}
+
+			"OnDestroy"
+			{
+				"ApplyModifier"
+				{
+					"ModifierName"	"Swirling_Embrace_mid_slow2"
+					"Target" 		"TARGET"
+					"Duration"		"%interval"
+				}
+			}
+		}
+		"Swirling_Embrace_mid_slow2"
+		{
+			"Passive"			"0"
+			"IsHidden"			"0"
+			"IsDebuff"			"1"
+	
+			//"EffectName"		"particle_name"
+			//"EffectAttachType"	"follow_origin"
+	
+			"Properties"
+			{
+			    "MODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE" "%mid_slow2" 
+			}
+
+			"OnDestroy"
+			{
+				"ApplyModifier"
+				{
+					"ModifierName"	"Swirling_Embrace_mid_slow3"
+					"Target" 		"TARGET"
+					"Duration"		"%interval"
+				}
+			}
+		}
+		"Swirling_Embrace_mid_slow3"
+		{
+			"Passive"			"0"
+			"IsHidden"			"0"
+			"IsDebuff"			"1"
+	
+			//"EffectName"		"particle_name"
+			//"EffectAttachType"	"follow_origin"
+	
+			"Properties"
+			{
+			    "MODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE" "%mid_slow3" 
+			}
+		}
+	}
+}

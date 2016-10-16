@@ -1,0 +1,97 @@
+"Dribbling"
+{
+	//general
+	"BaseClass"             		"ability_datadriven"
+	"AbilityTextureName"			"kun_x_marks_the_spot"
+	"MaxLevel" 						"4"
+	"AbilityBehavior" 				"DOTA_ABILITY_BEHAVIOR_PASSIVE"	
+	"FightRecapLevel"				"0"
+	"AbilityDuration"				"1"
+
+	// Casting
+	"AbilityCastRange"				"0"
+	"AbilityCastPoint" 				"0"
+
+	//Cost
+	"AbilityManaCost"				"50"
+
+	"AbilitySpecial"
+	{
+		"01"
+		{
+			"var_type"				"FIELD_INTEGER"
+			"Dribbling_bonus_speed"	"25 30 35 40"
+		}
+		"02"
+		{
+			"var_type"				"FIELD_FLOAT"
+			"Dribbling_evasion"		"15 27.5 40 52.5"
+		}
+	}
+
+	"OnUpgrade"
+	{
+		"ApplyModifier"
+		{
+			"ModifierName"	"modifier_dribbling"
+			"Target" 		"CASTER"
+		}
+
+	}
+
+	"Modifiers"
+	{
+		"modifier_dribbling"
+		{
+			
+			
+			"OnAttacked"
+			// "%attack_damage" is set to the damage value after mitigation
+			{
+				"ApplyModifier"
+				{
+					"ModifierName"	"modifier_speedboost"
+					"Target"		"CASTER"
+					"Duration"		"1"
+				}
+			}
+			
+		}
+		"modifier_speedboost"
+		{
+			"Properties"
+			{
+		    	"MODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE" "%Dribbling_bonus_speed" 
+			}
+			"OnAttacked"
+			{
+				"ApplyModifier"
+				{
+					"ModifierName"	"modifier_evade"
+					"Target" 		"CASTER"
+					"Duration"		"1"
+				}
+				"RemoveModifier"
+				{
+					"ModifierName"	"modifier_speedboost"
+					"Target" 		"CASTER"
+				}
+			}
+		}
+		"modifier_evade"
+		{
+			"Properties"
+			{
+			    "MODIFIER_PROPERTY_EVASION_CONSTANT" "%Dribbling_evasion" 
+			}
+			"OnAttacked"
+			{
+				"RemoveModifier"
+				{
+					"ModifierName"	"modifier_evade"
+					"Target" 		"CASTER"
+				}
+			}
+		}			
+	}
+}

@@ -1,0 +1,143 @@
+"Negative_Charge"
+	{
+		"BaseClass"             		"ability_datadriven"
+		"AbilityTextureName"			"borus/Borus_Negative_Charge"
+		"MaxLevel" 						"1"
+		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_UNIT_TARGET|DOTA_ABILITY_BEHAVIOR_IMMEDIATE| DOTA_ABILITY_BEHAVIOUR_NOT_LEARNABLE "
+		"AbilityUnitTargetTeam"			"DOTA_UNIT_TARGET_TEAM_BOTH"
+		"AbilityUnitTargetType"			"DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
+		"AbilityCastRange"				"800"
+		"AbilityCooldown"				"20"
+		"AbilityManaCost"				"60"
+		"Precache"
+		{
+			"particle"		"particles/borus/negative_charge.vpcf"
+		}
+	
+		"AbilitySpecial"		// Values this spell has like charges, AOES and amplifications etc.
+		{
+			"01"
+			{
+				"var_type"			"FIELD_INTEGER"
+				"pull_speed"		"700"
+			}
+			"02"
+			{
+				"var_type"			"FIELD_INTEGER"
+				"magnetic_aoe"		"600"
+			}
+			"03"
+			{
+				"var_type" 			"FIELD_INTEGER"
+				"max_charges"		"8"
+			}
+			"04"
+			{
+				"var_type" 			"FIELD_INTEGER"
+				"duration"			"8"
+			}
+			"05"
+			{
+				"var_type" 			"FIELD_INTEGER"
+				"charge_replenish_time"		"20"
+			}
+			"06"
+			{
+				"var_type"			"FIELD_INTEGER"
+				"min_range"			"100"
+			}
+		}
+	
+		"OnUpgrade"  // Whenever this ability gets a levelup this happens
+		{
+			"RunScript"
+			{
+				"ScriptFile"	"heroes/borus/Electric_Charge.lua"
+				"Function"		"learnspell"
+			}
+		}
+	
+		"OnSpellStart"			// Whenever the spell is cast
+		{
+			"RunScript"
+			{
+				"ScriptFile"	"heroes/borus/Electric_Charge.lua"
+				"Function"		"Negative_Charge"
+			}
+		}
+	
+		"Modifiers" // A map where all the modifiers are defined
+		{
+			"Negative_Charge_Magnetic"
+			{
+				"Passive"			"0"
+				"IsHidden"			"0"
+				"IsDebuff"			"0"
+				"IsBuff"			"0"
+	
+				"EffectName"		"particles/borus/negative_charge.vpcf"
+				"EffectAttachType"	"follow_origin"
+	
+				"ThinkInterval"  "0.01"			// Every .01 second this gets checked.
+				"OnIntervalThink"
+				{
+					"RunScript"  // I want to run a script to determine what happens.
+					{
+						"ScriptFile"	"heroes/borus/Electric_Charge.lua"
+						"Function"		"Magnetic_Negative"
+					}
+					"RunScript"  // I want to run a script to determine what happens.
+					{
+						"ScriptFile"	"heroes/borus/Electric_Charge.lua"
+						"Function"		"metal_rod"
+					}	
+				}
+			}
+			"no_collision"
+			{
+				"Passive"			"0"
+				"IsHidden"			"1"
+				"IsDebuff"			"0"
+				"IsBuff"			"0"
+	
+				"States"
+				{
+					"MODIFIER_STATE_NO_UNIT_COLLISION"		"MODIFIER_STATE_VALUE_ENABLED"
+				}
+			}
+			"rod_disarm"
+			{
+				"Passive"			"0"
+				"IsHidden"			"0"
+				"IsDebuff"			"0"
+				"IsBuff"			"0"
+				"States"
+				{
+					"MODIFIER_STATE_DISARMED"		"MODIFIER_STATE_VALUE_ENABLED"
+				}
+				"AttachEffect"
+				{
+					"EffectName"        "particles/generic_gameplay/generic_disarm.vpcf"
+					"EffectAttachType"  "follow_origin"
+					"Target"            "TARGET"
+				}
+			}
+			"rod_silence"
+			{
+				"Passive"			"0"
+				"IsHidden"			"0"
+				"IsDebuff"			"0"
+				"IsBuff"			"0"
+				"States"
+				{
+					"MODIFIER_STATE_SILENCED"		"MODIFIER_STATE_VALUE_ENABLED"
+				}
+				"AttachEffect"
+				{
+					"EffectName"        "particles/generic_gameplay/generic_silenced.vpcf"
+					"EffectAttachType"  "follow_origin"
+					"Target"            "TARGET"
+				}
+			}
+		}
+	}

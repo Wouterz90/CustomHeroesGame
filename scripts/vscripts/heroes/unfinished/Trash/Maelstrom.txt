@@ -1,0 +1,211 @@
+////////////////////////////////////////////////////////////////////////////
+//Acheron
+////////////////////////////////////////////////////////////////////////////
+
+"Maelstrom"
+{
+	"BaseClass"             		"ability_datadriven"
+	"AbilityTextureName"			"Acheron_Mealstrom"
+	"MaxLevel" 						"4"
+
+	"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_AOE|DOTA_ABILITY_BEHAVIOR_POINT"
+	"AbilityUnitTargetTeam"			"DOTA_UNIT_TARGET_TEAM_ENEMY"
+	"AbilityUnitTargetType"			"DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
+	"AbilityUnitDamageType"			"DAMAGE_TYPE_MAGICAL"
+
+	"AbilityCooldown"				"30 29 28 27"
+	"AbilityManaCost"				"110 130 150 170"
+	"AbilityDamage"					"3 4 5 6"
+	"AbilityCastRange"				"400"
+	"AbilityCastPoint"				"0.3"
+	"AbilityDuration"				"3.75"
+	"Precache"
+	{
+		"particle"  			"particles/units/heroes/hero_kunkka/kunkka_spell_torrent_bubbles.vpcf"
+	}
+	"AbilitySpecial"
+	{
+		"01"
+		{
+			"var_type"			"FIELD_INTEGER"
+			"slow_ms"			"-30"
+		}
+		"02"
+		{
+			"var_type"			"FIELD_FLOAT"
+			"stunduration"		"0.1 0.15 0.2 0.25"
+		}
+		"03"
+		{
+			"var_type"			"FIELD_INTEGER"
+			"speed_ms"			"30"
+		}
+		"04"
+		{
+			"var_type"			"FIELD_INTEGER"
+			"radius"			"300 325 350 375"
+		}
+	}
+	"OnSpellStart"
+	{
+		"ActOnTargets"
+		{
+			"Target"
+			{
+				"Center"  	"POINT"
+				"Radius" 	"%radius"
+				"Teams" 	"DOTA_UNIT_TARGET_TEAM_ENEMY"
+				"Types" 	"DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
+			}
+			"Action"    
+			{
+				"ApplyModifier"
+				{
+					"ModifierName"	"maelstrom_ministun"
+					"Target" 		"TARGET"
+					"Duration"		"%stunduration"
+				}
+			}
+		}
+
+		"FireEffect"
+		{
+			"EffectName"        "particles/units/heroes/hero_kunkka/kunkka_spell_torrent_bubbles.vpcf"
+			"EffectAttachType"  "follow_origin"
+			"Target"            "POINT"
+		}
+		"DelayedAction"
+		{
+			"Delay"     "1"
+			"Action"    
+			{
+				"ActOnTargets"
+				{
+					"Target"
+					{
+						"Center"  	"POINT"
+						"Radius" 	"%radius"
+						"Teams" 	"DOTA_UNIT_TARGET_TEAM_ENEMY"
+						"Types" 	"DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
+					}
+					"Action"    
+					{
+						"ApplyModifier"
+						{
+							"ModifierName"	"maelstrom_ministun"
+							"Target" 		"TARGET"
+							"Duration"		"%stunduration"
+						}
+					}
+				}
+
+				"DelayedAction"
+				{
+					"Delay"     "1"
+					"Action"    
+					{
+						"ActOnTargets"
+						{
+							"Target"
+							{
+								"Center"  	"POINT"
+								"Radius" 	"%radius"
+								"Teams" 	"DOTA_UNIT_TARGET_TEAM_ENEMY"
+								"Types" 	"DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
+							}
+						
+							"Action"    
+							{
+								"ApplyModifier"
+								{
+									"ModifierName"	"maelstrom_ministun"
+									"Target" 		"TARGET"
+									"Duration"		"%stunduration"
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+		"RunScript"
+		{
+			"ScriptFile"	"Maelstrom.lua"
+			"Function"		"Maelstrom"
+			"Target"		"POINT"
+		}
+	}
+	"Modifiers"
+	{
+		"maelstrom_ministun"
+		{
+			"Passive"			"0"
+			"IsHidden"			"0"
+			"IsDebuff"			"0"
+	
+			"EffectName"		"particles/generic_gameplay/generic_stunned.vpcf"
+			"EffectAttachType"	"attach_origin"
+			
+			"States"
+			{
+				"MODIFIER_STATE_STUNNED"		"MODIFIER_STATE_VALUE_ENABLED"
+			}	
+		}
+		"maelstrom_slow_aura"
+		{
+			"Aura"          	"maelstrom_slow"
+			"Aura_Radius"   	"%radius"
+			"Aura_Teams"    	"DOTA_UNIT_TARGET_TEAM_ENEMY"
+			"Aura_Types"    	"DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
+			"Aura_Flags"    	"DOTA_UNIT_TARGET_FLAG_NONE"
+			"Aura_ApplyToCaster" "0"
+		}
+
+		"maelstrom_slow"
+		{
+			"Passive"			"0"
+			"IsHidden"			"0"
+			"IsDebuff"			"0"
+			"Duration"			"0.1"
+
+			"Properties"
+			{
+			    "MODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE" "%slow_ms" 
+			}
+
+			"ThinkInterval"  "0.1"
+			"OnIntervalThink"
+			{
+				"Damage"
+				{
+					"Damage" 	"%AbilityDamage"
+					"Target"	"TARGET"
+					"Type"		"DAMAGE_TYPE_MAGICAL"
+				}
+			}
+		}
+
+		"maelstrom_speed_aura"
+		{
+			"Aura"          	"maelstrom_speed"
+			"Aura_Radius"   	"%radius"
+			"Aura_Teams"    	"DOTA_UNIT_TARGET_TEAM_FRIENDLY"
+			"Aura_Types"    	"DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
+			"Aura_Flags"    	"DOTA_UNIT_TARGET_FLAG_NONE"
+			"Aura_ApplyToCaster" "1"
+		}
+		"maelstrom_speed"
+		{
+			"Passive"			"0"
+			"IsHidden"			"0"
+			"IsDebuff"			"0"
+			"Duration"			"0.1"
+
+			
+			"Properties"
+			{
+			    "MODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE" "%speed_ms" 
+			}
+		}						
+	}
+}

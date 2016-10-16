@@ -1,0 +1,15 @@
+"AddonInfo"
+{
+    "addontitle"        "PD Allstars"
+    "addonversion"      "1.00"
+    "addontagline"      ""
+    "addonDescription"  "Play"
+    "TeamCount"         "10"
+    "maps"              "dota"
+    "IsPlayable"        "1"
+
+    "dota"
+    {
+        "MaxPlayers"    "10"
+    }
+}

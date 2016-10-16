@@ -1,0 +1,64 @@
+"Change_Of_Heartdrive"
+{
+	"BaseClass"             		"ability_datadriven"
+	"AbilityTextureName"			"whizzi/Change_Of_Heartdrive"
+	"MaxLevel" 						"4"
+	"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_UNIT_TARGET"
+	"AbilityUnitTargetTeam"			"DOTA_UNIT_TARGET_TEAM_BOTH"
+	"AbilityUnitTargetType"			"DOTA_UNIT_TARGET_HERO"
+	"AbilityUnitDamageType"			"DAMAGE_TYPE_MAGICAL"
+	"AbilityCastRange"				"500 700 900 1100"
+	"AbilityCastPoint"				"0"
+	"AbilityCooldown"				"25"
+	"AbilityManaCost"				"100"
+
+	"AbilitySpecial"
+	{
+		"01"
+		{
+			"var_type"	"FIELD_INTEGER"
+			"duration" 	"2 2.5 3 3.5"
+		}
+	}
+
+	"OnSpellStart"
+	{
+		"ApplyModifier"
+		{
+			"ModifierName"	"modifier_change_of_heart"
+			"Target" 		"TARGET"
+			"Duration"		"%duration"
+		}
+	}
+
+	"Modifiers"
+	{
+		"modifier_change_of_heart"
+		{
+			"Passive"			"0"
+			"IsHidden"			"0"
+			"IsDebuff"			"0"
+			"IsBuff"			"0"
+	
+			"EffectName"		""
+			"EffectAttachType"	"follow_origin"
+			"OnCreated"
+			{
+				"RunScript"
+				{
+					"ScriptFile"	"heroes/whizzi/change_of_heart.lua"
+					"Function"		"SwapTeam"
+				}
+			}
+			"OnDestroy"
+			{
+				"RunScript"
+				{
+					"ScriptFile"	"heroes/whizzi/change_of_heart.lua"
+					"Function"		"SwapBack"
+				}
+			}
+		}
+	}
+}
+		

@@ -1,0 +1,104 @@
+"keen_commander_mortar_shot"
+{
+	"BaseClass"             		"ability_datadriven"
+	"AbilityTextureName"			"keen_commander/mortar_shot"
+	"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_POINT"
+	"AbilityUnitTargetTeam"			"DOTA_UNIT_TARGET_TEAM_ENEMY"
+	"AbilityUnitTargetType"			"DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
+	"AbilityUnitDamageType"			"DAMAGE_TYPE_PHYSICAL"
+	"AbilityCooldown"				"34 28 22 16"
+	"AbilityManaCost"				"90"
+	"AbilityCastRange"				"1000"
+	"AbilityCastPoint"				"0.4"
+	"AbilityCastAnimation"			"ACT_DOTA_CAST_ABILITY_1"
+
+	"AbilitySpecial"
+	{
+		"01"
+		{
+			"var_type"			"FIELD_INTEGER"
+			"radius"			"200"
+		}
+		"02"
+		{
+			"var_type"			"FIELD_FLOAT"
+			"duration"			"18 20 22 24"
+		}
+		"03"
+		{
+			"var_type"			"FIELD_INTEGER"
+			"mortar_damage"			"15 20 25 30"
+		}
+		"04"
+		{
+			"var_type"			"FIELD_FLOAT"
+			"debuff_duration"			"18 20 22 24"
+		}
+	}
+
+	"OnSpellStart"
+	{
+		
+		"RunScript"
+		{
+			"ScriptFile"	"heroes/hero_keen/mortar_shot.lua"
+			"Function"		"MortarShot"
+			"Target"		"POINT"
+		}
+		"DestroyTrees"
+		{
+			"Target" 		"POINT"
+			"Radius"		"%radius"
+		}
+
+	}
+
+	"Modifiers"
+	{
+		"modifier_mortar_shot_thinker"
+		{
+			"Passive"			"0"
+			"IsHidden"			"0"
+			"IsDebuff"			"0"
+	
+			"EffectName"		""
+			"EffectAttachType"	"follow_origin"
+	
+			"ThinkInterval"  "1.0"
+			"OnIntervalThink"
+			{
+				"RunScript"
+				{
+					"ScriptFile"	"heroes/hero_keen/mortar_shot.lua"
+					"Function"		"BurningDamage"
+					"Target"		"POINT"
+				}
+			}
+
+			"OnDestroy"
+			{
+				"RunScript"
+				{
+					"ScriptFile"	"heroes/hero_keen/mortar_shot.lua"
+					"Function"		"RemoveYourself"
+				}
+			}
+			"States"
+			{
+				"MODIFIER_STATE_NO_HEALTH_BAR"		"MODIFIER_STATE_VALUE_ENABLED"
+			}
+		}
+		"modifier_mortar_shot_damage"
+		{
+			"Passive"			"0"
+			"IsHidden"			"0"
+			"IsDebuff"			"1"
+		
+			"EffectName"		""
+			"EffectAttachType"	"follow_origin"
+		
+			
+		}
+	}
+
+}

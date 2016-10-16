@@ -1,0 +1,48 @@
+//=================================================================================================================
+// HERO: Ratsu
+//=================================================================================================================
+"npc_dota_hero_Rasetsumaru"
+{
+	"override_hero"				"npc_dota_hero_juggernaut"
+	"InternalName"				"Rasetsumaru"
+	"AbilityLayout" 			"6"
+	"Ability1"					"Dash"
+	"Ability2"					"W"
+	"Ability3"					"R"	
+	"Ability4"					"Orochi"
+	"Ability5"					"Guard"
+	"Ability6"					"Battojutsu(E)"
+	"Ability7"					"attribute_bonus"	
+
+	// Armor
+	//-------------------------------------------------------------------------------------------------------------
+	"ArmorPhysical"				"2.65"									// Physical protection.
+	"MagicalResistance"				"25"									// Magical protection (percentage).
+
+	// Attack
+	//-------------------------------------------------------------------------------------------------------------
+	"AttackCapabilities"		"DOTA_UNIT_CAP_MELEE_ATTACK"
+	"AttackDamageMin"			"28"										// Damage range min.
+	"AttackDamageMax"			"33"										// Damage range max.
+	"AttackDamageType"			"DAMAGE_TYPE_ArmorPhysical"				// Type of damage dealt. 
+	"AttackRate"				"1.7"									// Speed of attack.
+	"AttackAnimationPoint"		"0.35"									// Normalized time in animation cycle to attack.
+	"AttackAcquisitionRange"	"800"									// Range within a target can be acquired.
+	"AttackRange"				"128"									// Range within a target can be attacked.
+	"ProjectileModel"			"melee_hero"							// Particle system model for projectile.
+	"ProjectileSpeed"			"900"									// Speed of projectile.
+
+	// Attributes
+	//-------------------------------------------------------------------------------------------------------------
+	"AttributePrimary"			"DOTA_ATTRIBUTE_AGILITY"
+	"AttributeBaseStrength"		"18"										// Base strength
+	"AttributeStrengthGain"		"1.7"										// Strength bonus per level.
+	"AttributeBaseIntelligence"	"24"										// Base intelligence
+	"AttributeIntelligenceGain"	"2.3"										// Intelligence bonus per level.
+	"AttributeBaseAgility"		"23"										// Base agility
+	"AttributeAgilityGain"		"2"										// Agility bonus per level.	
+	"MovementSpeed"				"305"									// Speed.
+	"StatusHealth"				"180"
+
+	"BotImplemented"			"0"
+}

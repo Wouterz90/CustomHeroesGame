@@ -1,0 +1,71 @@
+"fanna_dagger_throw"
+{
+	"BaseClass"             		"ability_lua"
+	"ScriptFile"					"heroes/hero_fanna/dagger_throw.lua"
+	"AbilityTextureName"			"fanna/daggerthrow"
+	"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_POINT"
+	"AbilityUnitTargetTeam"			"DOTA_UNIT_TARGET_TEAM_ENEMY"
+	"AbilityUnitTargetType"			"DOTA_UNIT_TARGET_HERO"
+	"AbilityUnitDamageType"			"DAMAGE_TYPE_PHYSICAL"
+	"AbilityCooldown"				"20"
+	"AbilityManaCost"				"80"
+	"AbilityDamage"					"300 500 700"
+	"AbilityCastRange"				"1000"
+	"AbilityCastPoint"				"0.3"
+	"AbilityType"					"DOTA_ABILITY_TYPE_ULTIMATE"
+
+	"precache"
+	{
+		"particle"  "particles/units/heroes/hero_mirana/mirana_spell_arrow.vpcf"
+	}
+	
+	"AbilitySpecial"
+	{
+		"01"
+		{
+			"var_type"			"FIELD_INTEGER"
+			"projectile_speed"		"1200 1500 1800"
+		}
+		"02"
+		{
+			"var_type"			"FIELD_INTEGER"
+			"duration"			"5"
+		}
+		"03"
+		{
+			"var_type"			"FIELD_INTEGER"
+			"projectile_width"		"200"
+		}
+		"04"
+		{
+			"var_type"			"FIELD_INTEGER"
+			"turn_rate_slow"	"-75"
+		}
+		"05"
+		{
+			"var_type"			"FIELD_INTEGER"
+			"min_throw_range"	"400"
+		}
+		"06"
+		{
+			"var_type"			"FIELD_INTEGER"
+			"max_throw_range"	"1000"
+		}
+		"07"
+		{
+			"var_type"			"FIELD_INTEGER"
+			"turn_rate_slow"	"-75"
+		}
+		"08"
+		{
+			"var_type"			"FIELD_INTEGER"
+			"lost_dagger_search_range"	"150"
+		}
+		"09"
+		{
+			"var_type"			"FIELD_INTEGER"
+			"damage"			"200 275 350"
+		}
+
+	}
+}

@@ -1,0 +1,46 @@
+"npc_dota_hero_Skorus"
+	{
+		"override_hero"				"npc_dota_hero_clinkz"
+		"AbilityLayout" 			"5"
+		"Ability1"					"Arbalest"
+		"Ability2"					"Blackout"
+		"Ability3"					"Auspice"
+		"Ability4"					"Third_Eye_Blind"
+		"Ability5"					"Nexus"
+		"Ability6"					""
+		"Ability7"					"attribute_bonus"
+	
+		//"DisplayAdditionalHeroes"   "1" // Doesn't work because the illusions won't popup
+		// Armor
+		//-------------------------------------------------------------------------------------------------------------
+		"ArmorPhysical"				"2"									// Physical protection.
+		"MagicalResistance"			"25"									// Magical protection (percentage).
+	
+		// Attack
+		//-------------------------------------------------------------------------------------------------------------
+		"AttackCapabilities"		"DOTA_UNIT_CAP_RANGED_ATTACK"
+		"AttackDamageMin"			"38"										// Damage range min.
+		"AttackDamageMax"			"45"										// Damage range max.
+		"AttackDamageType"			"DAMAGE_TYPE_ArmorPhysical"				// Type of damage dealt. 
+		"AttackRate"				"1.6"									// Speed of attack.
+		"AttackAnimationPoint"		"0.4"									// Normalized time in animation cycle to attack.
+		"AttackAcquisitionRange"	"800"									// Range within a target can be acquired.
+		"AttackRange"				"565"									// Range within a target can be attacked.
+		"ProjectileModel"			"particles/units/heroes/hero_clinkz/clinkz_base_attack.vpcf"	// Particle system model for projectile.
+		"ProjectileSpeed"			"2000"									// Speed of projectile.
+	
+		// Attributes
+		//-------------------------------------------------------------------------------------------------------------
+		"AttributePrimary"			"DOTA_ATTRIBUTE_AGILITY"
+		"AttributeBaseStrength"		"20"										// Base strength
+		"AttributeStrengthGain"		"2"										// Strength bonus per level.
+		"AttributeBaseIntelligence"	"17"										// Base intelligence
+		"AttributeIntelligenceGain"	"1.4"										// Intelligence bonus per level.
+		"AttributeBaseAgility"		"19"										// Base agility
+		"AttributeAgilityGain"		"3.35"										// Agility bonus per level.	
+		"MovementSpeed"				"305"									// Speed.
+		"StatusHealthRegen"			"1.5"									// Health regeneration rate.
+		"StatusHealth"				"180"
+
+		"BotImplemented"			"0"
+	}

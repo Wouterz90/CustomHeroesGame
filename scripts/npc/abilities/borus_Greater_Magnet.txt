@@ -1,0 +1,184 @@
+"Greater_Magnet"
+{
+	"BaseClass"             		"ability_datadriven"
+	"AbilityTextureName"			"borus/Borus_Greater_Magnet"
+	"AbilityType"					"DOTA_ABILITY_TYPE_ULTIMATE"
+	"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_NO_TARGET"
+	"AbilityUnitTargetType"			"DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
+	"AbilityCastPoint"				"0.3"
+	"AbilityCooldown"				"40"
+	"AbilityManaCost"				"150"
+	"AbilityDuration"				"8"
+	"AbilityCastRange"				"800"
+
+	"Precache"
+	{
+		"particle"  "particles/borus/borus_greater_magnet_field_positive.vpcf"
+		"particle"  "particles/borus/borus_greater_magnet_field_negative.vpcf"
+	}
+
+	"AbilitySpecial"
+	{
+		"01"
+		{
+			"var_type"			"FIELD_INTEGER"
+			"radius"			"800"
+		}
+		"02"
+		{
+			"var_type"			"FIELD_FLOAT"
+			"duration"			"8"
+		}
+		"03"
+		{
+			"var_type"			"FIELD_INTEGER"
+			"attackspeed_increase"	"30 40 50"
+		}
+		"04"
+		{
+			"var_type"			"FIELD_INTEGER"
+			"ms_increase"		"15 20 25"
+		}
+		"05"
+		{
+			"var_type"			"FIELD_INTEGER"
+			"cast_point_increase" "30 40 50"
+		}
+		"06"
+		{
+			"var_type"			"FIELD_INTEGER"
+			"radiusvisual"			"800"
+		}
+	}
+
+	"OnSpellStart"
+	{
+		"RunScript"
+		{
+			"ScriptFile"	"heroes/borus/Greater_Magnet.lua"
+			"Function"		"start_greater_magnet"
+		}
+		"ApplyModifier"
+		{
+			"ModifierName"	"Greater_Magnet_Dummy"
+			"Target" 		"CASTER"
+			"Duration"		"%duration"
+		}
+		"ApplyModifier"
+		{
+			"ModifierName"	"Greater_Magnet_Dummy2"
+			"Target" 		"CASTER"
+			"Duration"		"%duration"
+		}
+	}
+	"Modifiers"
+	{
+		"Greater_Magnet_Dummy"
+		{
+			"Passive"			"0"
+			"IsHidden"			"1"
+			"IsDebuff"			"0"
+	
+			"EffectName"		""
+			"EffectAttachType"	"follow_origin"
+	
+			"ThinkInterval"  "0.01"
+			"OnIntervalThink"
+			{
+				"ActOnTargets"
+				{
+					"Target"
+					{
+						"Center"  	"CASTER"
+						"Radius" 	"%radius"
+						"Teams" 	"DOTA_UNIT_TARGET_TEAM_ENEMY"
+						"Types" 	"DOTA_UNIT_TARGET_HERO"
+					}
+				
+					"Action"    
+					{
+						"RunScript"
+						{
+							"ScriptFile"	"heroes/borus/Greater_Magnet.lua"
+							"Function"		"greater_magnet_field"
+						}
+					}
+				}
+			}
+		}
+		"Greater_Magnet_Dummy2"
+		{	
+			"Passive"			"0"
+			"IsHidden"			"1"
+			"IsDebuff"			"0"
+	
+			"EffectName"		""
+			"EffectAttachType"	"follow_origin"
+			"ThinkInterval"  	"0.05"
+			"OnIntervalThink"
+			{
+				"RunScript"
+				{
+					"ScriptFile"	"heroes/borus/Greater_Magnet.lua"
+					"Function"		"createparticles"
+				}
+			}
+			"OnDestroy"
+			{
+				"RunScript"
+				{
+					"ScriptFile"	"heroes/borus/Greater_Magnet.lua"
+					"Function"		"removeparticles"
+				}
+			}
+		}
+		"posdummy"
+		{
+			"Passive"			"0"
+			"IsHidden"			"1"
+			"IsDebuff"			"0"
+
+			"OnCreated"
+			{
+				"RunScript"
+				{
+					"ScriptFile"	"heroes/borus/Greater_Magnet.lua"
+					"Function"		"posdummy"
+				}
+			}
+			"OnDestroy"
+			{
+				"RunScript"
+				{
+					"ScriptFile"	"heroes/borus/Greater_Magnet.lua"
+					"Function"		"posdummy_clean"
+				}
+			}
+		}
+		"negdummy"
+		{
+			"Passive"			"0"
+			"IsHidden"			"1"
+			"IsDebuff"			"0"
+
+			"OnCreated"
+			{
+				"RunScript"
+				{
+					"ScriptFile"	"heroes/borus/Greater_Magnet.lua"
+					"Function"		"negdummy"
+				}
+			}
+			"OnDestroy"
+			{
+				"RunScript"
+				{
+					"ScriptFile"	"heroes/borus/Greater_Magnet.lua"
+					"Function"		"negdummy_clean"
+				}
+			}
+
+			
+		}
+	}
+}

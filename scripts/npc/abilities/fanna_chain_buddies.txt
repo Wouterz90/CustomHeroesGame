@@ -1,0 +1,121 @@
+"fanna_chain_buddies"
+{
+	"BaseClass"             		"ability_datadriven"
+	"AbilityTextureName"			"fanna/chainbuddies"
+	"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_UNIT_TARGET"
+	"AbilityUnitTargetTeam"			"DOTA_UNIT_TARGET_TEAM_ENEMY"
+	"AbilityUnitTargetType"			"DOTA_UNIT_TARGET_HERO"
+	"AbilityCooldown"				"30"
+	"AbilityManaCost"				"100"
+	"AbilityCastRange"				"350 450 550 650"
+	"AbilityCastPoint"				"0.3"
+	"AbilityCastAnimation"			"ACT_DOTA_CAST_ABILITY_1"
+	"AbilityDamage"					"60 120 180 240"
+
+	"precache"
+	{
+		"particle"  "particles/fanna/chain_buddies_projectile.vpcf"
+		"particle"  "particles/units/heroes/hero_bounty_hunter/bounty_hunter_suriken_toss.vpcf"
+		"particle"  "particles/units/heroes/hero_windrunner/windrunner_shackleshot_pair.vpcf"
+		
+	}
+
+	"AbilitySpecial"
+	{
+		"01"
+		{
+			"var_type"			"FIELD_INTEGER"
+			"projectile_speed"			"1600"
+		}
+		"02"
+		{
+			"var_type"			"FIELD_FLOAT"
+			"duration"			"3 3.5 4 4.5"
+		}
+		"03"
+		{
+			"var_type"			"FIELD_INTEGER"
+			"extended_chain_length"	"50"
+		}
+	}
+
+	"OnSpellStart"
+	{
+		"RunScript"
+		{
+			"ScriptFile"	"heroes/hero_fanna/chain_buddies.lua"
+			"Function"		"ChainToSelf"
+		}
+	}
+
+	"Modifiers"
+	{
+		"modifier_chain_buddies_chained"
+		{
+			"Passive"			"0"
+			"IsHidden"			"0"
+			"IsDebuff"			"0"
+	
+			"EffectName"		""
+			"EffectAttachType"	"follow_origin"
+			"ThinkInterval"  "0.1"
+
+			"OnIntervalThink"
+			{
+				"RunScript"
+				{
+					"ScriptFile"	"heroes/hero_fanna/chain_buddies.lua"
+					"Function"		"CheckChains"
+				}
+			}
+		}
+	}
+}
+
+"fanna_chain_buddies_2nd"
+{
+	"BaseClass"             		"ability_datadriven"
+	"AbilityTextureName"			"fanna/chainbuddies"
+	"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_UNIT_TARGET"
+	"AbilityUnitTargetTeam"			"DOTA_UNIT_TARGET_TEAM_BOTH"
+	"AbilityUnitTargetType"			"DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_TREE"
+	"AbilityCooldown"				"1"
+	"AbilityManaCost"				"0"
+	"AbilityCastRange"				"600"
+	"AbilityCastPoint"				"0"
+	"AbilityCastAnimation"			"ACT_DOTA_CAST_ABILITY_1"
+	
+	"AbilitySpecial"
+	{
+		"01"
+		{
+			"var_type"			"FIELD_INTEGER"
+			"projectile_speed"			"1600"
+		}
+		"02"
+		{
+			"var_type"			"FIELD_FLOAT"
+			"duration"			"3 3.5 4 4.5"
+		}
+		"03"
+		{
+			"var_type"			"FIELD_INTEGER"
+			"extended_chain_length"	"50"
+		}
+	}
+
+	"precache"
+	{
+		"particle"  "particles/fanna/chain_buddies_projectile.vpcf"
+		"particle"  "particles/units/heroes/hero_windrunner/windrunner_shackleshot_pair.vpcf"
+	}
+
+	"OnSpellStart"
+	{
+		"RunScript"
+		{
+			"ScriptFile"	"heroes/hero_fanna/chain_buddies.lua"
+			"Function"		"ThrowChains"
+		}
+	}
+}

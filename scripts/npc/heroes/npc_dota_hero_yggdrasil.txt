@@ -1,0 +1,14 @@
+"npc_dota_hero_yggdrasil"
+{
+	"override_hero"				"npc_dota_hero_alchemist"
+	"AbilityLayout" 			"4"
+	"Ability1"					"Cinderize"
+	"Ability2"					"soul_grab"
+	"Ability3"					"solemn_incantation"
+	"Ability4"					"permanence"
+	"Ability5"					""
+	"Ability6"					""
+	"Ability7"					"attribute_bonus"
+
+	"BotImplemented"			"0"
+}

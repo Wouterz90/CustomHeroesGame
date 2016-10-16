@@ -1,0 +1,88 @@
+"Mikhail_Checkmate"
+{
+	"BaseClass"             		"ability_datadriven"
+	"AbilityTextureName"			"red/checkmate"
+	"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_PASSIVE"
+	"AbilityCooldown"				"40 30 20"
+	"AbilityType"					"DOTA_ABILITY_TYPE_ULTIMATE"
+
+	"AbilitySpecial"
+	{
+		"01"
+		{
+			"var_type"			"FIELD_INTEGER"
+			"int_loss"			"-4 -3 -2"
+		}
+		"02"
+		{
+			"var_type"			"FIELD_FLOAT"
+			"duration"			"10"
+		}
+	}
+
+	"Modifiers"
+	{
+		"modifier_Checkmate_dummy"
+		{
+			"Passive"			"1"
+			"IsHidden"			"1"
+			"IsDebuff"			"0"
+	
+			"EffectName"		""
+			"EffectAttachType"	"follow_origin"
+	
+			"OnTakeDamage"
+			// "%attack_damage" is set to the damage value before mitigation
+			{
+				"RunScript"
+				{
+					"ScriptFile"	"heroes/red/checkmate.lua"
+					"Function"		"CheckHP"
+					"DamageTaken"   "%attack_damage"
+				}
+			}
+		}
+		"modifier_checkmate_buff"
+		{
+			"Passive"			"0"
+			"IsHidden"			"0"
+			"IsDebuff"			"0"
+	
+			"EffectName"		""
+			"EffectAttachType"	"follow_origin"
+			"OnTakeDamage"
+			{
+				"RunScript"
+				{
+					"ScriptFile"	"heroes/red/checkmate.lua"
+					"Function"		"LoseInt"
+				}
+			}
+
+			"ThinkInterval"  "0.1"
+			"OnIntervalThink"
+			{
+				"RunScript"
+				{
+					"ScriptFile"	"heroes/red/checkmate.lua"
+					"Function"		"Keepatone"
+				}
+			}
+		}
+		"modifier_checkmate_buff_counter"
+		{
+			"Passive"			"0"
+			"IsHidden"			"0"
+			"IsDebuff"			"0"
+		
+			"EffectName"		""
+			"EffectAttachType"	"follow_origin"
+		
+			"Properties"
+			{
+				"MODIFIER_PROPERTY_STATS_INTELLECT_BONUS" "%int_loss"
+			}
+		}
+	}
+}
+

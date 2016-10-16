@@ -1,0 +1,303 @@
+"W"
+{
+	//general
+	"BaseClass"             		"ability_datadriven"
+	"AbilityTextureName"			"ratsumaru/Ratsumaru_Battojutsu"
+	"MaxLevel" 						"3"
+	"AbilityBehavior" 				"DOTA_ABILITY_BEHAVIOR_UNIT_TARGET | DOTA_ABILITY_BEHAVIOR_NOT_LEARNABLE|DOTA_ABILITY_BEHAVIOR_IMMEDIATE"
+	"AbilityUnitTargetTeam"			"DOTA_UNIT_TARGET_TEAM_ENEMY"
+	"AbilityUnitTargetType"			"DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
+	"AbilityUnitDamageType"			"DAMAGE_TYPE_PHYSICAL"	
+	"SpellImmunityType"				"SPELL_IMMUNITY_ENEMIES_YES"
+	"FightRecapLevel"				"1"
+	"RequiredLevel"					"6"
+	"LevelsBetweenUpgrades"			"5"
+
+	// Casting
+	"AbilityCastRange"				"310"
+	"AbilityCastPoint" 				"0"
+
+	//Time
+	"AbilityCooldown"				"35 25 20"
+	//Cost
+	"AbilityManaCost"				"60 75 90"
+	//AbilitySpecial
+
+	"AbilitySpecial"
+	{
+		"01"
+		{
+			"var_type"			"FIELD_FLOAT"
+			"amakakeru_cull"	"7.5"
+		}
+		"02"
+		{
+			"var_type"			"FIELD_INTEGER"
+			"battojutsu_aoe"	"475 550 625"
+		}
+		"03"
+		{
+			"var_type"			"FIELD_FLOAT"
+			"battojutsu_effect_duration" 	"2 2.5 3"
+		}
+		"04"
+		{
+			"var_type"			"FIELD_FLOAT"
+			"ryukansen_movement_decrease"	"70"
+		}
+		"05"
+		{
+			"var_type"			"FIELD_INTEGER"
+			"battojutsu_extra_range"		"825 950 1075"
+		}
+		"06"
+		{
+			"var_type"			"FIELD_FLOAT"
+			"window"			"0.75"
+		}
+		"07"
+		{
+			"var_type"			"FIELD_FLOAT"
+			"CD"				"35 25 20"
+		}
+	}
+
+
+
+
+	"OnSpellStart"
+	{
+		"ApplyModifier"
+		{
+			"ModifierName"	"PauseAttacking"
+			"Target" 		"TARGET"
+			"Duration"		"0.8"
+		}
+
+		
+		"RunScript"
+		{
+			"ScriptFile"	"heroes/ratsumaru/Battojutsu"
+			"Function"		"WW"
+		}
+
+		"DelayedAction"
+		{
+			"Delay"     "%window"
+			"Action"    
+			{
+				"RunScript"
+				{
+					"ScriptFile"	"heroes/ratsumaru/Battojutsu"
+					"Function"		"cooldowns"
+				}
+			}
+		}
+	}
+	"Modifiers"
+	{
+		"Battojutsu_maim"
+		{
+			"Passive"			"0"
+			"IsHidden"			"0"
+			"IsDebuff"			"1"
+			"Duration"			"%battojutsu_effect_duration"
+			"EffectName"		"Battojutsu_maim"
+			"EffectAttachType"	"follow_origin"
+
+			"OnCreated"
+			{
+				"RunScript"
+				{
+					"ScriptFile"	"heroes/ratsumaru/Battojutsu"
+					"Function"		"AoE_Damage"
+				}
+			}
+	
+			"Properties"
+			{
+				"MODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE" "-70"
+				"MODIFIER_PROPERTY_TURN_RATE_PERCENTAGE" "-70"
+			}
+		}
+
+		"Battojutsu_Ryumeisen"
+		{
+			"Passive"			"0"
+			"IsHidden"			"0"
+			"IsDebuff"			"1"
+			"Duration"			"%battojutsu_effect_duration"
+			"EffectName"		"Battojutsu_Ryumeisen"
+			"EffectAttachType"	"follow_origin"
+
+			"OnCreated"
+			{
+				"RunScript"
+				{
+					"ScriptFile"	"heroes/ratsumaru/Battojutsu"
+					"Function"		"AoE_Damage"
+				}
+			}
+			"States"
+			{
+				"MODIFIER_STATE_STUNNED" "MODIFIER_STATE_VALUE_ENABLED"
+			    "MODIFIER_STATE_PASSIVES_DISABLED" "MODIFIER_STATE_VALUE_ENABLED" 
+			}
+		}
+
+		"Battojutsu_Rairyusen"
+		{	
+			"Passive"			"0"
+			"IsHidden"			"0"
+			"IsDebuff"			"1"
+			"Duration"			"%battojutsu_effect_duration"
+
+			"OnCreated"
+			{
+				"RunScript"
+				{
+					"ScriptFile"	"heroes/ratsumaru/Battojutsu"
+					"Function"		"AoE_Damage"
+				}
+			}
+	
+			"Properties"
+			{
+				"MODIFIER_PROPERTY_MISS_PERCENTAGE" "100"
+			}
+		}
+		"modifier_Battojutsu_dummy_datadriven"
+		{
+			"IsPurgable"				"0"
+			"IsHidden"					"1"
+		
+			"OnCreated"
+			{
+				
+			}	
+		
+			"States"
+			{
+				"MODIFIER_STATE_INVULNERABLE"					"MODIFIER_STATE_VALUE_ENABLED"
+				"MODIFIER_STATE_NO_HEALTH_BAR"					"MODIFIER_STATE_VALUE_ENABLED"
+				"MODIFIER_STATE_NO_UNIT_COLLISION"				"MODIFIER_STATE_VALUE_ENABLED"
+				"MODIFIER_STATE_NOT_ON_MINIMAP"					"MODIFIER_STATE_VALUE_ENABLED"
+				"MODIFIER_STATE_UNSELECTABLE"					"MODIFIER_STATE_VALUE_ENABLED"
+				"MODIFIER_STATE_COMMAND_RESTRICTED"				"MODIFIER_STATE_VALUE_ENABLED"
+				"MODIFIER_STATE_DISARMED"						"MODIFIER_STATE_VALUE_ENABLED"
+				"MODIFIER_STATE_INVISIBLE"						"MODIFIER_STATE_VALUE_ENABLED"
+				"MODIFIER_STATE_TRUESIGHT_IMMUNE"				"MODIFIER_STATE_VALUE_ENABLED"
+			}
+		}
+
+		"PauseAttacking"
+		{
+			"IsHidden"				"1"
+			"Duration"				"0.8"
+			"States"
+			{
+				"MODIFIER_STATE_DISARMED"	"MODIFIER_STATE_VALUE_ENABLED"
+			}
+		}
+
+		"Battojutsu_aoe_dummy_rairyusen"
+		{
+			"IsHidden"	"1"
+			"Duration" "%battojutsu_effect_duration"
+			"OnCreated"
+			{
+				"Rotate"
+				{
+					"Target" "TARGET"
+					"PitchYawRoll" "00 72 00"
+				}
+				"ActOnTargets"
+				{
+					"Target"
+					{
+						"Center"  	"CASTER"
+						"Radius" 	"%battojutsu_aoe"
+						"Teams" 	"DOTA_UNIT_TARGET_TEAM_ENEMY"
+						"Types" 	"DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
+					}
+		
+					"Action"
+					{
+						"ApplyModifier"
+						{
+							"ModifierName"	"Battojutsu_Rairyusen"
+							"Target" 		"TARGET"
+							"Duration"		"%battojutsu_effect_duration"
+						}
+					}
+				}
+			}
+		}
+		"Battojutsu_aoe_dummy_ryumeisen"
+		{
+			"IsHidden"	"1"
+			"Duration" "%battojutsu_effect_duration"
+			"OnCreated"
+			{
+				"Rotate"
+				{
+					"Target" "TARGET"
+					"PitchYawRoll" "00 72 00"
+				}
+				"ActOnTargets"
+				{
+					"Target"
+					{
+						"Center"  	"CASTER"
+						"Radius" 	"%battojutsu_aoe"
+						"Teams" 	"DOTA_UNIT_TARGET_TEAM_ENEMY"
+						"Types" 	"DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
+					}
+		
+					"Action"
+					{
+						"ApplyModifier"
+						{
+							"ModifierName"	"Battojutsu_Ryumeisen"
+							"Target" 		"TARGET"
+							"Duration"		"%battojutsu_effect_duration"
+						}
+					}
+				}
+			}
+		}
+		"Battojutsu_aoe_dummy_maim"
+		{
+			"IsHidden"	"1"
+			"Duration" "%battojutsu_effect_duration"
+			"OnCreated"
+			{
+				"Rotate"
+				{
+					"Target" "TARGET"
+					"PitchYawRoll" "00 72 00"
+				}
+				"ActOnTargets"
+				{
+					"Target"
+					{
+						"Center"  	"CASTER"
+						"Radius" 	"%battojutsu_aoe"
+						"Teams" 	"DOTA_UNIT_TARGET_TEAM_ENEMY"
+						"Types" 	"DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
+					}
+		
+					"Action"
+					{
+						"ApplyModifier"
+						{
+							"ModifierName"	"Battojutsu_maim"
+							"Target" 		"TARGET"
+							"Duration"		"%battojutsu_effect_duration"
+						}
+					}
+				}
+			}
+		}
+	}
+}

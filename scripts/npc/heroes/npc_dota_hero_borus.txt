@@ -1,0 +1,44 @@
+"npc_dota_hero_borus"
+{
+	"override_hero"				"npc_dota_hero_razor"
+	"AbilityLayout" 			"6"
+	"Ability1"					"Positive_Charge"
+	"Ability2"					"Negative_Charge"
+	"Ability3"					"Power_Surge"
+	"Ability4"					"Metal_Rod"
+	"Ability5"					"Magnetic_Echo"
+	"Ability6"					"Greater_Magnet"
+	"Ability7"					"attribute_bonus"
+
+	// Armor
+	//-------------------------------------------------------------------------------------------------------------
+	"ArmorPhysical"				"3"									// Physical protection.
+	"MagicalResistance"			"25"									// Magical protection (percentage).
+
+	// Attack
+	//-------------------------------------------------------------------------------------------------------------
+	"AttackCapabilities"		"DOTA_UNIT_CAP_RANGED_ATTACK"
+	"AttackDamageMin"			"25"										// Damage range min.
+	"AttackDamageMax"			"35"										// Damage range max.
+	"AttackDamageType"			"DAMAGE_TYPE_ArmorPhysical"				// Type of damage dealt. 
+	"AttackRate"				"1.7"									// Speed of attack.
+	"AttackAnimationPoint"		"0.5"									// Normalized time in animation cycle to attack.
+	"AttackAcquisitionRange"	"800"									// Range within a target can be acquired.
+	"AttackRange"				"450"									// Range within a target can be attacked.
+	"ProjectileModel"			"particles/units/heroes/hero_razor/razor_base_attack.vpcf"							// Particle system model for projectile.
+	"ProjectileSpeed"			"900"									// Speed of projectile.
+
+	// Attributes
+	//-------------------------------------------------------------------------------------------------------------
+	"AttributePrimary"			"DOTA_ATTRIBUTE_AGILITY"
+	"AttributeBaseStrength"		"19"										// Base strength
+	"AttributeStrengthGain"		"1.5"										// Strength bonus per level.
+	"AttributeBaseIntelligence"	"20"										// Base intelligence
+	"AttributeIntelligenceGain"	"2.2"										// Intelligence bonus per level.
+	"AttributeBaseAgility"		"23"										// Base agility
+	"AttributeAgilityGain"		"2.4"										// Agility bonus per level.	
+	"MovementSpeed"				"295"									// Speed.
+	"StatusHealthRegen"			"1.5"									// Health regeneration rate.
+	"StatusHealth"				"180"
+	"BotImplemented"			"0"
+}

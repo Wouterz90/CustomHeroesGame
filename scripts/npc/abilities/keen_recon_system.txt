@@ -1,0 +1,49 @@
+"keen_commander_recon_systems"
+{
+	"BaseClass"             		"ability_lua"
+	"ScriptFile"					"heroes/hero_keen/keen_commander_recon_systems.lua"
+	"AbilityTextureName"			"keen_commander/recon_systems"
+	"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_UNIT_TARGET"
+	"AbilityUnitTargetType"			"DOTA_UNIT_TARGET_TREE"
+	"AbilityUnitDamageType"			"DAMAGE_TYPE_MAGICAL"
+	"AbilityCooldown"				"24 20 16 12"
+	"AbilityManaCost"				"100 110 120 130"
+	"AbilityCastRange"				"160"
+	"AbilityCastPoint"				"0.3"
+	"AbilityCastAnimation"			"ACT_DOTA_CAST_ABILITY_1"
+
+	"AbilitySpecial"
+	{
+		"01"
+		{
+			"var_type"			"FIELD_INTEGER"
+			"shock_range"	"300"
+		}
+		"02"
+		{
+			"var_type"			"FIELD_FLOAT"
+			"slow_duration"		"0.2 0.3 0.4 0.5"
+		}
+		"03"
+		{
+			"var_type"			"FIELD_INTEGER"
+			"shock_damage"	"300"
+		}
+		"04"
+		{
+			"var_type"			"FIELD_INTEGER"
+			"shock_null_duration"	"5" //??
+		}
+		"05"
+		{
+			"var_type"			"FIELD_INTEGER"
+			"shock_bot_duration"	"180" 
+		}
+		"06"
+		{
+			"var_type"			"FIELD_INTEGER"
+			"movespeed_slow_percentage"	"30" 
+		}	
+
+	}
+}

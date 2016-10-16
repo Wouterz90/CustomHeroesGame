@@ -1,0 +1,139 @@
+	"fanna_silent_headroll"
+	{
+		"BaseClass"             		"ability_datadriven"
+		"AbilityTextureName"			"fanna/silent_headroll"
+		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_POINT"
+		"AbilityUnitTargetTeam"			"DOTA_UNIT_TARGET_TEAM_ENEMY"
+		"AbilityUnitTargetType"			"DOTA_UNIT_TARGET_HERO"
+		"AbilityCastRange"				"500"
+		"AbilityCastPoint"				"0.3"
+		"AbilityCastAnimation"			"ACT_DOTA_CAST_ABILITY_1"
+		"AbilityCooldown"				"40 35 30 25"
+		"AbilityManaCost"				"100"
+		"AbilityChannelTime"			"0.5 1 1.5 2"
+
+		"precache"
+		{
+			"particle"  "particles/units/heroes/hero_mirana/mirana_spell_arrow.vpcf"
+			"particle"  "fanna/headroll.vpcf"
+			
+		}
+
+		"AbilitySpecial"
+		{
+			"01"
+			{
+				"var_type"			"FIELD_INTEGER"
+				"dragging_width"	"200"
+			}
+			"02"
+			{
+				"var_type"			"FIELD_FLOAT"
+				"max_duration"			"0.5 1 1.5 2"
+			}
+			"03"
+			{
+				"var_type"			"FIELD_INTEGER"
+				"range"	"600"
+			}
+		}
+
+		"OnSpellStart"
+		{
+			"CreateThinker"
+			{
+				"ModifierName"	"modifier_smoke_thinker"
+				"Target" 		"CASTER"
+			}
+			"ApplyModifier"
+			{
+				"ModifierName"	"modifier_silent_headroll_channeling"
+				"Target" 		"CASTER"
+				"Duration"		"%max_duration"
+			}
+			"RunScript"
+			{
+				"ScriptFile"	"heroes/hero_fanna/silent_headroll.lua"
+				"Function"		"Hide"
+			}
+		}
+
+		"OnChannelFinish"
+		{
+			"LinearProjectile"
+			{
+			    "Target"      	 "POINT"
+				//"EffectName"	"particles/units/heroes/hero_mirana/mirana_spell_arrow.vpcf"
+				"MoveSpeed"		 "2000"
+				"StartRadius"	 "%dragging_width"
+				"StartPosition"  "attach_attack1"
+				"EndRadius"      "%dragging_width"
+				"HasFrontalCone" "0"
+				"FixedDistance"  "%range"
+				"TargetTeams"	 "DOTA_UNIT_TARGET_TEAM_BOTH"
+				"TargetTypes"	 "DOTA_UNIT_TARGET_ALL"
+				"TargetFlags"	 "DOTA_UNIT_TARGET_FLAG_INVULNERABLE"						
+			    "ProvidesVision" "0"
+			    "VisionRadius" 	 "0"
+			}
+			"RunScript"
+			{
+				"ScriptFile"	"heroes/hero_fanna/silent_headroll.lua"
+				"Function"		"Roll"
+				"Target"		"POINT"
+			}
+			
+		
+			"RemoveModifier"
+			{
+				"ModifierName"	"modifier_silent_headroll_channeling"
+				"Target" 		"CASTER"
+			}
+		}
+
+		"OnProjectileHitUnit"
+		{
+			"DeleteOnHit"	"0"
+			"RunScript"
+			{
+				"ScriptFile"	"heroes/hero_fanna/silent_headroll.lua"
+				"Function"		"DragtoPoint"
+				"Target"		"POINT"
+			}
+		}
+
+		"Modifiers"
+		{
+			"modifier_silent_headroll_channeling"
+			{
+				"Passive"			"0"
+				"IsHidden"			"0"
+				"IsDebuff"			"0"
+				
+				"EffectName"    "fanna/headroll.vpcf"
+				"EffectAttachType"  "follow_origin"
+		
+				"States"
+				{
+					"MODIFIER_STATE_NO_HEALTH_BAR"		"MODIFIER_STATE_VALUE_ENABLED"
+					"MODIFIER_STATE_INVULNERABLE"		"MODIFIER_STATE_VALUE_ENABLED"
+					"MODIFIER_STATE_INVISIBLE"			"MODIFIER_STATE_VALUE_ENABLED"
+					"MODIFIER_STATE_TRUESIGHT_IMMUNE"	"MODIFIER_STATE_VALUE_ENABLED"
+				}
+			}
+
+			"modifier_smoke_thinker"
+			{
+				"Passive"			"0"
+				"IsHidden"			"0"
+				"IsDebuff"			"0"
+			
+				"EffectName"		"fanna/headroll_smoke.vpcf"
+				"EffectAttachType"	"attach_origin"
+			
+			}
+		}
+
+
+
+	}

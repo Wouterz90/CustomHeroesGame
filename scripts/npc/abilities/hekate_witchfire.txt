@@ -1,0 +1,190 @@
+"hekate_witchfire"
+{
+    // General
+    //-------------------------------------------------------------------------------------------------------------
+    "BaseClass"             "ability_datadriven"
+    "SpellImmunityType"             "SPELL_IMMUNITY_ENEMIES_YES"
+    "AbilityBehavior"                "DOTA_ABILITY_BEHAVIOR_UNIT_TARGET | DOTA_ABILITY_BEHAVIOR_POINT"
+    "AbilityUnitTargetTeam"         "DOTA_UNIT_TARGET_TEAM_ENEMY"
+    "AbilityUnitTargetType"         "DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
+    "AbilityUnitDamageType"         "DAMAGE_TYPE_MAGICAL"
+    "AbilityTextureName"            "death_prophet_silence"
+ 
+    // Casting
+    //-------------------------------------------------------------------------------------------------------------
+    "AbilityCastRange"              "500 700 900 1100"
+    "AbilityCastPoint"              "0.5 0.5 0.5 0.5"
+ 
+    // Time    
+    //-------------------------------------------------------------------------------------------------------------
+    "AbilityCooldown"               "22.0"
+    "AbilityDuration"               "7.0"
+ 
+    // Cost
+    //-------------------------------------------------------------------------------------------------------------
+    "AbilityManaCost"               "95 105 115 125"
+ 
+    "AOERadius"                     "%radius"
+ 
+    // Special
+    //-------------------------------------------------------------------------------------------------------------
+    "AbilitySpecial"
+    {
+        "01"
+        {
+            "var_type"                  "FIELD_INTEGER"
+            "radius"                    "320"
+        }
+        "02"
+        {
+            "var_type"                  "FIELD_FLOAT"
+            "duration"                  "7.0"
+        }
+    }
+ 
+    "precache"
+    {
+        "particle"  "particles/units/heroes/hero_death_prophet/death_prophet_silence.vpcf"
+        "particle"  "particles/units/heroes/hero_death_prophet/death_prophet_silence_impact.vpcf"
+        "particle"      "particles/units/heroes/hero_bounty_hunter/bounty_hunter_track.vpcf"
+        "particle"      "particles/units/heroes/hero_bounty_hunter/bounty_hunter_track_trail.vpcf"
+        "soundfile" "soundevents/game_sounds_heroes/game_sounds_death_prophet.vsndevts"
+    }
+ 
+    "OnSpellStart"
+    {
+        "ApplyModifier"
+        {
+            "ModifierName"  "modifier_witchfire"
+            "Target"
+            {
+                "Center"    "POINT"
+                "Radius"    "%radius"
+                "Teams"     "DOTA_UNIT_TARGET_TEAM_ENEMY"
+                "Types"     "DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
+            }
+            "Duration"      "%duration"
+        }
+        "ApplyModifier"
+        {
+            "ModifierName"  "modifier_track_aura_datadriven"
+            "Target"        "TARGET"
+        }
+ 
+        "ApplyModifier"
+        {
+            "ModifierName"  "modifier_track_datadriven"
+            "Target"        "TARGET"
+        }
+    
+ 
+        "FireEffect"
+        {
+            "EffectName"        "particles/units/heroes/hero_death_prophet/death_prophet_silence.vpcf"
+            "EffectAttachType"  "world_origin"
+            "TargetPoint"       "POINT"
+            "ControlPoints"
+            {
+                "01"    "%radius 0 0"
+            }
+        }
+ 
+        "FireEffect"
+        {
+            "EffectName"        "particles/units/heroes/hero_death_prophet/death_prophet_silence_impact.vpcf"
+            "EffectAttachType"  "follow_overhead"
+            "Target"
+            {
+                "Center"    "POINT"
+                "Radius"    "%radius"
+                "Teams"     "DOTA_UNIT_TARGET_TEAM_ENEMY"
+                "Types"     "DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
+            }
+            "ControlPoints"
+            {
+                "00"    "1 0 0"
+            }              
+        }
+ 
+        "FireSound"
+        {
+            "EffectName"    "Hero_DeathProphet.Silence"
+            "TargetPoint"   "POINT"
+        }              
+    }
+ 
+    "Modifiers"
+    {
+        "modifier_witchfire"
+        {
+            "IsDebuff"          "1"
+ 
+            "EffectName"        "particles/generic_gameplay/generic_silenced.vpcf"
+            "EffectAttachType"  "follow_overhead"
+ 
+            "States"
+            {
+                "MODIFIER_STATE_PROVIDES_VISION"    "MODIFIER_STATE_VALUE_ENABLED"
+            }  
+        }
+        "modifier_track_aura_datadriven"
+        {
+            "Duration"  "%duration"
+            "IsDebuff"  "1"
+ 
+            "OnCreated"
+            {
+                "AttachEffect"
+                {
+                    "EffectName"        "particles/units/heroes/hero_bounty_hunter/bounty_hunter_track_trail.vpcf"
+                    "EffectAttachType"  "follow_origin"
+                    "Target"            "TARGET"
+ 
+                    "ControlPointEntities"
+                    {
+                        "TARGET"    "attach_origin"
+                        "TARGET"    "attach_hitloc"
+                    }
+                }
+ 
+                "AttachEffect"
+                {
+                    "EffectName"        "particles/units/heroes/hero_bounty_hunter/bounty_hunter_track_shield.vpcf"
+                    "EffectAttachType"  "follow_overhead"
+                    "Target"            "TARGET"
+                }
+            }
+        }
+        "modifier_track_reveal_datadriven"
+        {
+            "IsHidden"      "1"
+            "IsPurgable"    "0"
+            "Priority"      "MODIFIER_PRIORITY_HIGH"
+            "States"
+            {
+                "MODIFIER_STATE_INVISIBLE"          "MODIFIER_STATE_VALUE_DISABLED"
+            }
+        }
+        "modifier_track_datadriven"
+        {
+            "Duration"  "%duration"
+            "IsHidden"  "1"
+ 
+            "OnDestroy"
+            {
+                "RunScript"
+                {
+                    "ScriptFile"    "scripts/vscripts/heroes/hero_bounty_hunter/track.lua"
+                    "Function"      "Track"
+                    "Target"
+                    {
+                        "Center"    "TARGET"
+                        "TargetFlags"       "DOTA_UNIT_TARGET_FLAG_DEAD"
+                    }
+                }
+ 
+            }      
+        }
+    }
+}
+ 

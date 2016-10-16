@@ -1,0 +1,92 @@
+"Global_Disconnect"
+{
+	"BaseClass"             		"ability_datadriven"
+	"AbilityTextureName"			"whizzi/WhizKid_Global_Disconnect"
+	"MaxLevel" 						"4"
+	"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_NO_TARGET"
+	"AbilityUnitTargetTeam"			"DOTA_UNIT_TARGET_TEAM_ENEMY"
+	"AbilityUnitTargetType"			"DOTA_UNIT_TARGET_HERO"
+	"AbilityUnitDamageType"			"DAMAGE_TYPE_MAGICAL"
+	"AbilityCastPoint"				"0.3"
+	"AbilityCooldown"				"120"
+	"AbilityManaCost"				"200 300 400"
+	"AbilityDuration"				"4 5.5 7"
+	
+	"AbilityUnitTargetFlags"		"DOTA_UNIT_TARGET_FLAG_INVULNERABLE"
+
+	"OnSpellStart"
+	{
+		"ApplyModifier"
+		{
+			"ModifierName"	"Global_Disconnect_dummy"
+			"Target" 		"CASTER"
+			"Duration"		"%AbilityDuration"
+		}
+
+
+	}
+	"Modifiers"
+	{
+		"Global_Disconnect_dummy"
+		{
+			"Passive"			"0"
+			"IsHidden"			"1"
+			"IsDebuff"			"0"
+		
+		
+			"OnCreated"
+			{
+				"ActOnTargets"
+				{
+					"Target"
+					{
+						"Center"  	"CASTER"
+						"Radius" 	"100000"
+						"Teams" 	"DOTA_UNIT_TARGET_TEAM_ENEMY"
+						"Types" 	"DOTA_UNIT_TARGET_HERO"
+					}
+					
+					"Action"    
+					{
+						"ApplyModifier"
+						{
+							"ModifierName"	"Disconnected"
+							"Target" 		"TARGET"
+							"Duration"		"4 5.5 7"
+						}
+					}
+				}
+			}
+		}
+		"Disconnected"
+		{
+			"OnCreated"
+			{
+				"RunScript"
+				{
+					"ScriptFile"	"heroes/whizzi/Global_Disconnect.lua"
+					"Function"		"Disconnected"
+				}
+			}
+			"OnTakeDamage"
+			// "%attack_damage" is set to the damage value after mitigation
+			{
+				"RunScript"
+				{
+					"ScriptFile"	"heroes/whizzi/Global_Disconnect.lua"
+					"Function"		"OnDamageReceived"
+					"DamageTaken"	"%attack_damage"
+				}
+			}
+
+			"OnDestroy"
+			{
+				"RunScript"
+				{
+					"ScriptFile"	"heroes/whizzi/Global_Disconnect.lua"
+					"Function"		"Destroy_Disconnected_Modifier"
+				}
+			}
+		}
+	}
+}

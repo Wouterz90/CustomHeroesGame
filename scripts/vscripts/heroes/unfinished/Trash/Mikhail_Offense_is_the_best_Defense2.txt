@@ -1,0 +1,64 @@
+"Mikhail_Offense_is_the_best_Defense"
+{
+	"BaseClass"             		"ability_datadriven"
+	"AbilityTextureName"			"red/offense_is_the_best_defense"
+	"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_PASSIVE"
+	"AbilityUnitTargetTeam"			"DOTA_UNIT_TARGET_TEAM_ENEMY"
+
+	"AbilitySpecial"
+	{
+		"01"
+		{
+			"var_type"			"FIELD_INTEGER"
+			"aoe"				"100 175 250 325"
+		}
+		"02"
+		{
+			"var_type"			"FIELD_FLOAT"
+			"duration"			"1"
+		}
+	}
+
+	"Modifiers"
+	{
+		"modifier_Offense_is_the_best_defense"
+		{
+			"Passive"			"1"
+			"IsHidden"			"1"
+			"IsDebuff"			"0"
+	
+			"EffectName"		""
+			"EffectAttachType"	"follow_origin"
+	
+			"OnAttackLanded"
+			// "%attack_damage" is set to the damage value before mitigation
+			{
+				"RunScript"
+				{
+					"ScriptFile"	"heroes/red/offense_is_the_best_defense.lua"
+					"Function"		"ForceModifiers"
+				}
+			}
+		}
+		"modifier_Offense_is_the_best_defense_debuff"
+		{
+			"Passive"			"0"
+			"IsHidden"			"0"
+			"IsDebuff"			"1"
+	
+			"EffectName"		""
+			"EffectAttachType"	"follow_origin"
+			"ThinkInterval"		"0.1"
+			"OnIntervalThink"
+			// "%attack_damage" is set to the damage value before mitigation
+			{
+				"RunScript"
+				{
+					"ScriptFile"	"heroes/red/offense_is_the_best_defense.lua"
+					"Function"		"MikhailForceAttack"
+				}
+			}
+		}
+	}
+}
+

@@ -1,0 +1,62 @@
+"Cinderize"
+{
+	"BaseClass"             		"ability_datadriven"
+	"AbilityTextureName"			"yggdrasil/Cinderize"
+	"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_UNIT_TARGET"
+	"AbilityUnitTargetTeam"			"DOTA_UNIT_TARGET_TEAM_BOTH"
+	"AbilityUnitTargetType"			"DOTA_UNIT_TARGET_HERO"
+	"AbilityCooldown"				"20 14 8 2"
+	"AbilityManaCost"				"90"
+	"AbilityCastRange"				"550"
+	"AbilityCastPoint"				"0.3"
+	"AbilityDuration"               "6"
+
+	"AbilitySpecial"
+	{
+		"01"
+		{
+			"var_type"			"FIELD_INTEGER"
+			"as_increase"		"200"
+		}
+		"02"
+		{
+			"var_type"		"FIELD_INTEGER"			
+			"cast_point_haste"	"50"
+		}
+		"03"
+		{
+			"var_type"		"FIELD_INTEGER"			
+			"damage_reduction"	"-50"
+		}
+	}
+
+	"OnSpellStart"
+	{
+		"RunScript"
+		{
+			"ScriptFile"	"heroes/yggdrasil/cinderize.lua"
+			"Function"		"ApplyDebuff"
+		}
+		"ApplyModifier"
+		{
+			"ModifierName"	"modifier_cinderized_debuff"
+			"Target" 		"TARGET"
+			"Duration"		"%AbilityDuration"
+		}
+	}
+
+	"Modifiers"
+	{
+		"modifier_cinderized_debuff"
+		{
+			"Passive"			"0"
+			"IsHidden"			"0"
+			"IsDebuff"			"1"
+	
+			"EffectName"		""
+			"EffectAttachType"	"follow_origin"
+	
+			// I cant find an event for clicking the modifier, moddota chat said we can't.
+		}
+	}
+}

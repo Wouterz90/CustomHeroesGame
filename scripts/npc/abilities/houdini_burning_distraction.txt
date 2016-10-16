@@ -1,0 +1,73 @@
+"houdini_burning_distraction"
+{
+  "BaseClass"                 "ability_datadriven"
+  "AbilityTextureName"      "houdini/burning_distraction"
+  "AbilityBehavior"        "DOTA_ABILITY_BEHAVIOR_PASSIVE"
+  "AbilityUnitTargetTeam"      "DOTA_UNIT_TARGET_TEAM_ENEMY"
+  "AbilityUnitTargetType"      "DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
+  "AbilityUnitDamageType"      "DAMAGE_TYPE_MAGICAL"
+  "AbilityDamage"          "1"
+  "AbilityCastRange"        "900"
+  "AbilityDuration"       "2 3 4 5"
+
+  "AbilitySpecial"
+  {
+    "01"
+    {
+      "var_type"      "FIELD_FLOAT"
+      "projectile_speed_decrease"      "2.5"
+    }
+   "02"
+    {
+      "var_type"      "FIELD_INTEGER"
+      "duration"    "3"
+    }
+     "03"
+    {
+      "var_type"      "FIELD_INTEGER"
+      "aura_range"    "900"
+    }
+    "04"
+    {
+      "var_type"      "FIELD_INTEGER"
+      "max_stacks"    "10 16 22 28"
+    }
+    
+  }
+
+  "Modifiers"
+  {
+    "modifier_houdini_burning_distraction_passive"
+    {
+      "Passive"      "1"
+      "IsHidden"      "0"
+      "IsDebuff"      "0"
+      "AllowIllusionDuplicate"    "1"
+
+      "ThinkInterval"  "1"
+      
+      "OnIntervalThink"
+      {
+        "ActOnTargets"
+        {
+          "Target"
+          {
+            "Center"    "CASTER"
+            "Radius"   "%aura_range"
+            "Teams"   "DOTA_UNIT_TARGET_TEAM_ENEMY"
+            "Types"   "DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
+          }
+        
+          "Action"    
+          {
+            "RunScript"
+            {
+              "ScriptFile"  "heroes/hero_houdini/burning_distraction.lua"
+              "Function"    "BurningDistractionAuraInterval"
+            }
+          }
+        }
+      }
+    }
+  }
+}

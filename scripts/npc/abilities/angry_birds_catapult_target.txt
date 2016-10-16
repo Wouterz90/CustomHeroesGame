@@ -1,0 +1,45 @@
+"angry_birds_catapult_target"
+{
+	"BaseClass"             		"ability_lua"
+	"ScriptFile"					"heroes/hero_angry_birds/catapult.lua"
+	"AbilityTextureName"			"angry_birds/catapult"
+	"MaxLevel" 						"4"
+	//"VectorTarget"     				 "1"
+	"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_UNIT_TARGET "
+	"AbilityUnitTargetTeam"			"DOTA_UNIT_TARGET_TEAM_BOTH"
+	"AbilityUnitTargetType"			"DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
+	"AbilityUnitDamageType"			"DAMAGE_TYPE_MAGICAL"
+	"CastFilterRejectCaster" 		"1"
+	"AbilityCastRange"				"550 700 850 1000"
+	"AbilityCastPoint"				"0.3"
+	"AbilityCastAnimation"			"ACT_DOTA_CAST_ABILITY_1"
+
+	"AbilityCooldown"				"12"
+	"AbilityManaCost"				"50"
+	"AbilityDamage"					"25 100 175 250"
+
+	"precache"
+	{
+		"particle"  "particles/items_fx/ethereal_blade.vpcf"
+	}
+
+	"AbilitySpecial"
+	{
+		"01"
+		{
+			"var_type"			"FIELD_INTEGER"
+			"width"				"200"
+		}
+		"02"
+		{
+			"var_type"			"FIELD_INTEGER"
+			"speed"				"600 750 900 1050"
+		}
+		"03"
+		{
+			"var_type"			"FIELD_INTEGER"
+			"min_throw"				"300"	
+		}
+	}
+
+}

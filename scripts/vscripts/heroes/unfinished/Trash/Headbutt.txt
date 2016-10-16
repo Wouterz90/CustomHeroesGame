@@ -1,0 +1,113 @@
+"Headbutt"
+{
+	//general
+	"BaseClass"             		"ability_datadriven"
+	"AbilityTextureName"			"ursa_enrage"
+	"MaxLevel" 						"3"
+	"AbilityBehavior" 				"DOTA_ABILITY_BEHAVIOR_UNIT_TARGET"
+	"AbilityUnitTargetTeam"			"DOTA_UNIT_TARGET_TEAM_ENEMY"
+	"AbilityUnitTargetType"			"DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
+	"AbilityUnitDamageType"			"DAMAGE_TYPE_MAGICAL"	
+	"SpellImmunityType"				"SPELL_IMMUNITY_ENEMIES_YES"
+	"FightRecapLevel"				"1"
+	"RequiredLevel"					"6"
+	"LevelsBetweenUpgrades"			"5"
+
+	// Casting
+	"AbilityCastRange"				"150"
+	"AbilityCastPoint" 				"0"
+
+	//Time
+	"AbilityCooldown"				"30.0"
+	"AbilityDuration"				"3 4 5"
+	//Damage
+	"AbilityDamage"					"75 150 225"
+	//Cost
+	"AbilityManaCost"				"100"
+	//AbilitySpecial
+
+	"AbilitySpecial"
+	{
+		"01"
+		{
+		"var_type"				"FIELD_FLOAT"
+		"Headbutt_delay"		"0.2"
+		}	
+	}
+		
+		
+	"OnSpellStart"
+	{
+	 	"Rotate"
+		{
+    			"Target"       		"CASTER"
+    			"PitchYawRoll"  	"60 60 60" //x y z values
+		}
+
+		"DelayedAction"
+		{
+			"Delay"     		"%Headbutt_delay"
+			"Action"    
+			{
+				"Rotate"
+				{
+					"Target" 		"CASTER"
+					"PitchYawRoll"  "-60 -60 -60"
+				}
+
+				"ApplyModifier"
+				{
+					"ModifierName"	"Modifier_headbutted"
+					"Target" 		"TARGET"
+					"Duration"		"%AbilityDuration"
+				}
+
+				"Damage"
+				{
+					"Target"		"TARGET"
+					"Type"			"DAMAGE_TYPE_MAGICAL"
+					"Damage"		"%AbilityDamage"
+				}
+
+				"Rotate"
+				{
+					"Target"		"TARGET"
+					"PitchYawRoll"	"-75 -75 -75"
+				}
+				"DelayedAction"
+				{
+					"Delay"     "%AbilityDuration"
+					"Action"    
+					{
+						"Rotate"
+						{
+							"Target" "TARGET"
+							"PitchYawRoll" "75 75 75"
+						}
+					}
+				}
+			}
+		}
+	}
+	"Modifiers"
+	{
+		"Modifier_headbutted"
+		{
+			"Passive"			"0"
+			"IsHidden"			"0"
+			"IsDebuff"			"1"
+			"IsPurgable"		"1"
+			"IsBuff"			"0"
+			"IsStunDebuff"		"1"
+			//Purge(bool RemovePositiveBuffs, bool RemoveDebuffs, bool BuffsCreatedThisFrameOnly, bool RemoveStuns, bool RemoveExceptions)
+	
+			"EffectName"		"Headbutt"
+			"EffectAttachType"	"follow_origin"
+	
+			"States"
+			{
+				"MODIFIER_STATE_STUNNED" "MODIFIER_STATE_VALUE_ENABLED" 
+			}
+		}
+	}
+}

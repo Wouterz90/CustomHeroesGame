@@ -1,0 +1,174 @@
+"Helix_Scuffle"
+{
+	"BaseClass"             		"ability_datadriven"
+	"AbilityTextureName"			"helix/scuffle"
+	"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_NO_TARGET | DOTA_ABILITY_BEHAVIOR_IMMEDIATE"
+	"AbilityUnitTargetTeam"			"DOTA_UNIT_TARGET_TEAM_ENEMY"
+	"AbilityUnitTargetType"			"DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
+	"AbilityUnitDamageType"			"DAMAGE_TYPE_PHYSICAL"
+	"AbilityCooldown"				"17"
+	"AbilityManaCost"				"100"
+	"AbilityDamage"					"15 30 45 60"
+	"AbilityDuration"				"12"
+	"AbilityManaCost"				"55"
+	"AbilityCastRange"				"0"
+	"AbilityCastPoint"				"0"
+	"AbilityCastAnimation"			"ACT_DOTA_CAST_ABILITY_1"
+
+	"AbilitySpecial"
+	{
+		"01"
+		{
+			"var_type"			"FIELD_INTEGER"
+			"Attack_Range"			"275"
+		}
+		"02"
+		{
+			"var_type"			"FIELD_INTEGER"
+			"bonus_as"		"30 45 60 75"
+		}
+		"03"
+		{
+			"var_type"			"FIELD_INTEGER"
+			"bash_chance"		"35"
+		}
+		"04"
+		{
+			"var_type"			"FIELD_FLOAT"
+			"base_duration"		"0.5"
+		}
+		"04"
+		{
+			"var_type"			"FIELD_FLOAT"
+			"extra_duration"		"0.25"
+		}
+
+	}
+	"precache"
+	{
+		"particle"	"particles/generic_gameplay/generic_stunned.vpcf"
+		"particle"							"particles/units/heroes/hero_ursa/ursa_fury_swipes.vpcf"
+		"particle"							"particles/units/heroes/hero_ursa/ursa_fury_swipes_debuff.vpcf"
+	}
+		
+	
+	"OnSpellStart"
+	{
+		"ApplyModifier"
+	    {
+	    	"ModifierName" "modifier_scuffle_passive"
+	      	"Target" "CASTER"
+	        "Duration" "%AbilityDuration"
+	    }
+	}
+	"Modifiers"
+	{
+		"modifier_scuffle_passive"
+		{
+			"Passive"			"0"
+			"IsHidden"			"0"
+			"IsDebuff"			"0"
+	
+			"EffectName"		""
+			"EffectAttachType"	"follow_origin"
+
+			"Properties"
+			{
+				"MODIFIER_PROPERTY_ATTACKSPEED_BONUS_CONSTANT" "%bonus_as" 
+			}
+
+			"OnCreated"
+			{
+				"RunScript"
+				{
+					"ScriptFile"	"heroes/hero_helix/scuffle.lua"
+					"Function"		"NilAttacker"
+				}
+			}
+
+			"ThinkInterval"  "0.05"
+			"OnIntervalThink"
+			{
+				"RunScript"
+				{
+					"ScriptFile"	"heroes/hero_helix/scuffle.lua"
+					"Function"		"AttackWhileMoving"
+				}
+			}
+	
+			"OnAttack"
+			// "%attack_damage" is set to the damage value after mitigation
+			{
+				"RunScript"
+				{
+					"ScriptFile"	"heroes/hero_helix/scuffle.lua"
+					"Function"		"StoreAttackTarget"
+				}
+			}
+			"OnAttackLanded"
+			// "%attack_damage" is set to the damage value before mitigation
+			{
+				"Random"
+				{
+					"Chance"			"%bash_chance"
+					"OnSuccess"
+					{
+						"RunScript"
+						{
+							"ScriptFile"	"heroes/hero_helix/scuffle.lua"
+							"Function"		"BashDuration"
+						}
+					}
+
+				}
+			}
+		}
+		"modifier_scuffle_bashed"
+		{
+			"Passive"			"0"
+			"IsHidden"			"0"
+			"IsDebuff"			"0"
+		
+			"EffectName" 		"particles/generic_gameplay/generic_stunned.vpcf"
+        	"EffectAttachType" "follow_overhead"
+		
+			"States"
+			{
+				"MODIFIER_STATE_STUNNED"		"MODIFIER_STATE_VALUE_ENABLED"
+			}
+		}
+
+		"modifier_scuffle_counter"
+		{
+			"Passive"			"0"
+			"IsHidden"			"0"
+			"IsDebuff"			"0"
+
+			"ThinkInterval"  "0.05"
+			"OnIntervalThink"
+			{
+				"RunScript"
+				{
+					"ScriptFile"	"heroes/hero_helix/scuffle.lua"
+					"Function"		"CheckStunned"
+				}
+			}
+		}
+		"modifier_scuffle_just_attacked"
+		{
+			"Passive"			"0"
+			"IsHidden"			"0"
+			"IsDebuff"			"0"
+		
+			"EffectName"		""
+			"EffectAttachType"	"follow_origin"
+
+			"States"
+			{
+				"MODIFIER_STATE_DISARMED"		"MODIFIER_STATE_VALUE_ENABLED"
+			}
+
+		}
+	}
+
+}

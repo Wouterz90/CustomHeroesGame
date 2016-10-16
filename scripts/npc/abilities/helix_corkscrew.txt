@@ -1,0 +1,146 @@
+"Helix_Corkscrew"
+{
+	"BaseClass"             		"ability_datadriven"
+	"AbilityTextureName"			"helix/corkscrew"
+	"AbilityType"					"DOTA_ABILITY_TYPE_ULTIMATE"
+	"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_NO_TARGET | DOTA_ABILITY_BEHAVIOR_IMMEDIATE"
+	"AbilityUnitTargetTeam"			"DOTA_UNIT_TARGET_TEAM_ENEMY"
+	"AbilityUnitTargetType"			"DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
+	"AbilityUnitDamageType"			"DAMAGE_TYPE_MAGICAL"
+	"AbilityCooldown"				"32 26 20"
+	"AbilityManaCost"				"150"
+	"AbilityDamage"					"200 250 300"
+	"AbilityDuration"				"7"
+	"AbilityProcsMagicStick" "1"
+
+	"AbilitySpecial"
+	{
+		"01"
+		{
+			"var_type"			"FIELD_INTEGER"
+			"radius"			"150"
+		}
+		"02"
+		{
+			"var_type"			"FIELD_INTEGER"
+			"bonus_armor"		"1000"
+		}
+		"03"
+		{
+			"var_type"			"FIELD_INTEGER"
+			"time_to_stop"		"3"
+		}
+		"03"
+		{
+			"var_type"			"FIELD_INTEGER"
+			"stun_duration"		"2"
+		}
+	}
+	"precache"
+	{
+		"particle"  "particles/helix/bigstone.vpcf"
+	}
+
+	"OnSpellStart"
+	{
+		"RunScript"
+		{
+			"ScriptFile"	"heroes/hero_helix/corkscrew.lua"
+			"Function"		"CheckMovement"
+		}
+		"ApplyModifier"
+		{
+			"ModifierName"	"modifier_corkscrew_shield_visual"
+			"Target" 		"CASTER"
+
+		}
+	}
+
+	"Modifiers"
+	{
+		"modifier_corkscrew_shield"
+		{
+			"Passive"			"0"
+			"IsHidden"			"0"
+			"IsDebuff"			"0"
+	
+			"EffectName"		""
+			"EffectAttachType"	"follow_origin"
+	
+			"Properties"
+			{
+				"MODIFIER_PROPERTY_PHYSICAL_ARMOR_BONUS" "%bonus_armor"
+			    "MODIFIER_PROPERTY_MAGICAL_RESISTANCE_BONUS" "100"
+			}
+			"States"
+			{
+				"MODIFIER_STATE_ROOTED"		"MODIFIER_STATE_VALUE_ENABLED"
+			}
+			"OnDestroy"
+			{
+				"RemoveModifier"
+				{
+					"ModifierName"	"modifier_corkscrew_shield_visual"
+					"Target" 		"CASTER"
+				}
+			}
+			"OnOrder"
+			// Triggers on Move/Casting/Hold/Stop
+			{
+				"RemoveModifier"
+				{
+					"ModifierName"	"modifier_corkscrew_shield"
+					"Target" 		"CASTER"
+				}
+			}
+		}
+		"modifier_corkscrew_shield_visual"
+		{
+			"Passive"			"0"
+			"IsHidden"			"1"
+			"IsDebuff"			"0"
+		
+			"EffectName"		"particles/helix/bigstone.vpcf"
+			"EffectAttachType"	"follow_origin"
+		
+			
+		}
+		"modifier_corkscrew_slow_datadriven"
+		{
+			"Passive"			"0"
+			"IsHidden"			"0"
+			"IsDebuff"			"0"
+	
+			"EffectName"		""
+			"EffectAttachType"	"follow_origin"
+	
+			"Properties"
+			{
+			    "MODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE" "-1.33" 
+			}
+			"ThinkInterval"  "0.04"
+			"OnIntervalThink"
+			{
+				"RunScript"
+				{
+					"ScriptFile"	"heroes/hero_helix/corkscrew.lua"
+					"Function"		"SlowModifier"
+				}
+			}
+		}
+		"modifier_corkscrew_damage_dummy"
+		{
+			"Passive"			"0"
+			"IsHidden"			"1"
+			"IsDebuff"			"0"
+		
+			"EffectName"		""
+			"EffectAttachType"	"follow_origin"
+			
+			"States"
+			{
+				"MODIFIER_STATE_STUNNED"		"MODIFIER_STATE_VALUE_ENABLED"
+			}
+		}
+	}
+}

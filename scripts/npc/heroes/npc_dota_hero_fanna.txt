@@ -1,0 +1,46 @@
+
+    "npc_dota_hero_fanna"
+    {
+        "override_hero"             "npc_dota_hero_templar_assassin"
+        "AbilityLayout"             "4"
+        "Ability1"              "fanna_stealth"          // Ability 1
+        "Ability2"              "fanna_silent_headroll"          // Ability 2
+        "Ability3"              "fanna_chain_buddies"          // Ability 3
+        "Ability5"              "attribute_bonus"              
+        "Ability4"              "fanna_dagger_throw"         // Ultimate
+        "Ability6"              ""
+        "Ability7"              ""  
+           
+        // Armor
+        //-------------------------------------------------------------------------------------------------------------
+        "ArmorPhysical"             "2.3"                                 // Physical protection.
+        "MagicalResistance"         "25"                                // Magical protection (percentage).
+
+        // Attack
+        //-------------------------------------------------------------------------------------------------------------
+        "AttackCapabilities"        "DOTA_UNIT_CAP_MELEE_ATTACK"
+        "AttackDamageMin"           "34"                                        // Damage range min.
+        "AttackDamageMax"           "42"                                        // Damage range max.
+        "AttackDamageType"          "DAMAGE_TYPE_ArmorPhysical"             // Type of damage dealt. 
+        "AttackRate"                "1.7"                                   // Speed of attack.
+        "AttackAnimationPoint"      "0.5"                                   // Normalized time in animation cycle to attack.
+        "AttackAcquisitionRange"    "800"                                   // Range within a target can be acquired.
+        "AttackRange"               "150"                                   // Range within a target can be attacked.
+        "ProjectileModel"           ""    // Particle system model for projectile.
+        "ProjectileSpeed"           "900"                                   // Speed of projectile.
+
+        // Attributes
+        //-------------------------------------------------------------------------------------------------------------
+        "AttributePrimary"          "DOTA_ATTRIBUTE_AGILITY"
+        "AttributeBaseStrength"     "16"                                        // Base strength
+        "AttributeStrengthGain"     "1.7"                                     // Strength bonus per level.
+        "AttributeBaseIntelligence" "21"                                        // Base intelligence
+        "AttributeIntelligenceGain" "2.2"                                       // Intelligence bonus per level.
+        "AttributeBaseAgility"      "21"                                        // Base agility
+        "AttributeAgilityGain"      "2.5"                                       // Agility bonus per level. 
+        "MovementSpeed"             "315"                                   // Speed.
+        "StatusHealthRegen"         "2"                                 // Health regeneration rate.
+        
+        
+        "BotImplemented"            "0"    
+    }

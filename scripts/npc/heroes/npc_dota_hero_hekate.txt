@@ -1,0 +1,29 @@
+//=================================================================================================================
+    // HERO: Hekate, the Priestess of Chaos (aka Icefrog's Ghost Revenant)
+    //=================================================================================================================
+    "hero_hekate"
+    {
+        "override_hero"             ""
+        "AbilityLayout"             "4"
+        "Ability1"              "hekate_spellbind"          // Ability 1
+        "Ability2"              "hekate_witchfire"          // Ability 2
+        "Ability3"              "hekate_blackjack"          // Ability 3
+        "Ability5"              "attribute_bonus"              
+        "Ability4"              "hekate_chaos_nova"         // Ultimate
+       
+   
+        "AttributePrimary"      "DOTA_ATTRIBUTE_INTELLECT"           // Primary Attribute
+        "AttributeBaseStrength"     "19"                        // Base strength
+        "AttributeStrengthGain"     "2.15"                      // Strength bonus per level.
+        "AttributeBaseIntelligence" "19"                        // Base intelligence
+        "AttributeIntelligenceGain" "2.75"                      // Intelligence bonus per level.
+        "AttributeBaseAgility"      "12"                        // Base agility
+        "AttributeAgilityGain"      "1.35"                      // Agility bonus per level.
+        "ArmorPhysical"         "3"
+        "AttackRate"            "1.7"
+        "AttackRange"           "505"
+                "ProjectileSpeed"               "1875"
+        "MovementSpeed"         "325"
+        "AttackDamageMin"       "32"                       
+        "AttackDamageMax"       "38"   
+    }

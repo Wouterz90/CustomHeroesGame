@@ -1,0 +1,56 @@
+//=================================================================================================================
+// HERO: Houdini
+//=================================================================================================================
+"npc_dota_hero_houdini"
+{
+	"override_hero"				"npc_dota_hero_invoker"
+	"AbilityLayout" 			"4"
+	"Ability1"					"houdini_poof_fire"
+	"Ability2"					"houdini_escape_artist" // Thinking about a way to retaliate for missed attacks too.
+	"Ability3"					"houdini_burning_distraction"
+	"Ability4"					"houdini_three_card_monte"
+	"Ability5"					""
+	"Ability6"					""
+	"Ability7"					"attribute_bonus"
+	"Ability8"					""
+	"Ability9"					""
+	"Ability10"					""
+	"Ability11"					""
+	"Ability12"					""
+	"Ability13"					""
+	"Ability14"					""	
+	"Ability15"					""
+
+	// Armor
+		//-------------------------------------------------------------------------------------------------------------
+		"ArmorPhysical"				"1"									// Physical protection.
+		"MagicalResistance"			"25"									// Magical protection (percentage).
+	
+		// Attack
+		//-------------------------------------------------------------------------------------------------------------
+		"AttackCapabilities"		"DOTA_UNIT_CAP_RANGED_ATTACK"
+		"AttackDamageMin"			"23"										// Damage range min.
+		"AttackDamageMax"			"31"										// Damage range max.
+		"AttackDamageType"			"DAMAGE_TYPE_ArmorPhysical"				// Type of damage dealt. 
+		"AttackRate"				"1.7"									// Speed of attack.
+		"AttackAnimationPoint"		"0.3"									// Normalized time in animation cycle to attack.
+		"AttackAcquisitionRange"	"800"									// Range within a target can be acquired.
+		"AttackRange"				"450"									// Range within a target can be attacked.
+		//"ProjectileModel"			""										// Particle system model for projectile.
+		//"ProjectileSpeed"			""										// Speed of projectile.
+	
+		// Attributes
+		//-------------------------------------------------------------------------------------------------------------
+		"AttributePrimary"			"DOTA_ATTRIBUTE_INTELLECT"
+		"AttributeBaseStrength"		"15"										// Base strength
+		"AttributeStrengthGain"		"1.8"										// Strength bonus per level.
+		"AttributeBaseIntelligence"	"21"										// Base intelligence
+		"AttributeIntelligenceGain"	"2.8"										// Intelligence bonus per level.
+		"AttributeBaseAgility"		"18"										// Base agility
+		"AttributeAgilityGain"		"2"										// Agility bonus per level.	
+		"MovementSpeed"				"300"									// Speed.
+		
+
+		"BotImplemented"			"0"
+	
+}

@@ -1,0 +1,159 @@
+"swirlwind"
+		{
+			"BaseClass"             		"ability_datadriven"
+			"AbilityTextureName"			"eurus/swirlwind"
+			"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_POINT|DOTA_ABILITY_BEHAVIOR_IMMEDIATE"
+			"AbilityUnitTargetTeam"			"DOTA_UNIT_TARGET_TEAM_ENEMY"
+			"AbilityUnitTargetType"			"DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
+			"AbilityType"					"DOTA_ABILITY_TYPE_ULTIMATE"
+			"AbilityUnitDamageType"			"DAMAGE_TYPE_MAGICAL"
+			"AbilityCooldown"				"75 65 55"
+			"AbilityManaCost"				"130 160 190"
+			"AbilityDuration"				"1"
+			"AbilityDamage"					"200 350 500"
+			"AbilityCastRange"				"600"
+
+			"precache"
+			{
+				"particle"  "particles/eurus/eurus_swirlwind.vpcf"
+			}
+	
+			"AbilitySpecial"
+			{
+				"01"
+				{
+					"var_type"			"FIELD_INTEGER"
+					"layers"			"150"
+				}
+				"02"
+				{
+					"var_type"			"FIELD_INTEGER"
+					"swirlwind_aoe"		"600"
+				}
+				"03"
+				{
+					"var_type"			"FIELD_INTEGER"
+					"ms_bonus"			"10"
+				}
+				
+			}
+			"OnSpellStart"
+			{
+				
+				"ApplyModifier"
+				{
+					"ModifierName"	"modifier_swirlwind_visual"
+					"Target" 		"CASTER"
+					"Duration"		"0.5"
+				}
+
+			}
+			"Modifiers"
+			{
+				"modifier_swirlwind_visual"
+				{
+					"IsHidden"	"1"
+					"EffectName"		"particles/eurus/eurus_swirlwind.vpcf"
+					"EffectAttachType"	"follow_origin"
+
+					"OnCreated"
+					{
+						"ActOnTargets"
+						{
+							"Target"
+							{
+								"Center"  	"CASTER"
+								"Radius" 	"%swirlwind_aoe"
+								"Teams" 	"DOTA_UNIT_TARGET_TEAM_ENEMY"
+								"Types" 	"DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
+							}
+						
+							"Action"    
+							{	
+								"ApplyModifier"
+								{
+									"ModifierName"	"modifier_swirlwind_stun"
+									"Target" 		"TARGET"
+									"Duration"		"0.5"
+								}
+							}
+						}
+					}
+					"OnDestroy"
+					{
+						"ApplyModifier"
+						{
+							"ModifierName"	"modifier_swirlwind"
+							"Target" 		"CASTER"
+							"Duration"		"%AbilityDuration"
+						}		
+					}
+				}
+				"modifier_swirlwind"
+				{
+					"Passive"			"0"
+					"IsHidden"			"0"
+					"IsDebuff"			"0"
+			
+					"EffectName"		""
+					"EffectAttachType"	"follow_origin"
+	
+					"Properties"
+					{
+					    "MODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE" "%ms_bonus" 
+					}
+					"OnCreated"
+					{	
+						"ActOnTargets"
+						{
+							"Target"
+							{
+								"Center"  	"CASTER"
+								"Radius" 	"%swirlwind_aoe"
+								"Teams" 	"DOTA_UNIT_TARGET_TEAM_ENEMY"
+								"Types" 	"DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
+							}
+						
+							"Action"    
+							{	
+								"Damage"
+								{
+									"Target"		"TARGET"
+									"Type"			"DAMAGE_TYPE_MAGICAL"
+									"Damage"		"%AbilityDamage"
+								}
+								//Maybe a modifier to attach a visual
+								"RunScript"
+								{
+									"ScriptFile"	"heroes/eurus/swirlwind.lua"
+									"Function"		"Swirlwind"
+								}
+							}
+						}
+					}
+				}
+				"modifier_swirlwind_stun"
+				{
+					"Passive"			"0"
+					"IsHidden"			"0"
+					"IsDebuff"			"1"
+					"IsBuff"			"0"
+					"States"
+					{
+						"MODIFIER_STATE_STUNNED"		"MODIFIER_STATE_VALUE_ENABLED"
+					}
+				}
+				"no_collision"
+				{
+					"Passive"			"0"
+					"IsHidden"			"1"
+					"IsDebuff"			"0"
+					"IsBuff"			"0"
+		
+					"States"
+					{
+						"MODIFIER_STATE_NO_UNIT_COLLISION"		"MODIFIER_STATE_VALUE_ENABLED"
+					}
+				}
+			}
+		}

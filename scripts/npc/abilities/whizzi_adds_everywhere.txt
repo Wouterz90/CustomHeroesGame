@@ -1,0 +1,69 @@
+"Ads_Everywhere"
+{	
+	"BaseClass"             		"ability_datadriven"
+	"AbilityTextureName"			"whizzi/Ads_Everywhere"
+	"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_PASSIVE"
+	"AbilityUnitTargetTeam"			"DOTA_UNIT_TARGET_TEAM_ENEMY"
+	"AbilityUnitTargetType"			"DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
+	"AbilityUnitDamageType"			"DAMAGE_TYPE_MAGICAL"
+	"AbilityCastRange"				"450 600 750 900"
+
+	"AbilitySpecial"
+	{
+		"01"
+		{
+			"var_type"			"FIELD_FLOAT"
+			"cast_time_increase" "0.5"
+		}
+		"02"
+		{
+			"var_type"			"FIELD_FLOAT"
+			"duration"			"3 3.33 3.66 4"
+		}
+		"03"
+		{
+			"var_type"			"FIELD_INTEGER"
+			"radius"			"450 600 750 900"
+		}	
+	}
+
+	"Modifiers"
+	{
+		"modifier_ads_everywhere_aura"
+		{
+			"Passive"			"1"
+			"IsHidden"			"0"
+			"IsDebuff"			"0"
+
+			"Aura"          	"modifier_ads_everywhere"
+			"Aura_Radius"   	"%radius"
+			"Aura_Teams"    	"DOTA_UNIT_TARGET_TEAM_ENEMY"
+			"Aura_Types"    	"DOTA_UNIT_TARGET_HERO"
+			"Aura_Flags"    	"DOTA_UNIT_TARGET_FLAG_NONE"
+			"Aura_ApplyToCaster" "0"
+		
+			"EffectName"		""
+			"EffectAttachType"	"follow_origin"
+		
+		}
+		"modifier_ads_everywhere"
+		{
+			"Passive" 			"0"
+			"IsPurgable"		"0"
+			"IsBuff"			"0"
+			"IsDebuff"			"1"
+			"IsStunDebuff"		"0"
+			"IsHidden"			"0"
+
+			"OnCreated"
+			{
+				"RunScript"
+				{
+					"ScriptFile"	"heroes/whizzi/Ads_Everywhere.lua"
+					"Function"		"SetStack"
+				}
+			}
+			
+		}
+	}
+}

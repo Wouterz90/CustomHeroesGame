@@ -1,0 +1,18 @@
+"CustomEvents"
+{
+	
+	"custom_error_show"
+	{
+		"player_ID"		"short"
+		"_error"		"string"
+	}
+	
+	"find_local_player"
+	{
+	}
+	"send_local_player"
+	{
+		"player_ID"		"short"
+	}
+	
+}

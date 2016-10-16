@@ -1,0 +1,87 @@
+	"gamble"
+	{
+		"BaseClass"						"ability_lua"
+		"AbilityTextureName"			"harte/gamble"
+		"ScriptFile"					"heroes/harte/gamble.lua"
+		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_POINT|DOTA_ABILITY_BEHAVIOR_IMMEDIATE"
+		"AbilityUnitTargetTeam"			"DOTA_UNIT_TARGET_TEAM_ENEMY"
+		"AbilityUnitTargetType"			"DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
+		"AbilityCastRange"				"9000"
+		"AbilityCooldown"				"7 6 5 4"
+		"AbilityManaCost"				"35 45 55 65"
+		"AbilityDuration"				"10"
+
+		"precache"
+		{
+			"particle"  "particles/units/heroes/hero_mirana/mirana_spell_arrow.vpcf"
+		}
+
+		"AbilitySpecial"
+		{
+			"01"
+			{
+				"var_type"			"FIELD_INTEGER"
+				"projectile_aoe"	"125"
+			}
+			"02"
+			{
+				"var_type"			"FIELD_INTEGER"
+				"block_chance"		"30 25 20 15"
+			}
+			"03"
+			{
+				"var_type"			"FIELD_INTEGER"
+				"1_x_attack_chance"	"70 60 50 40"
+			}
+			"04"
+			{
+				"var_type"			"FIELD_INTEGER"
+				"2_x_attack_chance"	"0 15 20 20"
+			}
+			"05"
+			{
+				"var_type"			"FIELD_INTEGER"
+				"3_x_attack_chance"	"0 0 10 15"
+			}
+			"06"
+			{
+				"var_type"			"FIELD_INTEGER"
+				"4_x_attack_chance"	"0 0 0 10"
+			}
+			"07"
+			{
+				"var_type"			"FIELD_INTEGER"
+				"max_slow_rate"		"25 45 65 85"
+			}
+			"08"
+			{
+				"var_type"			"FIELD_INTEGER"
+				"2nd_slow_rate"		"0 25 45 65"
+			}
+			"09"
+			{
+				"var_type"			"FIELD_INTEGER"
+				"3rd_slow_rate"		"0 0 25 45"
+			}
+			"10"
+			{
+				"var_type"			"FIELD_INTEGER"
+				"min_slow_rate"		"10 10 10 10"
+			}
+			"11"
+			{
+				"var_type"			"FIELD_INTEGER"
+				"duration"			"1 1 1 1"
+			}
+			"12"
+			{
+				"var_type"			"FIELD_INTEGER"
+				"distance"			"900"
+			}
+			"12"
+			{
+				"var_type"			"FIELD_INTEGER"
+				"projectile_speed"	"1500"
+			}
+		}
+	}

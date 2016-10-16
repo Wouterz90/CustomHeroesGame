@@ -1,0 +1,74 @@
+"Omniscience"
+{
+	"BaseClass"             		"ability_datadriven"
+	"AbilityTextureName"			"uther/uther_omniscience"
+	"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_PASSIVE"
+	"AbilityType"					"DOTA_ABILITY_TYPE_ULTIMATE"
+	"AbilitySpecial"
+	{
+		"01"
+		{
+			"var_type"			"FIELD_INTEGER"
+			"value"				"25"
+		}
+		"02"
+		{
+			"var_type"			"FIELD_INTEGER"
+			"max_stacks"		"2 3 4"
+		}
+		"03"
+		{
+			"var_type"			"FIELD_INTEGER"
+			"duration"			"10"
+		}
+	}
+	"OnUpgrade"
+	{
+		"RunScript"
+		{
+			"ScriptFile"	"heroes/uther/Omniscience.lua"
+			"Function"		"AddCharges"
+		}
+	}
+	"Modifiers"
+	{
+		"modifier_omniscience"
+		{
+			"Passive"			"1"
+			"IsHidden"			"0"
+			"IsDebuff"			"0"
+	
+			"EffectName"		""
+			"EffectAttachType"	"follow_origin"
+
+			"Attributes"		"MODIFIER_ATTRIBUTE_PERMANENT"
+			
+
+			"OnOrder"
+			// OnSpellStart as a Modifier Event, you can Apply it on a target to trigger any Actions.
+			{
+				"RunScript"
+				{
+					"ScriptFile"	"heroes/uther/Omniscience.lua"
+					"Function"		"Omniscience"
+				}
+			}
+		}
+		"modifier_omniscience_dummy"
+		{
+			"Passive"			"0"
+			"IsHidden"			"1"
+			"IsDebuff"			"0"
+		
+		
+			"OnDestroy"
+			{
+				"RunScript"
+				{
+					"ScriptFile"	"heroes/uther/Omniscience.lua"
+					"Function"		"AddCharges"
+				}
+			}
+		}
+	}
+}

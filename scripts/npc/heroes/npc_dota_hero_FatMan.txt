@@ -1,0 +1,14 @@
+"npc_dota_hero_TEST"
+{
+	"override_hero"				""
+	"AbilityLayout" 			"4"
+	"Ability1"					"flesh_heap_agi"
+	"Ability2"					"flesh_heap_int"
+	"Ability3"					"global_break"
+	"Ability4"					"channelled_break"
+	"Ability5"					""
+	"Ability6"					""
+	"Ability7"					"attribute_bonus"
+
+	
+}

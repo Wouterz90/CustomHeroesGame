@@ -1,0 +1,158 @@
+"Nap Time"
+
+
+{
+	"BaseClass"             		"ability_datadriven"
+	"AbilityTextureName"			"fatman/Fatman_naptime"
+	"AbilityBehavior" 				"DOTA_ABILITY_BEHAVIOR_NO_TARGET"
+	"SpellImmunityType"				"SPELL_IMMUNITY_ENEMIES_NO"
+	"MaxLevel" 						"4"
+	"FightRecapLevel"				"1"
+
+	// Casting
+	"AbilityCastPoint" 				"0"
+	"AbilityDamage"					"50 100 150 200"
+
+	"AbilityManaCost"				"100"
+	"AbilityCooldown"				"35 30 25 20"
+	"AbilityDuration"				"4 5 6 7"
+	"Precache"
+	{
+		"particle"  	"particles/newplayer_fx/npx_sleeping.vpcf"
+	}
+
+	"AbilitySpecial"
+	{
+		"01"
+		{
+			"var_type"			"FIELD_INTEGER"
+			"radius"				"300"
+		}
+		"02"
+		{
+			"var_type"			"FIELD_INTEGER"
+			"bulldoze_duration"			"1 1.5 2 2.5"
+		}
+		"03"
+		{
+			"var_type"			"FIELD_INTEGER"
+			"movement_speed_penalty"		"-100"
+		}
+	}
+
+	"OnSpellStart"
+	{
+
+		"ApplyModifier"
+		{
+			"ModifierName"	"nap_time_dummy"
+			"Target" 		"CASTER"
+			"Duration"		"%AbilityDuration"
+		}
+	}
+	"Modifiers"
+	{
+		"nap_time_dummy"
+		{
+			"Passive"			"0"
+			"IsHidden"			"1"
+			"IsDebuff"			"0"
+
+			"OnCreated"
+			{
+				"ApplyModifier"
+				{
+					"ModifierName"	"minisleep"
+					"Target" 		"CASTER"
+					"Duration"		"0.1"
+				}
+				"AttachEffect"
+				{
+					"EffectName"        "particles/fatman/fatman_nap_time.vpcf"
+					"EffectAttachType"  "follow_origin"
+					"Target"            "CASTER"
+				}
+				"AttachEffect"
+				{
+					"EffectName"        "particles/newplayer_fx/npx_sleeping.vpcf"
+					"EffectAttachType"  "follow_origin"
+					"Target"            "CASTER"
+				}
+			}
+
+			"Properties"
+			{
+			    "MODIFIER_PROPERTY_MOVESPEED_BONUS_CONSTANT" "%movement_speed_penalty" 
+			}
+
+			"ThinkInterval"  	"0.2"
+
+			"OnIntervalThink"
+			{
+				"ActOnTargets"
+				{
+					"Target"
+					{
+						"Center"  	"CASTER"
+						"Radius" 	"%radius"
+						"Teams" 	"DOTA_UNIT_TARGET_TEAM_ENEMY"
+						"Types" 	"DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
+					}
+				
+					"Action"    
+					{
+						"RunScript"
+						{
+							"ScriptFile"	"heroes/fatman/NapTime.lua"
+							"Function"		"Bulldoze"
+							"Target"		"TARGET"
+						}
+					}
+				}
+			}
+		}
+
+		"nap_time_dummy_enemy"
+		{
+			"IsHidden" "1"
+		}
+
+		"minisleep"
+		{
+			"States"
+			{
+				"MODIFIER_STATE_NIGHTMARED" "MODIFIER_STATE_VALUE_ENABLED"
+			}
+		}
+
+		"Bulldozed"
+		{
+			"IsHidden" "0"
+			"Properties"
+			{
+				"MODIFIER_PROPERTY_DISABLE_TURNING" "1"
+			}
+			"States"
+			{
+				"MODIFIER_STATE_ROOTED" 			"MODIFIER_STATE_VALUE_ENABLED"
+			}
+			"OnCreated"
+			{
+	 			"Rotate"
+				{
+    					"Target"       		"TARGET"
+    					"PitchYawRoll"  	"60 0 0" //x y z values
+				}
+			}
+
+			"OnDestroy"
+			{
+	 			"Rotate"
+				{
+    					"Target"       		"TARGET"
+    					"PitchYawRoll"  	"-60 -0 -0" //x y z values
+				}				
+			}
+		}
+	}
+}

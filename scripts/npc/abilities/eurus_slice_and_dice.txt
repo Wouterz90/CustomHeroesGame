@@ -1,0 +1,130 @@
+"slice_and_dice"
+	{
+		"BaseClass"             		"ability_datadriven"
+		"AbilityTextureName"			"eurus/slice_and_dice"
+		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_POINT"
+		"AbilityUnitTargetTeam"			"DOTA_UNIT_TARGET_TEAM_ENEMY"
+		"AbilityUnitTargetType"			"DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
+		"AbilityUnitDamageType"			"DAMAGE_TYPE_MAGICAL"
+		"AbilityCooldown"				"6 5 4 3"
+		"AbilityManaCost"				"40"
+		"AbilityDuration"				"0.33"
+		"AbilityCastRange"				"425"
+		"AbilityCastPoint"				"0"
+		
+
+		"AbilitySpecial"
+		{
+			"01"
+			{
+				"var_type"			"FIELD_INTEGER"
+				"ms_damage"			"30 40 50 60"
+			}
+			"02"
+			{
+				"var_type"			"FIELD_INTEGER"
+				"turn_rate_slow"	"60"
+			}
+			"03"
+			{
+				"var_type"			"FIELD_INTEGER"
+				"dash_aoe"			"175"
+			}
+			"04"
+			{
+				"var_type"			"FIELD_INTEGER"
+				"modifier_duration"	"8"
+			}
+			"05"
+			{
+				"var_type"			"FIELD_INTEGER"
+				"dash_speed"		"1275"
+			}
+			"06"
+			{
+				"var_type"			"FIELD_INTEGER"
+				"range"				"425"
+			}
+		}
+		"OnSpellStart"
+		{
+			"RunScript"
+			{
+				"ScriptFile"	"heroes/eurus/SliceandDice.lua"
+				"Function"		"SliceandDice"
+				"Target"		"POINT"
+			}
+			"ApplyModifier"
+			{
+				"ModifierName"	"modifier_dash_dummy"
+				"Target" 		"CASTER"
+				"Duration"		"%AbilityDuration"
+			}
+			"LinearProjectile"
+			{
+			    "Target"      	 "POINT"
+				"EffectName"	 ""
+				"MoveSpeed"		 "%dash_speed"
+				"StartRadius"	 "%dash_aoe"
+				"StartPosition"  "attach_attack1"
+				"EndRadius"      "%dash_aoe"
+				"HasFrontalCone" "0"
+				"FixedDistance"  "%range"
+				"TargetTeams"	 "DOTA_UNIT_TARGET_TEAM_ENEMY"
+				"TargetTypes"	 "DOTA_UNIT_TARGET_BASIC | DOTA_UNIT_TARGET_HERO"
+				"TargetFlags"	 "DOTA_UNIT_TARGET_FLAG_NONE"						
+			    "ProvidesVision" "1"
+			    "VisionRadius" 	 "%dash_aoe"
+			}
+		}
+
+		"OnProjectileHitUnit"
+		{
+			"DeleteOnHit"	"0"
+			"ApplyModifier"
+			{
+				"ModifierName"	"modifier_slice_and_dice_dash"
+				"Target" 		"TARGET"
+				"Duration"		"%modifier_duration"
+			}
+			"RunScript"
+			{
+				"ScriptFile"	"heroes/eurus/SliceandDice.lua"
+				"Function"		"DealDamage"
+			}
+		}
+		"Modifiers"
+		{
+			"modifier_dash_dummy"
+			{
+				"Passive"			"0"
+				"IsHidden"			"1"
+				"IsDebuff"			"0"
+		
+				"EffectName"		""
+				"EffectAttachType"	"follow_origin"
+		
+				"ThinkInterval"  "0.01"
+				"OnIntervalThink"
+				{
+					"RunScript"
+					{
+						"ScriptFile"	"heroes/eurus/SliceandDice.lua"
+						"Function"		"Dash"
+					}
+				}
+			}
+			"modifier_slice_and_dice_dash"
+			{
+				"Passive"			"0"
+				"IsHidden"			"0"
+				"IsDebuff"			"0"
+
+				"Properties"
+				{
+					"MODIFIER_PROPERTY_TURN_RATE_PERCENTAGE" "%turn_rate_slow"
+				    "MODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE" "%bonus_movement_speed" 
+				}
+			}
+		}
+	}

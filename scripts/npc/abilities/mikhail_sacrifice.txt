@@ -1,0 +1,125 @@
+"Mikhail_Sacrifice"
+	{
+		"BaseClass"             		"ability_datadriven"
+		"AbilityTextureName"			"red/Sacrifice"
+		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_POINT|DOTA_ABILITY_BEHAVIOR_IGNORE_BACKSWING"
+		"AbilityUnitTargetTeam"			"DOTA_UNIT_TARGET_TEAM_ENEMY"
+		"AbilityUnitTargetType"			"DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
+		"AbilityCooldown"				"12 9 6 3"
+		"AbilityManaCost"				"50"
+		"AbilityDuration"				"2"
+		"AbilityCastRange"				"450 500 550 600"
+		"AbilityCastPoint"				"0.2"
+		
+		"precache"
+		{
+			"particle"  "particles/units/heroes/hero_visage/visage_stone_form.vpcf"
+			
+		}
+
+		"AbilitySpecial"
+		{
+			"01"
+			{
+				"var_type"			"FIELD_INTEGER"
+				"crit_factor"		"200"
+			}
+			"02"
+			{
+				"var_type"			"FIELD_INTEGER"
+				"health_cost"		"10"
+			}
+			"03"
+			{
+				"var_type"			"FIELD_INTEGER"
+				"range"				"450 500 550 600"
+			}
+			"04"
+			{
+				"var_type"			"FIELD_INTEGER"
+				"radius"				"150"
+			}
+			"05"
+			{
+				"var_type"			"FIELD_INTEGER"
+				"slow"				"-20"
+			}
+			"06"
+			{
+				"var_type"			"FIELD_INTEGER"
+				"duration"			"2"
+			}
+		}
+		"OnSpellStart"
+		{	
+			"RunScript"
+			{
+				"ScriptFile"	"heroes/red/Sacrifice.lua"	
+				"Function"		"SacrificeBlink"
+				"Target"		"POINT"
+			}
+			"ApplyModifier"
+			{
+				"ModifierName"	"modifier_sacrifice_crit"
+				"Target" 		"CASTER"
+				"Duration"		"%AbilityDuration"
+			}
+		}
+
+		"Modifiers"
+		{
+			"modifier_sacrifice_crit"
+			{
+				"Passive"			"0"
+				"IsHidden"			"1"
+				"IsDebuff"			"0"
+		
+				"EffectName"		""
+				"EffectAttachType"	"follow_origin"
+
+
+				"Properties"
+				{
+					"MODIFIER_PROPERTY_PREATTACK_CRITICALSTRIKE" "%crit_factor"
+				}
+				"OnAttackLanded"
+				// "%attack_damage" is set to the damage value before mitigation
+				{
+					"RemoveModifier"
+					{
+						"ModifierName"	"modifier_sacrifice_crit"
+						"Target" 		"CASTER"
+					}
+					"RunScript"
+					{
+						"ScriptFile"	"heroes/red/offense_is_the_best_defense.lua"
+						"Function"		"CritTwiceKV"
+					}
+				}
+				
+			}
+			"modifier_sacrifice_dummy"
+			{
+				"Passive"			"0"
+				"IsHidden"			"1"
+				"IsDebuff"			"0"
+			
+			}
+
+			"modifier_sacrifice_slow"
+			{
+				"Passive"			"0"
+				"IsHidden"			"0"
+				"IsDebuff"			"0"
+			
+				"EffectName"		""
+				"EffectAttachType"	"follow_origin"
+			
+				"Properties"
+				{
+				    "MODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE" "%slow" 
+				}
+			}
+			
+		}
+	}

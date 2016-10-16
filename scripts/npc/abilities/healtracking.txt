@@ -1,0 +1,29 @@
+
+    "healtracking"
+    {
+        "BaseClass"                 "ability_datadriven"
+        "AbilityBehavior"           "DOTA_ABILITY_BEHAVIOR_HIDDEN | DOTA_ABILITY_BEHAVIOR_PASSIVE"
+        
+        "Modifiers"
+        {
+            "modifier_healtracking"
+            {
+                "Passive"           "1"
+                "IsHidden"          "1"
+                "IsDebuff"          "0"
+
+                //"EffectName"      ""
+                //"EffectAttachType"    "follow_origin"
+
+                "OnHealthGained"
+
+                {   
+                    "RunScript"
+                    {
+                        "ScriptFile"        "heroes/unfinished/TrackHealing.lua"
+                        "Function"        "TrackReceivedHealing"
+                    }
+                }
+            }
+        }    
+    }

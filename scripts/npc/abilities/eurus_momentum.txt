@@ -1,0 +1,100 @@
+"momentum"
+	{
+		"BaseClass"             		"ability_datadriven"
+		"AbilityTextureName"			"eurus/momentum"
+		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_PASSIVE"
+
+		"AbilitySpecial"
+		{
+			"01"
+			{
+				"var_type"			"FIELD_INTEGER"
+				"cancelvalue"		"250"
+			}
+			"02"
+			{
+				"var_type"			"FIELD_INTEGER"
+				"duration"			"2"
+			}
+			"03"
+			{
+				"var_type"			"FIELD_FLOAT"
+				"ms_gain"			"1 1.75 2.5 3.25"
+			}
+			"04"
+			{
+				"var_type"			"FIELD_INTEGER"
+				"ms_damage"			"40 60 80 100"
+			}
+			"05"
+			{
+				"var_type"			"FIELD_INTEGER"
+				"ondistancemoved"	"150"
+			}
+		}
+
+		"OnUpgrade"
+		{
+			"ApplyModifier"
+			{
+				"ModifierName"	"modifier_momentum_dummy"
+				"Target" 		"CASTER"
+				"Duration"		"-1"
+			}
+		}
+
+		"Modifiers"
+		{
+			"modifier_momentum_dummy"
+			{
+				"Passive"			"0"
+				"IsHidden"			"1"
+				"IsDebuff"			"0"
+			
+				"EffectName"		""
+				"EffectAttachType"	"follow_origin"
+				"ThinkInterval"		"0.03"
+				"OnIntervalThink"
+				{
+					"RunScript"
+					{
+						"ScriptFile"	"heroes/eurus/momentum.lua"
+						"Function"		"Momentum"
+					}
+				}
+				
+			}
+
+			"momentum_charges"
+			{
+				"Passive"			"0"
+				"IsHidden"			"0"
+				"IsDebuff"			"0"
+
+				"Attributes"		"MODIFIER_ATTRIBUTE_MULTIPLE | MODIFIER_ATTRIBUTE_PERMANENT"
+
+				"Properties"
+				{
+				    "MODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE" "%ms_gain" 
+				}
+
+				"OnAttackLanded"
+				// "%attack_damage" is set to the damage value before mitigation
+				{
+					"RunScript"
+					{
+						"ScriptFile"	"heroes/eurus/momentum.lua"
+						"Function"		"MomentumAttack"
+					}
+				}
+				"OnDestroy"
+				{
+					"RunScript"
+					{
+						"ScriptFile"	"heroes/eurus/momentum.lua"
+						"Function"		"NilValue"
+					}
+				}
+			}	
+		}	
+	}

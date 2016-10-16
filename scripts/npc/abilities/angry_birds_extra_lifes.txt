@@ -1,0 +1,72 @@
+"angry_birds_extra_lifes"
+{
+	"BaseClass"             		"ability_datadriven"
+	"AbilityTextureName"			"angry_birds/extra_lifes"
+	"MaxLevel" 						"4"
+	"RequiredLevel"        			"1"
+	"LevelsBetweenUpgrades"			"5"
+	"AbilityType"					"DOTA_ABILITY_TYPE_ULTIMATE"
+	"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_PASSIVE"
+
+	"AbilityCooldown"				"45 40 35 30"
+
+	"AbilitySpecial"
+	{
+		"01"
+		{
+			"var_type"			"FIELD_INTEGER"
+			"Max_Units"			"1 2 3 4"
+		}
+		"02"
+		{
+			"var_type"			"FIELD_FLOAT"
+			"duration"		"45 40 35 30"
+		}
+		"03"
+		{
+			"var_type"			"FIELD_FLOAT"
+			"strength_factor"			"0.55 0.6 0.65 0.7"
+		}
+	}
+	"Modifiers"
+	{
+		"modifier_extra_life_passive"
+		{
+			"Passive"			"1"
+			"IsHidden"			"1"
+			"IsDebuff"			"0"
+	
+			"EffectName"		""
+			"EffectAttachType"	"follow_origin"
+	
+			"OnCreated"
+			{
+				"RunScript"
+				{
+					"ScriptFile"	"heroes/hero_angry_birds/extra_lifes.lua"
+					"Function"		"CreateBird"
+				}
+			}
+			"OnDeath"
+			{
+				"RunScript"
+				{
+					"ScriptFile"	"heroes/hero_angry_birds/extra_lifes.lua"
+					"Function"		"KillBirds"
+				}
+			}
+			"ThinkInterval"  "1.0"
+			"OnIntervalThink"
+			{
+				"RunScript"
+				{
+					"ScriptFile"	"heroes/hero_angry_birds/extra_lifes.lua"
+					"Function"		"CreateBird"
+				}
+			}
+		}
+	}
+
+}
+
+//All units lose 10% of their stats per unit alive?

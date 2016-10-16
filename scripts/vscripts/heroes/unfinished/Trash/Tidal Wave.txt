@@ -1,0 +1,54 @@
+"Tidal Wave"
+{	
+	"BaseClass"             		"ability_datadriven"
+	"AbilityTextureName"			"Acheron_Tidal_Wave"
+	"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_POINT"
+	"AbilityUnitTargetTeam"			"DOTA_UNIT_TARGET_TEAM_ENEMY"
+	"AbilityUnitTargetType"			"DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
+	"AbilityUnitDamageType"			"DAMAGE_TYPE_MAGICAL"
+	"AbilityType"					"DOTA_ABILITY_TYPE_ULTIMATE"
+	"MaxLevel"						"3"
+
+	"AbilityCooldown"				"140 120 100"
+	"AbilityManaCost"				"200 250 300"
+	"AbilityCastRange"				"700"
+	"AbilityCastPoint"				"0.3"
+
+	"AbilitySpecial"
+	{
+		"01"
+		{
+			"var_type"			"FIELD_INTEGER"
+			"radius"			"400 500 600"
+		}
+		"02"
+		{
+			"var_type"			"FIELD_FLOAT"
+			"delay"				"0.25"
+		}
+		"03"
+		{
+			"var_type"			"FIELD_FLOAT"
+			"duration"			"0.3 0.4 0.5"
+		}
+		"04"
+		{
+			"var_type"			"FIELD_INTEGER"
+			"cast_range"		"700"
+		}
+		"05"
+		{
+			"var_type"			"FIELD_INTEGER"
+			"startradius"			"100"
+		}
+	}
+	"OnSpellStart"
+	{
+		"RunScript"
+		{
+			"ScriptFile"	"heroes/hero_name/ability_name.lua"
+			"Function"		"AbilityName"
+			"Target"		"POINT"
+		}
+	}
+}

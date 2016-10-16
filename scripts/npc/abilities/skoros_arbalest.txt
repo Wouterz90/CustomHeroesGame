@@ -1,0 +1,138 @@
+///////////////////////////////////////////////////////////////////////////////////////////////////////////
+//Skoros, the Blindseer																					 //
+///////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+"Arbalest"
+{
+	"BaseClass"             		"ability_datadriven"
+	"AbilityTextureName"			"skoros/skoros_arbalest_normal"
+	"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_INSTANT|DOTA_ABILITY_BEHAVIOR_NO_TARGET|DOTA_ABILITY_BEHAVIOR_AUTOCAST"
+	"AbilityUnitTargetTeam"			"DOTA_UNIT_TARGET_TEAM_ENEMY"
+	"AbilityUnitTargetType"			"DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
+	"AbilityUnitDamageType"			"DAMAGE_TYPE_PHYSICAL"
+	"AbilityCooldown"				"17"
+	"AbilityManaCost"				"90"
+	"AbilityDuration"				"10"
+	"Precache"
+	{
+		"particle"					"particles/units/heroes/hero_mirana/mirana_spell_arrow.vpcf"
+		"particle"					"particles/units/heroes/hero_sniper/sniper_crosshair.vpcf"
+	}
+
+	"AbilitySpecial"
+	{
+		"01"
+		{
+			"var_type"				"FIELD_INTEGER"
+			"duration"				"12"
+		}
+		"02"
+		{
+			"var_type"				"FIELD_INTEGER"
+			"aoe"					"150"
+		}
+		"03"
+		{
+			"var_type"				"FIELD_FLOAT"
+			"aoe_vision"			"200"
+		}
+		"04"
+		{
+			"var_type"				"FIELD_FLOAT"
+			"fly_time"				"0.75 1 1.25 1.5"
+		}
+		"05"
+		{
+			"var_type"				"FIELD_FLOAT"
+			"attack_animation"		"1 0.8 0.6 0.4"
+		}
+		"06"
+		{
+			"var_type"				"FIELD_INTEGER"
+			"target_vision_radius"	"50"
+		}
+		"07"
+		{
+			"var_type"				"FIELD_FLOAT"
+			"target_vision_duration" "0.25"
+		}
+
+	}
+
+	"OnUpgrade"
+	{
+		"RunScript"
+		{
+			"ScriptFile"	"heroes/Skoros/arbalest.lua"
+			"Function"		"Learn_arbalest"
+		}
+	}
+	"OnSpellStart"
+	{
+		"RunScript"
+		{
+			"ScriptFile"			"heroes/Skoros/arbalest.lua"
+			"Function"				"SwapSpells"
+			"sub_ability_name"		"Arbalest_Attack"
+		}
+		"ApplyModifier"
+		{
+			"ModifierName"	"Arbalest"
+			"Target" 		"CASTER"
+			"Duration"		"%duration"
+		}
+		"ApplyModifier"
+		{
+			"ModifierName"	"arbalest_dummy"
+			"Target" 		"CASTER"
+			"Duration"		"%AbilityDuration"
+		}
+	}
+
+	"Modifiers"
+	{
+		"Arbalest"
+		{
+			"IsPurgable"		"0"
+			"IsBuff"			"1"
+			"IsDebuff"			"0"
+			"IsStunDebuff"		"0"
+			//Purge(bool RemovePositiveBuffs, bool RemoveDebuffs, bool BuffsCreatedThisFrameOnly, bool RemoveStuns, bool RemoveExceptions)
+			//"States"
+			//{
+			//	"MODIFIER_STATE_DISARMED"	"MODIFIER_STATE_VALUE_ENABLED"
+			//}
+			
+			"OnDestroy"
+			{
+				"RunScript"
+				{
+					"ScriptFile"			"heroes/Skoros/arbalest.lua"
+					"Function"				"SwapSpellsBack"
+				}
+			}
+		}
+		"arbalest_dummy"
+		{	
+			"IsHidden" "1"
+
+			"EffectName"			"particles/units/heroes/hero_sniper/sniper_crosshair.vpcf"
+			"EffectAttachType"		"follow_overhead"
+
+			"Properties"
+			{
+				"MODIFIER_PROPERTY_FIXED_DAY_VISION" "%aoe_vision"
+			    "MODIFIER_PROPERTY_FIXED_NIGHT_VISION" "%aoe_vision" 
+			}
+
+			"OnAttackStart"
+			{
+				"RunScript"
+				{
+					"ScriptFile"	"heroes/Skoros/arbalest.lua"
+					"Function"		"DONTATTACK"
+				}
+			}
+		}
+	}				
+}

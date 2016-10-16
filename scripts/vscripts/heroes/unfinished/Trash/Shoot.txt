@@ -1,0 +1,78 @@
+"Shoot"
+{
+	// Precache
+	"precache"
+	{
+		"particle"					"particles/units/heroes/hero_mirana/mirana_spell_arrow.vpcf"
+	}
+
+	//general
+	"BaseClass"             		"ability_datadriven"
+	"AbilityTextureName"			"tusk_snowball"
+	"MaxLevel" 						"4"
+	"AbilityBehavior" 				"DOTA_ABILITY_BEHAVIOR_POINT"	
+	"FightRecapLevel"				"1"
+
+	// Casting
+	"AbilityCastRange"				"1000 1100 1200 1300"
+	"AbilityCastPoint" 				"0.4"
+
+	//Time
+	"AbilityCooldown"				"20.0"
+
+	//damage
+	"AbilityDamage"					"75 150 225 300"
+
+
+	//Cost
+	"AbilityManaCost"				"75"
+	"AbilitySpecial"
+	{
+		"01"
+		{
+			"var_type"			"FIELD_INTEGER"
+			"shoot_range"		"1000 1100 1200 1300"
+		}
+		"02"
+		{
+			"var_type"			"FIELD_INTEGER"
+			"ball_speed"		"1500"
+		}
+		"03"
+		{
+			"var_type"			"FIELD_INTEGER"
+			"ball_damage"		"75 150 225 300"
+		}
+	}
+
+	"OnSpellStart"
+	{
+		"LinearProjectile"
+		{
+		    "Target"      	 "POINT"
+			"EffectName"	 "particles/units/heroes/hero_mirana/mirana_spell_arrow.vpcf"
+			"MoveSpeed"		 "%ball_speed"
+			"StartRadius"	 "150"
+			"StartPosition"  "attach_origin"
+			"EndRadius"      "150"
+			"HasFrontalCone" "0"
+			"FixedDistance"  "%shoot_range"
+			"TargetTeams"	 "DOTA_UNIT_TARGET_TEAM_ENEMY"
+			"TargetTypes"	 "DOTA_UNIT_TARGET_BASIC | DOTA_UNIT_TARGET_HERO"
+			"TargetFlags"	 "DOTA_UNIT_TARGET_FLAG_NONE"						
+		    "ProvidesVision" "0"
+		}
+	}
+
+	"OnProjectileHitUnit"
+	{
+		"DeleteOnHit"	"1"
+		
+		"Damage"
+		{
+			"Target"	"TARGET"
+			"Type" 		"DAMAGE_TYPE_MAGICAL"
+			"Damage"	"%ball_damage"
+		}
+	}
+}

@@ -1,0 +1,102 @@
+
+
+ 
+
+
+"hekate_chaos_nova"
+{
+    // General
+    //-------------------------------------------------------------------------------------------------------------
+    "BaseClass"             "ability_datadriven"
+    "AbilityType"                   "DOTA_ABILITY_TYPE_ULTIMATE"
+    "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_NO_TARGET"
+    "AbilityUnitDamageType"         "DAMAGE_TYPE_MAGICAL"  
+    "SpellImmunityType"             "SPELL_IMMUNITY_ENEMIES_YES"
+    "FightRecapLevel"               "2"
+    "AbilityTextureName"            "earthshaker_echo_slam"
+ 
+    // Casting
+    //-------------------------------------------------------------------------------------------------------------
+    "AbilityCastPoint"              "0.7 0.5 0.3"
+ 
+    // Time    
+    //-------------------------------------------------------------------------------------------------------------
+    "AbilityCooldown"               "180.0 130.0 80.0"
+ 
+    // Damage.
+    //-------------------------------------------------------------------------------------------------------------
+    "AbilityDamage"                 "270 360 450"
+ 
+    // Cost
+    //-------------------------------------------------------------------------------------------------------------
+    "AbilityManaCost"               "145 205 265"      
+"AbilitySpecial"
+    {
+   
+        "05"
+        {
+            "var_type"                      "FIELD_INTEGER"
+            "blast_final_radius"            "50000"
+        }
+        "06"
+        {
+            "var_type"                      "FIELD_INTEGER"
+            "blast_speed_per_second"        "350 450 550"
+        }
+        "08"
+        {
+            "var_type"                      "FIELD_INTEGER"
+            "blast_movement_speed_debuff"   "100"
+        }
+        "09"
+        {
+            "var_type"                      "FIELD_INTEGER"
+            "blast_debuff_duration"         "4 5 6"
+        }
+        "10"
+        {
+            "var_type"                      "FIELD_INTEGER"
+            "blast_vision_radius"           "800"
+        }
+        "11"
+        {
+            "var_type"                      "FIELD_INTEGER"
+            "blast_vision_duration"         "2"
+        }
+    }
+   
+    "OnSpellStart"
+    {
+        "RunScript"
+        {
+            "ScriptFile"                    "items/item_shivas_guard.lua"
+            "Function"                      "item_shivas_guard_datadriven_on_spell_start"
+            "BlastFinalRadius"              "%blast_final_radius"
+            "BlastSpeedPerSecond"           "%blast_speed_per_second"
+            "BlastDamage"                   "%blast_damage"
+            "BlastVisionRadius"             "%blast_vision_radius"
+            "BlastVisionDuration"           "%blast_vision_duration"
+        }
+    }
+   
+    "Modifiers"
+    {
+        "modifier_item_shivas_guard_datadriven_blast_debuff"
+        {
+            "Duration"          "%blast_debuff_duration"
+            "Passive"           "0"
+            "IsHidden"          "0"
+            "IsBuff"            "0"
+            "IsDebuff"          "1"
+            "IsPurgable"        "1"
+           
+            "StatusEffectName"     "particles/status_fx/status_effect_frost.vpcf"
+            "StatusEffectPriority" "10"
+           
+            "Properties"
+            {
+                "MODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE"      "%blast_movement_speed_debuff"
+            }
+        }
+    }
+}

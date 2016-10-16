@@ -1,0 +1,101 @@
+"Magnetic_Echo"
+{
+	"BaseClass"             		"ability_datadriven"
+	"AbilityTextureName"			"borus/Borus_Magnetic_Echo"
+	"MaxLevel" 						"4"
+	"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_POINT | DOTA_ABILITY_BEHAVIOR_AOE"
+	"AbilityUnitTargetTeam"			"DOTA_UNIT_TARGET_TEAM_FRIENDLY | DOTA_UNIT_TARGET_TEAM_ENEMY"
+	"AbilityUnitTargetType"			"DOTA_UNIT_TARGET_HERO"
+	"AbilityCastPoint"				"0.6"
+	"AbilityManaCost"				"80"
+	"AbilityCastRange"				"600"
+	"AbilityCooldown"				"30"
+	"AbilityDuration"				"5"
+	"AoERadius"						"400 450 500 550"
+
+	"precache"
+	{
+		"particle"  "particles/units/heroes/hero_wisp/wisp_overcharge.vpcf"
+	}
+
+	"AbilitySpecial"
+	{
+		"01"
+		{
+			"var_type"			"FIELD_INTEGER"
+			"radius"			"400 450 500 550"
+		}
+		"02"
+		{
+			"var_type"			"FIELD_FLOAT"
+			"duration"			"5 5 6 6"
+		}
+		"03"
+		{
+			"var_type"			"FIELD_FLOAT"
+			"damage"			"20 30 40 50"
+		}
+	}
+
+	"OnSpellStart"
+	{
+		"ActOnTargets"
+		{
+			"Target"
+			{
+				"Center"  	"POINT"
+				"Radius" 	"%radius"
+				"Teams" 	"DOTA_UNIT_TARGET_TEAM_ENEMY|DOTA_UNIT_TARGET_TEAM_FRIENDLY"
+				"Types" 	"DOTA_UNIT_TARGET_HERO"
+			}
+		
+			"Action"    
+			{
+				"RunScript"
+				{
+					"ScriptFile"	"heroes/borus/Magnetic_Echo.lua"
+					"Function"		"Echo"
+				}
+			}
+		}
+	}
+
+	"Modifiers"
+	{
+		"modifier_Magnetic_Echo"
+		{
+			"Passive"			"0"
+			"IsHidden"			"0"
+			"IsDebuff"			"1"
+	
+			"EffectName"		"particles/units/heroes/hero_wisp/wisp_overcharge.vpcf"
+			"EffectAttachType"	"follow_origin"
+
+			"ThinkInterval"  	"1.0"
+			"OnIntervalThink"
+			{
+				"ActOnTargets"
+				{
+					"Target"
+					{
+						"Center"  	"TARGET"
+						"Radius" 	"%radius"
+						"Teams" 	"DOTA_UNIT_TARGET_TEAM_ENEMY"
+						"Types" 	"DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
+					}
+				
+					"Action"    
+					{
+						"Damage"
+						{
+							"Target"		"TARGET"
+							"Type"			"DAMAGE_TYPE_MAGICAL"
+							"Damage"		"%damage"
+						}
+					}
+				}
+			}
+		}
+	}
+}
+

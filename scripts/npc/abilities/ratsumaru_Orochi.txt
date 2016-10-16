@@ -1,0 +1,97 @@
+"Orochi"
+{
+	//general
+	"BaseClass"             		"ability_datadriven"
+	"AbilityTextureName"			"ratsumaru/Ratsumaru_Orochi"
+	"MaxLevel" 						"4"
+	"TargetTeams"   			"DOTA_UNIT_TARGET_TEAM_ENEMY"
+	"TargetTypes"   			"DOTA_UNIT_TARGET_BASIC | DOTA_UNIT_TARGET_HERO"
+	"AbilityBehavior" 				"DOTA_ABILITY_BEHAVIOR_PASSIVE"	
+	"FightRecapLevel"				"0"
+	"AbilityDuration"				"1"
+	"AbilityUnitDamageType"			"DAMAGE_TYPE_PHYSICAL"
+	"AbilitySpecial"
+	{
+		"01"
+		{
+			"var_type"			"FIELD_INTEGER"
+			"cooldown_timer"	"18 16 14 12"
+		}
+		"02"
+		{
+			"var_type"			"FIELD_FLOAT"
+			"int_multiplier_tooltip"	"1.2 1.3 1.4 1.5"
+		}
+		"03"
+		{
+			"var_type"			"FIELD_INTEGER"
+			"Attack_Range_tooltip" 	"400 425 450 475"
+		}
+		"04"
+		{
+			"var_type"			"FIELD_FLOAT"
+			"BAT"				"1.4"
+		}
+		"05"
+		{
+			"var_type"			"FIELD_INTEGER"
+			"orochi_max_charges"		"6"
+		}
+		"06"
+		{
+			"var_type"			"FIELD_INTEGER"
+			"orochi_replenish_time"	"10"
+		}
+	}
+	"OnUpgrade"
+	{	
+
+
+		
+			"RunScript"
+			{
+				"ScriptFile"	"heroes/ratsumaru/orochi.lua"
+				"Function"		"orochi_start_charge"
+			}
+		
+	}
+
+	"Modifiers"
+	{
+
+		"modifier_orochi_stacks"
+		{
+			"IsPurgable"		"0"
+			"IsBuff"			"1"
+			"IsDebuff"			"0"
+			"IsStunDebuff"		"0"
+			"IsHidden"			"0"
+			"Attributes"		"MODIFIER_ATTRIBUTE_MULTIPLE|MODIFIER_ATTRIBUTE_PERMANENT"
+		
+			"OnAttackLanded"
+			{
+				"RunScript"
+				{
+					"ScriptFile"	"heroes/ratsumaru/orochi.lua"
+					"Function"		"orochi_On_Atk"
+					"DamageDealt"   "%attack_damage"
+				}
+			}
+		}
+
+		"modifier_orochi_bloodlust"
+		{
+			"Passive"			"0"
+			"IsHidden"			"0"
+			"IsDebuff"			"0"
+			"IsBuff"			"1"
+			"Duration"			"6"
+			"Properties"
+			{
+				"MODIFIER_PROPERTY_ATTACK_RANGE_BONUS" 			"275 300 325 350"
+				"MODIFIER_PROPERTY_BASE_ATTACK_TIME_CONSTANT" 	"%BAT"
+			}
+		}
+
+	}
+}

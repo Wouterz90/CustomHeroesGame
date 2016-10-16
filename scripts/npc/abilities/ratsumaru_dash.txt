@@ -1,0 +1,117 @@
+
+
+// Hero_Skill dash
+
+"Dash"
+{
+
+
+	//General
+
+	"BaseClass"             		"ability_datadriven"
+	"AbilityTextureName"			"Ratsumaru/Ratsumaru_Dash"
+	"AbilityBehavior" 				"DOTA_ABILITY_BEHAVIOR_NO_TARGET"
+	"AbilityUnitTargetTeam"			"DOTA_UNIT_TARGET_TEAM_ENEMY"
+	"AbilityUnitTargetType"			"DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
+	"AbilityUnitDamageType"			"DAMAGE_TYPE_MAGICAL"	
+	"SpellImmunityType"				"SPELL_IMMUNITY_ENEMIES_NO"
+	"MaxLevel" 						"4"
+	"FightRecapLevel"				"1"
+
+
+
+
+	// Casting
+	"AbilityCastRange"				"485"
+	"AbilityCastPoint" 				"0"
+
+	"AbilityManaCost"				"60"
+	"AbilityCooldown"				"9 7 5 3"
+
+	"AbilitySpecial"
+	{
+		"01"
+		{
+			"var_type"					"FIELD_INTEGER"
+			"AoE"						"200"
+		}
+		"02"
+		{
+			"var_type"					"FIELD_INTEGER"
+			"MovementRange"				"485 485 485 485"
+		}
+
+		"03"
+		{
+			"var_type"					"FIELD_INTEGER"
+			"MovementRange_BL"			"600 600 600 600"
+		}
+
+		"04"
+		{
+			"var_type"					"FIELD_INTEGER"
+			"DashMovementSpeed"			"1000 1000 1000 1000"	
+		}
+	}
+
+	"OnSpellStart"
+	{
+		"RunScript"
+		{
+			"ScriptFile"				"heroes/ratsumaru/dash.lua"
+			"Function"					"Dash"
+		}
+
+		"ApplyMotionController"
+
+		{
+	    "Target" 						"CASTER"
+	    "ScriptFile"    				"heroes/ratsumaru/dash.lua"
+	    "HorizontalControlFunction" 	"MoveForward" 
+		}
+
+		"LinearProjectile"
+		{
+			"Target"      				"CASTER"
+	    	"MoveSpeed"   				"%DashMovementSpeed"
+	    	"StartRadius"   			"%AoE"
+	    	"StartPosition" 			"attach_origin"
+	    	"EndRadius"     			"%AoE"
+	    	"FixedDistance" 			"%MovementRange"
+	    	"TargetTeams"   			"DOTA_UNIT_TARGET_TEAM_ENEMY"
+	    	"TargetTypes"   			"DOTA_UNIT_TARGET_BASIC | DOTA_UNIT_TARGET_HERO"
+	    	"TargetFlags"   			"DOTA_UNIT_TARGET_FLAG_NONE"
+	    	"HasFrontalCone"    		"0"
+	    	"ProvidesVision" 			"1"
+		}
+	}
+	"OnProjectileHitUnit"
+	{
+		"DeleteOnHit"	"0"
+
+		"RunScript"
+		{
+			"ScriptFile"				"heroes/ratsumaru/dash.lua"
+			"Function"					"IntPlusAgi"
+		}
+	}
+
+	"Modifiers"
+	{
+		"hide_dash"
+		{
+			"Passive"			"0"
+			"IsHidden"			"1"
+			"IsDebuff"			"0"
+	
+			"EffectName"		"particle_name"
+			"EffectAttachType"	"follow_origin"
+	
+			"States"
+			{
+				"MODIFIER_STATE_INVISIBLE"		"MODIFIER_STATE_VALUE_ENABLED"
+				"MODIFIER_STATE_TRUESIGHT_IMMUNE" "MODIFIER_STATE_VALUE_ENABLED"
+			}
+		}
+	}
+}

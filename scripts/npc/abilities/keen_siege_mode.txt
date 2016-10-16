@@ -1,0 +1,133 @@
+"keen_commander_siege_mode"
+{
+	"BaseClass"             		"ability_datadriven"
+	"AbilityTextureName"			"keen_commander/siege_mode"
+	"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_NO_TARGET"
+	"AbilityCooldown"				"0"
+	"AbilityManaCost"				"0"
+	"AbilityCastPoint"				"2 1.5 1"
+	"AbilityCastAnimation"			"ACT_DOTA_CAST_ABILITY_1"
+	"AbilityType"					"DOTA_ABILITY_TYPE_ULTIMATE"
+	"AbilitySpecial"
+	{
+		"01"
+		{
+			"var_type"			"FIELD_INTEGER"
+			"armor_bonus"			"6 10 14"
+		}
+		"02"
+		{
+			"var_type"			"FIELD_INTEGER"
+			"turn_rate_slow"	"-70"
+		}
+		"03"
+		{
+			"var_type"			"FIELD_INTEGER"
+			"splash_radius"			"300"
+		}
+		"04"
+		{
+			"var_type"			"FIELD_FLOAT"
+			"transform_time"	"2 1.5 1"
+		}
+		"05"
+		{
+			"var_type"			"FIELD_INTEGER"
+			"mortar_shot_range"	"1600 2000 2400"
+		}
+		"06"
+		{
+			"var_type"			"FIELD_INTEGER"
+			"missile_speed"			"1800"
+		}
+		"07"
+		{
+			"var_type"			"FIELD_INTEGER"
+			"attack_bonus"			"40 80 120"
+		}
+		"08"
+		{
+			"var_type"			"FIELD_INTEGER"
+			"attack_bonus_range"	"1000 1400 2000"
+		}
+		"09"
+		{
+			"var_type"			"FIELD_INTEGER"
+			"attack_min_range"			"400"
+		}
+		"10"
+		{
+			"var_type"			"FIELD_INTEGER"
+			"bat_increase"			"1"
+		}	
+	}
+
+	"OnSpellStart"
+	{
+		"ApplyModifier"
+		{
+			"ModifierName"	"modifier_siege_mode"
+			"Target" 		"CASTER"
+		}
+	}
+
+	"Modifiers"
+	{
+		"modifier_siege_mode"
+		{
+			"Passive"			"0"
+			"IsHidden"			"0"
+			"IsDebuff"			"0"
+			"IsBuff"			"1"
+	
+			"EffectName"		""
+			"EffectAttachType"	"follow_origin"
+	
+			"Properties"
+			{
+				"MODIFIER_PROPERTY_PHYSICAL_ARMOR_BONUS" 	"%armor_bonus"
+			    "MODIFIER_PROPERTY_TURN_RATE_PERCENTAGE" 	"%turn_rate_slow"
+			   	"MODIFIER_PROPERTY_PREATTACK_BONUS_DAMAGE"  "%attack_bonus"
+			   	"MODIFIER_PROPERTY_ATTACK_RANGE_BONUS"      "%attack_bonus_range"
+			}
+			"States"
+			{
+				"MODIFIER_STATE_ROOTED" "MODIFIER_STATE_VALUE_ENABLED"
+			}
+			"OnCreated"
+			{
+				"RunScript"
+				{
+					"ScriptFile"	"heroes/hero_keen/siege_mode.lua"
+					"Function"		"GetGuerrillaModeSpell"
+				}
+			}
+
+			"OnAttackStart"
+			{
+				"RunScript"
+				{
+					"ScriptFile"	"heroes/hero_keen/siege_mode.lua"
+					"Function"		"MinAttackRange"
+				}
+			}
+			"OnAttackLanded"
+			// "%attack_damage" is set to the damage value before mitigation
+			{
+				"RunScript"
+				{
+					"ScriptFile"	"heroes/hero_keen/siege_mode.lua"
+					"Function"		"SplashAttack"
+				}
+			}
+			"OnDestroy"
+			{
+				"RunScript"
+				{
+					"ScriptFile"	"heroes/hero_keen/siege_mode.lua"
+					"Function"		"GetSiegeModeSpell"
+				}
+			}
+		}
+	}
+}

@@ -1,0 +1,90 @@
+"soul_grab"
+{
+	"BaseClass"             		"ability_datadriven"
+	"AbilityTextureName"			"yggdrasil/soul_grab"
+	"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_POINT"
+	"AbilityCooldown"				"22 18 14 10"
+	"AbilityManaCost"				"140 145 150 155"
+	"AbilityCastRange"				"750"
+	"AbilityCastPoint"				"0.3"
+	"AbilityCastAnimation"			"ACT_DOTA_CAST_ABILITY_1"
+
+	"Precache"
+	{
+		"particle"					"particles/units/heroes/hero_mirana/mirana_spell_arrow.vpcf"
+	}
+
+	"AbilitySpecial"
+	{
+		"01"
+		{
+			"var_type"			"FIELD_INTEGER"
+			"projectile_speed"	"650"
+		}
+		"02"
+		{
+			"var_type"			"FIELD_INTEGER"
+			"projectile_radius"		"275"
+		}
+		"03"
+		{
+			"var_type"			"FIELD_FLOAT"
+			"minrootduration" "0.75 1 1.25 1.5"
+		}
+		"04"
+		{
+			"var_type"			"FIELD_FLOAT"
+			"maxrootduration" "4.5 5 5.5 6"
+		}
+		"05"
+		{
+			"var_type"			"FIELD_FLOAT"
+			"minsilenceduration" "0.5"
+		}
+		"06"
+		{
+			"var_type"			"FIELD_FLOAT"
+			"maxsilenceduration" "3 4 5 6"
+		}
+		"07"
+		{
+			"var_type"			"FIELD_INTEGER"
+			"castrange"			"475"
+		}
+	}
+
+	"OnSpellStart"
+	{
+		"RunScript"
+		{
+			"ScriptFile"	"heroes/yggdrasil/soul_grab.lua"
+			"Function"		"GetStartLocation"
+		}
+		"LinearProjectile"
+		{
+		    "Target"      	 "POINT"
+			"EffectName"	 "particles/units/heroes/hero_mirana/mirana_spell_arrow.vpcf"
+			"MoveSpeed"		 "%projectile_speed"
+			"StartRadius"	 "%projectile_radius"
+			"StartPosition"  "attach_attack1"
+			"EndRadius"      "%projectile_radius"
+			"HasFrontalCone" "0"
+			"FixedDistance"  "%castrange"
+			"TargetTeams"	 "DOTA_UNIT_TARGET_TEAM_ENEMY"
+			"TargetTypes"	 "DOTA_UNIT_TARGET_BASIC | DOTA_UNIT_TARGET_HERO"
+			"TargetFlags"	 "DOTA_UNIT_TARGET_FLAG_NONE"						
+		    "ProvidesVision" "1"
+		    "VisionRadius" 	 "%projectile_radius"
+		}
+	}
+	"OnProjectileHitUnit"
+	{
+		"DeleteOnHit"	"0"
+		"RunScript"
+		{
+			"ScriptFile"	"heroes/yggdrasil/soul_grab.lua"
+			"Function"		"RootAndSilence"
+		}
+	}
+	
+}

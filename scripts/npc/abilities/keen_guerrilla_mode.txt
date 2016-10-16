@@ -1,0 +1,73 @@
+"keen_commander_guerrilla_mode"
+{
+	"BaseClass"             		"ability_datadriven"
+	"AbilityTextureName"			"keen_commander/guerrilla_mode"
+	"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_NO_TARGET"
+	"AbilityCooldown"				"0"
+	"AbilityManaCost"				"0"
+	"AbilityCastPoint"				"2 1.5 1"
+	"AbilityType"					"DOTA_ABILITY_TYPE_ULTIMATE"
+
+	"AbilitySpecial"
+	{
+		"01"
+		{
+			"var_type"			"FIELD_INTEGER"
+			"armor_bonus"			"6 10 14"
+		}
+		"02"
+		{
+			"var_type"			"FIELD_INTEGER"
+			"turn_rate_slow"	"-70"
+		}
+		"03"
+		{
+			"var_type"			"FIELD_INTEGER"
+			"splash_radius"			"300"
+		}
+		"04"
+		{
+			"var_type"			"FIELD_FLOAT"
+			"transform_time"	"2 1.5 1"
+		}
+		"05"
+		{
+			"var_type"			"FIELD_INTEGER"
+			"mortar_shot_range"	"1600 2000 2400"
+		}
+		"06"
+		{
+			"var_type"			"FIELD_INTEGER"
+			"missile_speed"			"1800"
+		}
+		"07"
+		{
+			"var_type"			"FIELD_INTEGER"
+			"attack_bonus"			"40 80 120"
+		}
+		"08"
+		{
+			"var_type"			"FIELD_INTEGER"
+			"attack_bonus_range"	"1000 1400 2000"
+		}
+		"09"
+		{
+			"var_type"			"FIELD_INTEGER"
+			"attack_min_range"			"400"
+		}
+		"10"
+		{
+			"var_type"			"FIELD_INTEGER"
+			"bat_increase"			"1"
+		}	
+	}
+
+	"OnSpellStart"
+	{
+		"RemoveModifier"
+		{
+			"ModifierName"	"modifier_siege_mode"
+			"Target" 		"CASTER"
+		}
+	}
+}

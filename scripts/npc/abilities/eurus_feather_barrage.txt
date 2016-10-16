@@ -1,0 +1,139 @@
+"feather_barrage"
+	{
+		"BaseClass"             		"ability_datadriven"
+		"AbilityTextureName"			"eurus/feather_barrage"
+		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_POINT|DOTA_ABILITY_BEHAVIOR_IMMEDIATE"
+		"AbilityUnitTargetTeam"			"DOTA_UNIT_TARGET_TEAM_ENEMY"
+		"AbilityUnitTargetType"			"DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
+		"AbilityUnitDamageType"			"DAMAGE_TYPE_MAGICAL"
+		"AbilityCooldown"				"17 15 13 11"
+		"AbilityManaCost"				"70 90 110 130"
+		"AbilityDuration"				"5"
+		"AbilityCastRange"				"600"
+
+		"precache"
+		{
+			"particle"  "particles/units/heroes/hero_mirana/mirana_spell_arrow.vpcf"
+			
+		}
+
+		"AbilitySpecial"
+		{
+			"01"
+			{
+				"var_type"			"FIELD_INTEGER"
+				"projectile_aoe"	"100"
+			}
+			"02"
+			{
+				"var_type"			"FIELD_INTEGER"
+				"projectiledamage"	"20 40 60 80"
+			}
+			"03"
+			{
+				"var_type"			"FIELD_FLOAT"
+				"projectile_interval" "0.2"
+			}
+			"04"
+			{
+				"var_type"			"FIELD_INTEGER"
+				"projectile_loss_dist" 	"60"
+			}
+			"05"
+			{
+				"var_type"			"FIELD_INTEGER"
+				"projectile_loss_dmg" 	"8"
+			}
+			"06"
+			{
+				"var_type"			"FIELD_INTEGER"
+				"projectile_speed" 	"1200"
+			}
+			"07"
+			{
+				"var_type"			"FIELD_INTEGER"
+				"duration" 			"5"
+			}
+		}
+
+		"OnSpellStart"
+		{
+			"RunScript"
+			{
+				"ScriptFile"	"heroes/eurus/feather_barrage.lua"
+				"Function"		"CreateBird"
+				"Target"		"POINT"
+			}
+
+			"ApplyModifier"
+			{
+				"ModifierName"	"modifier_bird_position"
+				"Target" 		"CASTER"
+				"Duration"		"%duration"
+			}
+		}
+
+		"OnProjectileHitUnit"
+		{
+			"DeleteOnHit"	"1"
+			"RunScript"
+			{
+				"ScriptFile"	"heroes/eurus/feather_barrage.lua"
+				"Function"		"ProjectileHit"
+			}
+		}
+
+		"Modifiers"
+		{	
+			"modifier_bird_position"
+			{
+				"ThinkInterval"  "0.01"
+				"OnIntervalThink"
+				{
+					"RunScript"
+					{
+						"ScriptFile"	"heroes/eurus/feather_barrage.lua"
+						"Function"		"FollowHero"
+					}
+				}
+			}
+			"modifier_feather_barrage_dummy"
+			{
+				"Passive"			"0"
+				"IsHidden"			"0"
+				"IsDebuff"			"0"
+		
+				"EffectName"		""
+				"EffectAttachType"	"follow_origin"
+
+				"ThinkInterval" 		"%projectile_interval"
+				"OnIntervalThink"
+				{
+					"RunScript"
+					{
+						"ScriptFile"	"heroes/eurus/feather_barrage.lua"
+						"Function"		"ShootFeathers"
+						"feather"		"particles/units/heroes/hero_mirana/mirana_spell_arrow.vpcf"
+					}
+					
+				}
+
+				"OnDestroy"
+				{
+					"RunScript"
+					{
+						"ScriptFile"	"heroes/eurus/feather_barrage.lua"
+						"Function"		"KillBird"
+					}
+				}
+		
+				"States"
+				{
+					"MODIFIER_STATE_UNSELECTABLE"		"MODIFIER_STATE_VALUE_ENABLED"
+					"MODIFIER_STATE_NO_HEALTH_BAR"		"MODIFIER_STATE_VALUE_ENABLED"
+					"MODIFIER_STATE_INVULNERABLE"		"MODIFIER_STATE_VALUE_ENABLED"
+					"MODIFIER_STATE_MAGIC_IMMUNE"		"MODIFIER_STATE_VALUE_ENABLED"
+				}
+			}
+		}
+	} 

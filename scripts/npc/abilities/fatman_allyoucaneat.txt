@@ -1,0 +1,78 @@
+"All you can eat"
+{
+	//General
+
+	"BaseClass"             		"ability_datadriven"
+	"AbilityTextureName"			"fatman/Fatman_allyoucaneat"
+	"AbilityBehavior" 				"DOTA_ABILITY_BEHAVIOR_NO_TARGET | DOTA_ABILITY_BEHAVIOR_CHANNELLED | DOTA_ABILITY_BEHAVIOR_DONT_RESUME_ATTACK"
+	"SpellImmunityType"				"SPELL_IMMUNITY_ENEMIES_NO"
+	"MaxLevel" 						"4"
+	"FightRecapLevel"				"1"
+
+	// Casting
+	"AbilityCastPoint" 				"0"
+	"AbilityChannelTime"			"10"
+
+	"AbilityManaCost"				"75 95 115 135"
+	"AbilityCooldown"				"45 35 25 15"
+	"AbilityDuration"				"10"
+
+	"AbilitySpecial"
+	{
+		"01"
+		{
+			"var_type"			"FIELD_INTEGER"
+			"Heal"				"3"
+		}
+		"02"
+		{
+			"var_type"			"FIELD_FLOAT"
+			"Interval"			"0.2"
+		}
+	}
+
+	"OnSpellStart"
+	{	
+		"ApplyModifier"
+		{
+
+			"ModifierName"	"All_you_can_eat_healing"
+			"Target" 		"CASTER"
+		}
+
+	}
+	"OnChannelFinish"
+	{
+		"RemoveModifier"
+		{
+			"ModifierName"	"All_you_can_eat_healing"
+			"Target" 		"CASTER"
+		}
+	}
+
+	"Modifiers"
+	{
+		"All_you_can_eat_healing"
+		{
+			"Passive"			"0"
+			"IsHidden"			"1"
+			"IsDebuff"			"0"
+	
+	
+			"Properties"
+			{
+				
+			    "MODIFIER_PROPERTY_HEALTH_REGEN_PERCENTAGE" "%Heal" 
+			}
+		}
+
+		"OnDestroy"
+		{
+			"RunScript"
+			{
+				"ScriptFile"	"heroes/fatman/RunforyourLife.lua"
+				"Function"		"refresh"
+			}
+		}
+	}
+}

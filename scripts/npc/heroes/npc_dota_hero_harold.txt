@@ -1,0 +1,48 @@
+"npc_dota_hero_harold"
+{
+	"override_hero"				""
+	"AbilityLayout" 			"4"
+	"Ability1"					"harold_spam_insult"
+	"Ability2"					"harold_mobilize_your_friends"
+	"Ability3"					"harold_tinderize"
+	"Ability4"					"harold_spread_wisdom"
+	"Ability5"					""
+	"Ability6"					""
+	"Ability7"					"attribute_bonus"
+
+
+	// Armor
+	//-------------------------------------------------------------------------------------------------------------
+	"ArmorPhysical"				"2"									// Physical protection.
+	"MagicalResistance"			"25"								// Magical protection (percentage).
+
+	// Attack
+	//-------------------------------------------------------------------------------------------------------------
+	"AttackCapabilities"		"DOTA_UNIT_CAP_RANGED_ATTACK"
+	"AttackDamageMin"			"32"										// Damage range min.
+	"AttackDamageMax"			"40"										// Damage range max.
+	"AttackDamageType"			"DAMAGE_TYPE_ArmorPhysical"				// Type of damage dealt. 
+	"AttackRate"				"1.8"									// Speed of attack.
+	"AttackAnimationPoint"		"0.5"									// Normalized time in animation cycle to attack.
+	"AttackAcquisitionRange"	"800"									// Range within a target can be acquired.
+	"AttackRange"				"500"									// Range within a target can be attacked.
+	"ProjectileModel"			"particles/units/heroes/hero_visage/visage_base_attack.vpcf"	// Particle system model for projectile.
+	"ProjectileSpeed"			"900"									// Speed of projectile.
+
+	// Attributes
+	//-------------------------------------------------------------------------------------------------------------
+	"AttributePrimary"			"DOTA_ATTRIBUTE_AGILITY"
+	"AttributeBaseStrength"		"18"										// Base strength
+	"AttributeStrengthGain"		"2"										// Strength bonus per level.
+	"AttributeBaseIntelligence"	"22"										// Base intelligence
+	"AttributeIntelligenceGain"	"2.4"										// Intelligence bonus per level.
+	"AttributeBaseAgility"		"17"										// Base agility
+	"AttributeAgilityGain"		"1.9"										// Agility bonus per level.	
+	"MovementSpeed"				"300"									// Speed.
+	"StatusHealthRegen"			"2"									// Health regeneration rate.
+
+	"Model"						"models/hl1_gman/gman_reference.vmdl"	
+	
+	
+	"BotImplemented"			"0"
+}

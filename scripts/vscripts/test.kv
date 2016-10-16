@@ -1,0 +1,81 @@
+"item_ball"
+{
+	"ID" "2001"
+	"BaseClass"		"item_datadriven"
+	"ItemCost"		"0"
+	"ItemSellable"	"0"
+	"ItemDroppable" "0"
+	"ItemPurchasable" "0"
+	"ItemShareability" "ITEM_FULLY_SHAREABLE"
+
+	"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_UNIT_TARGET"
+	"AbilityUnitTargetTeam"			"DOTA_UNIT_TARGET_TEAM_ALLY"
+	"AbilityUnitTargetType"			"DOTA_UNIT_TARGET_HERO"
+
+	"AbilityCooldown"				"1"
+	"AbilityCastPoint"				"0.0"
+	"AbilityCastRange"				"1000"
+
+	"AbilitySpecial"
+	{
+		"01"
+		{
+			"var_type"			"FIELD_INTEGER"
+			"speed"			"600"
+		}
+		"02"
+		{
+			"var_type"			"FIELD_INTEGER"
+			"size"		"150"
+		}
+		"03"
+		{
+			"var_type" "FIELD_INTEGER"
+			"range"		"1000"
+		}
+	}
+
+	"Modifiers"
+	{
+		"modifier_ball"
+		{
+			"Passive"			"1"
+			"IsHidden"			"0"
+			"IsDebuff"			"0"
+	
+			"EffectName"		"particle_name"
+			"EffectAttachType"	"follow_origin"
+	
+			"States"  
+        	{
+            	"MODIFIER_STATE_ROOTED" "MODIFIER_STATE_VALUE_ENABLED"
+			}
+		}
+	}
+
+	"OnSpellStart"
+	{
+		"LinearProjectile"
+		{
+		    "Target"      	 "TARGET"
+			"EffectName"	 "particles/units/heroes/hero_mirana/mirana_spell_arrow.vpcf"
+			"MoveSpeed"		 "%speed"
+			"StartRadius"	 "%size"
+			"StartPosition"  "attach_attack1"
+			"EndRadius"      "%size"
+			"HasFrontalCone" "0"
+			"FixedDistance"  "%range"
+			"TargetTeams"	 "DOTA_UNIT_TARGET_TEAM_ENEMY"
+			"TargetTypes"	 "DOTA_UNIT_TARGET_BASIC | DOTA_UNIT_TARGET_HERO"
+			"TargetFlags"	 "DOTA_UNIT_TARGET_FLAG_NONE"						
+		    "ProvidesVision" "1"
+		    "VisionRadius" 	 "%vision_radius"
+		}
+	}
+	"OnProjectileHitUnit"
+	{
+		"DeleteOnHit"	"1"
+		[ACTIONS]
+	}
+
+}

@@ -1,0 +1,17 @@
+"Hail_Back"
+	{
+		"BaseClass"             		"ability_datadriven"
+		"AbilityTextureName"			"uther/uther_hail_back"
+		"MaxLevel" 						"1"
+		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_NO_TARGET | DOTA_ABILITY_BEHAVIOR_IMMEDIATE | DOTA_ABILITY_BEHAVIOR_NOT_LEARNABLE"	
+		"AbilityCooldown"				"2"
+
+		"OnSpellStart"
+		{
+			"RunScript"
+			{
+				"ScriptFile"	"heroes/uther/hurl_hammer.lua"
+				"Function"		"ReturnHammer"
+			}
+		}
+	}

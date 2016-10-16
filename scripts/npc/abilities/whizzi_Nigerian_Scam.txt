@@ -1,0 +1,84 @@
+"Nigerian_Scam"
+{
+	"BaseClass"             		"ability_datadriven"
+	"AbilityTextureName"			"whizzi/Nigerian_Scam"
+	"MaxLevel" 						"4"
+	"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_UNIT_TARGET"
+	"AbilityUnitTargetTeam"			"DOTA_UNIT_TARGET_TEAM_ENEMY"
+	"AbilityUnitTargetType"			"DOTA_UNIT_TARGET_HERO"
+	"AbilityUnitDamageType"			"DAMAGE_TYPE_MAGICAL"
+	"AbilityCastRange"				"350 450 550 650"
+	"AbilityCastPoint"				"0.3"
+	"AbilityCooldown"				"10"
+	"AbilityManaCost"				"80"
+
+	"AbilitySpecial"
+	{
+		"01"
+		{
+			"var_type"			"FIELD_FLOAT"
+			"hp_factor"				"0.1"
+		}
+		"02"
+		{
+			"var_type"			"FIELD_FLOAT"
+			"duration"			"2 2.5 3 3.5"
+		}
+		"03"
+		{
+			"var_type"			"FIELD_INTEGER"
+			"break_range"		"650 750 850 950"
+		}
+
+	}
+	"OnUpgrade"
+	{
+		"RunScript"
+		{
+			"ScriptFile"	"heroes/whizzi/Nigerian_Scam.lua"
+			"Function"		"Learn"
+		}
+	}
+
+	"OnSpellStart"
+	{
+		"ApplyModifier"
+		{
+			"ModifierName"	"Scamming"
+			"Target" 		"CASTER"
+			"Duration"		"%duration"
+		}
+		"RunScript"
+		{
+			"ScriptFile"	"heroes/whizzi/Nigerian_Scam.lua"
+			"Function"		"StartSpell"
+			"sub_ability_name"		"Nigerian_Scam_CASH"
+		}
+
+		
+	}
+
+	"Modifiers"
+	{
+		"Scamming"
+		{
+			"Passive"			"0"
+			"IsHidden"			"0"
+			"IsDebuff"			"0"
+	
+			"EffectName"		""
+			"EffectAttachType"	"follow_origin"
+
+			"ThinkInterval"  "0.01"
+			"OnIntervalThink"
+			{
+				"RunScript"
+				{
+					"ScriptFile"	"heroes/whizzi/Nigerian_Scam.lua"
+					"Function"		"RangeCheck"
+				}
+			}
+
+		} 
+	}
+}

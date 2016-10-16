@@ -1,0 +1,28 @@
+	"snatch"
+	{
+		"BaseClass"						"ability_lua"
+		"AbilityTextureName"			"harte/snatch"
+		"ScriptFile"					"heroes/harte/snatch.lua"
+		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_UNIT_TARGET"
+		"AbilityUnitTargetTeam"			"DOTA_UNIT_TARGET_TEAM_ENEMY"
+		"AbilityUnitTargetType"			"DOTA_UNIT_TARGET_HERO"
+		"AbilityCastRange"				"400"
+		"AbilityCastPoint"				"0.3"
+		"AbilityCooldown"				"18 17 16 15"
+		"AbilityManaCost"				"75"
+		"AbilityDuration"				"10"
+
+		"AbilitySpecial"
+		{
+			"01"
+			{
+				"var_type"			"FIELD_INTEGER"
+				"base_reduction"	"10 15 20 25"
+			}
+			"02"
+			{
+				"var_type"			"FIELD_INTEGER"
+				"other_reduction"	"25 40 55 70"
+			}
+		}
+	} 

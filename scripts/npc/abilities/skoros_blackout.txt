@@ -1,0 +1,108 @@
+"Blackout"
+	//Skill is useless right now, I can instantly issue another order and negate the effect. There needs to be a period of where the unit is command restricted
+	{
+		"BaseClass"             		"ability_datadriven"
+		"AbilityTextureName"			"skoros/skoros_blackout"
+		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_UNIT_TARGET"
+		"AbilityUnitTargetTeam"			"DOTA_UNIT_TARGET_TEAM_ENEMY"
+		"AbilityUnitTargetType"			"DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
+		"AbilityUnitDamageType"			"DAMAGE_TYPE_PHYSICAL"
+		"AbilityCooldown"				"26 21 17 14"
+		"AbilityCastPoint"				"0.3"
+		"AbilityManaCost"				"120"
+		"AbilityCastRange"				"800 950 1100 1250"
+
+		"precache"
+		{
+			"particle"  "particles/skoros/skoros_blackout_restrict.vpcf"
+			//"soundfile" "soundevents/game_sounds_heroes/game_sounds_HERO.vsndevts"
+		}
+	
+		"AbilitySpecial"
+		{
+			"01"
+			{
+				"var_type"				"FIELD_INTEGER"
+				"duration"				"4"
+			}
+			"02"
+			{
+				"var_type"				"FIELD_INTEGER"
+				"halt_chance"			"44 52 60 68"
+			}
+			"03"
+			{
+				"var_type"				"FIELD_INTEGER"
+				"halt_duration"			"0.5"
+			}
+		}
+	
+		"OnSpellStart"
+		{
+			"ApplyModifier"
+			{
+				"ModifierName"	"modifier_blackout"
+				"Target" 		"TARGET"
+				"Duration"		"%duration"
+			}
+		}
+	
+		"Modifiers"
+		{
+			"modifier_blackout"
+			{
+				"Passive"			"0"
+				"IsHidden"			"0"
+				"IsDebuff"			"1"
+		
+				"EffectName"		""
+				"EffectAttachType"	""
+		
+				//"OnOrder" This doesn't work since the Stop() command is also an order. In the gamemode.lua file is an order filter where this is handled.
+				// Triggers on Move/Casting/Hold/Stop
+				//{	
+				//	"RunScript"
+				//	{
+				//		"ScriptFile"	"heroes/Skoros/blackout.lua"
+				//		"Function"		"Stop"
+				//	}
+				//}
+				//"States"
+				//{
+				//	"MODIFIER_STATE_PROVIDES_VISION"		"MODIFIER_STATE_VALUE_ENABLED"
+				//}
+			}
+			"modifier_block_commands" // Restricting controls for a short period, 0.5 right now. This makes spamming a bad idea.
+			{
+				"OnCreated"
+				{
+					"FireEffect"
+					{
+						"EffectName"        "particles/skoros/skoros_blackout_restrict.vpcf"
+						"EffectAttachType"  "follow_origin"
+						"TARGET"			"TARGET"
+					}
+				}
+				"Properties"
+				{
+				    "MODIFIER_PROPERTY_DISABLE_AUTOATTACK" "1" 
+				}
+				"States"
+				{
+					"MODIFIER_STATE_COMMAND_RESTRICTED"		"MODIFIER_STATE_VALUE_ENABLED"
+				}
+			}
+			"MarkLocation"
+			{
+				"OnCreated"
+				{
+					"AttachEffect"
+					{
+						"EffectName"        "particles/bellatrix/bloodrakemarker.vpcf"
+						"EffectAttachType"  "attach_origin"
+						"Target"            "TARGET"
+					}
+				}
+			}
+		}
+	}

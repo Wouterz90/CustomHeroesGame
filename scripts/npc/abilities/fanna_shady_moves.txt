@@ -1,0 +1,107 @@
+"fanna_shady_moves"
+{
+	"BaseClass"             		"ability_datadriven"
+	"AbilityTextureName"			"fanna/shady_moves"
+	"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_POINT | DOTA_ABILITY_BEHAVIOR_AOE"
+	"AbilityUnitTargetTeam"			"DOTA_UNIT_TARGET_TEAM_FRIENDLY"
+	"AbilityUnitTargetType"			"DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
+	"AbilityCastRange"				"200 400 600 800"
+	"AbilityCastPoint"				"0.3"
+	"AbilityCastAnimation"			"ACT_DOTA_CAST_ABILITY_1"
+	"AbilityCooldown"				"40 35 30 25"
+	"AbilityManaCost"				"100"
+	"AbilityDuration"				"2"
+	"AoERadius"               		"%shady_area_radius"
+
+	"precache"
+	{
+		"particle"  "particles/fanna/fanna_shady_flare.vpcf"
+	}
+
+	"AbilitySpecial"
+	{
+		"01"
+		{
+			"var_type"			"FIELD_INTEGER"
+			"shady_area_radius"		"400"
+		}
+		"02"
+		{
+			"var_type"			"FIELD_FLOAT"
+			"delay"				"0.5"
+		}
+	}
+
+	"OnSpellStart"
+	{
+		"CreateThinker"
+		{
+			"ModifierName"	"modifier_shady_moves_intro"
+			"Target" 		"POINT"
+		}
+		"DelayedAction"
+		{
+			"Delay"     "%delay"
+			"Action"    
+			{
+				"RunScript"
+				{
+					"ScriptFile"	"heroes/hero_fanna/shady_moves.lua"
+					"Function"		"RemoveSight"
+					"Target"		"POINT"
+				}
+			}
+		}
+	}
+	"Modifiers"
+	{
+		"modifier_shady_moves_intro"
+		{
+			"Passive"			"0"
+			"IsHidden"			"0"
+			"IsDebuff"			"0"
+		
+			"EffectName"		""
+			"EffectAttachType"	"follow_origin"
+		
+			//"OnCreated"
+			//{
+			//	"FireEffect"
+			//	{
+			//		"EffectName"        "particles/fanna/fanna_shady_flare.vpcf"
+			//		"EffectAttachType"  "follow_origin"
+			//		"Target"            "TARGET"
+			//	}
+			//}
+		}
+		"modifier_shady_moves_dummy"
+		{
+			"Passive"			"0"
+			"IsHidden"			"0"
+			"IsDebuff"			"0"
+			"Aura"          	"modifier_shady_moves"
+			"Aura_Radius"   	"%shady_area_radius"
+			"Aura_Teams"    	"DOTA_UNIT_TARGET_TEAM_FRIENDLY"
+			"Aura_Types"    	"DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
+			"Aura_Flags"    	"DOTA_UNIT_TARGET_FLAG_NONE"
+			"Aura_ApplyToCaster" "1"
+
+
+	
+		}
+
+		"modifier_shady_moves"
+		{
+			"Passive"			"0"
+			"IsHidden"			"0"
+			"IsDebuff"			"0"
+		
+		
+			"States"
+			{
+				"MODIFIER_STATE_INVISIBLE"		"MODIFIER_STATE_VALUE_ENABLED"
+				"MODIFIER_STATE_TRUESIGHT_IMMUNE" "MODIFIER_STATE_VALUE_ENABLED"
+			}
+		}
+	}
+}

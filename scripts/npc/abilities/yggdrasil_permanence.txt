@@ -1,0 +1,103 @@
+"permanence"
+// I cant think of a way to prevent modifiers from being purged.
+{
+	"BaseClass"             		"ability_datadriven"
+	"AbilityTextureName"			"ability_name"
+	"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_PASSIVE"
+	"AbilityCastRange"				"500 750 1000"
+	"AbilityType" 					"DOTA_ABILITY_TYPE_ULTIMATE"
+
+	"AbilitySpecial"
+	{
+		"01"
+		{
+			"var_type"			"FIELD_INTEGER"
+			"interval"			"5 4 3"
+		}
+		"02"
+		{
+			"var_type"			"FIELD_FLOAT"
+			"duration_increase"		"1"
+		}
+		"03"
+		{
+			"var_type"			"FIELD_FLOAT"
+			"increase_window"		"1"
+		}
+		"04"
+		{
+			"var_type"			"FIELD_INTEGER"
+			"auraradius"			"500 750 1000"
+		}
+		"04"
+		{
+			"var_type"			"FIELD_INTEGER"
+			"halfradius"			"250 375 500"
+		}
+	}
+
+	"Modifiers"
+	{
+		"modifier_permanence"
+		{
+			"Passive"			"1"
+			"IsHidden"			"1"
+			"IsDebuff"			"0"
+			"IsPurgable"		"0"
+			"IsBuff"			"0"
+			"IsStunDebuff"		"0"
+			//Purge(bool RemovePositiveBuffs, bool RemoveDebuffs, bool BuffsCreatedThisFrameOnly, bool RemoveStuns, bool RemoveExceptions)
+	
+			"EffectName"		""
+			"EffectAttachType"	"follow_origin"
+
+			"Attributes"		"MODIFIER_ATTRIBUTE_PERMANENT"
+	
+			"ThinkInterval"  "%interval"
+			"OnIntervalThink"
+			{
+				"ActOnTargets"
+				{
+					"Target"
+					{
+						"Center"  	"CASTER"
+						"Radius" 	"%halfradius"
+						"Teams" 	"DOTA_UNIT_TARGET_TEAM_BOTH"
+						"Types" 	"DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
+					}
+				
+					"Action"    
+					{
+						"ApplyModifier"
+						{
+							"ModifierName"	"modifier_permanence_increase_duration"
+							"Target" 		"TARGET"
+							"Duration"		"%increase_window"
+						}
+					}
+				}
+				
+			}
+		}
+		"modifier_permanence_increase_duration"
+		{
+			"Passive"			"0"
+			"IsHidden"			"0"
+			"IsDebuff"			"0"
+			"IsBuff"			"0"
+		
+			"EffectName"		""
+			"EffectAttachType"	"follow_origin"
+		
+			"OnCreated"
+			{
+				"RunScript"
+				{
+					"ScriptFile"	"heroes/yggdrasil/permanence.lua"
+					"Function"		"IncreaseDuration"
+				}
+			}
+		}
+
+	}
+}

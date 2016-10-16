@@ -1,0 +1,14 @@
+"npc_dota_hero_uther"
+{
+	"override_hero"				"npc_dota_hero_omniknight"
+	"AbilityLayout" 			"5"
+	"Ability1"					"Hurl_Hammer"
+	"Ability2"					"Threatening_Bolt"
+	"Ability3"					"Argent_Smite"
+	"Ability4"					"uther_compass"
+	"Ability5"					"Hail_Back"
+	"Ability6"					""
+	"Ability7"					"attribute_bonus"
+
+	"BotImplemented"			"0"
+}

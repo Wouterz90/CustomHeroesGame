@@ -1,0 +1,35 @@
+"Mikhail_Desperation_Tactics"
+{
+	"BaseClass"             		"ability_lua"
+	"ScriptFile"					"heroes/red/desperation_tactics.lua"
+	"AbilityTextureName"			"red/Desperate_Tactics"
+	"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_PASSIVE"
+	
+	"AbilitySpecial"
+	{
+		"01"
+		{
+			"var_type"			"FIELD_INTEGER"
+			"evasion_chance"	"40 50 60 70"
+		}
+		"02"
+		{
+			"var_type"			"FIELD_INTEGER"
+			"crit_chance"		"40 50 60 70"
+		}
+		"03"
+		{
+			"var_type"			"FIELD_INTEGER"
+			"crit_multiplier"	"2"
+		}
+		"04"
+		{
+			"var_type"			"FIELD_INTEGER"
+			"base_chance"	"5"
+		}
+
+
+	}
+
+	
+}

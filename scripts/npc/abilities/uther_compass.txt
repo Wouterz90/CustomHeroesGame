@@ -1,0 +1,108 @@
+"uther_compass"
+{
+  "BaseClass"                 "ability_datadriven"
+  "AbilityTextureName"      "uther/compass"
+  "AbilityBehavior"        "DOTA_ABILITY_BEHAVIOR_NO_TARGET "
+  "AbilityUnitTargetTeam"      "DOTA_UNIT_TARGET_TEAM_ENEMY"
+  "AbilityUnitTargetType"      "DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
+  
+  "AbilityType"                 "DOTA_ABILITY_TYPE_ULTIMATE"
+
+  "AbilityCooldown"        "180 150 120"
+  "AbilityManaCost"        "145 205 265"
+     
+  "AbilityCastRange"        "2000"
+  "AbilityCastPoint"        "0.6"
+  "AbilityCastAnimation"      "ACT_DOTA_CAST_ABILITY_1"
+
+  "AbilitySpecial"
+  {
+    "01"
+    {
+      "var_type"      "FIELD_INTEGER"
+      "duration"      "15"
+    }
+    "02"
+    {
+      "var_type"      "FIELD_INTEGER"
+      "radius"    "2000"
+    }
+    "03"
+    {
+      "var_type"      "FIELD_INTEGER"
+      "check_radius"    "2500"
+    }
+  }
+  "precache"
+  {
+    "particle"    "particles/units/heroes/hero_disruptor/disruptor_kineticfield.vpcf"
+    "soundfile" "soundevents/game_sounds_heroes/game_sounds_visage.vsndevts"
+  }
+
+  "OnSpellStart"
+  {
+    "RunScript"
+    {
+      "ScriptFile"  "heroes/uther/compass.lua"
+      "Function"    "CreateHalo"
+    }
+  }
+  "Modifiers"
+  {
+    "modifier_uther_compass_control_movement"
+    {
+      "Passive"      "0"
+      "IsHidden"      "1"
+      "IsDebuff"      "1"
+      "ThinkInterval"  "0.04"
+      
+      "OnIntervalThink"
+      {
+        "RunScript"
+        {
+          "ScriptFile"  "heroes/uther/compass.lua"
+          "Function"    "CompassPositionCheck"
+        }
+      }
+    }
+    "modifier_uther_compass_control_orders"
+    {
+      "Passive"      "0"
+      "IsHidden"      "0"
+      "IsDebuff"      "1"
+    }
+    "modifier_uther_compass_halo"
+    {
+      "Passive"      "0"
+      "IsHidden"      "1"
+      "IsDebuff"      "0"
+      "Aura"            "modifier_uther_compass_control_orders"
+      "Aura_Radius"     "20000"
+      "Aura_Teams"      "DOTA_UNIT_TARGET_TEAM_ENEMY"
+      "Aura_Types"      "DOTA_UNIT_TARGET_HERO"
+      "Aura_Flags"      "DOTA_UNIT_TARGET_FLAG_NONE"
+      "Aura_ApplyToCaster" "0"
+
+    }
+    "modifier_uther_compass_halo2" // Something like a wall or kinetic field
+    {
+      "Passive"      "0"
+      "IsHidden"      "1"
+      "IsDebuff"      "0"
+      "Aura"            "modifier_uther_compass_control_movement"
+      "Aura_Radius"     "%radius"
+      "Aura_Teams"      "DOTA_UNIT_TARGET_TEAM_ENEMY"
+      "Aura_Types"      "DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
+      "Aura_Flags"      "DOTA_UNIT_TARGET_FLAG_NONE"
+      "Aura_ApplyToCaster" "0"
+       "OnDestroy"
+      {
+        "RunScript"
+        {
+          "ScriptFile"  "heroes/uther/compass.lua"
+          "Function"    "RemoveHalo"
+        }
+      }
+    }
+  }
+}

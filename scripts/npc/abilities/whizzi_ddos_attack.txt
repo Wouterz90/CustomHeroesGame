@@ -1,0 +1,90 @@
+////////////////////////////////////////////////////////////////////////////////////////////
+// WhizKid, the gifted hacker															  //
+////////////////////////////////////////////////////////////////////////////////////////////
+"DDOS_Attack"
+{
+	"BaseClass"             		"ability_datadriven"
+	"AbilityTextureName"			"whizzi/WhizKid_DDOS_Attack"
+	"MaxLevel" 						"4"
+	"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_UNIT_TARGET"
+	"AbilityUnitTargetTeam"			"DOTA_UNIT_TARGET_TEAM_ENEMY"
+	"AbilityUnitTargetType"			"DOTA_UNIT_TARGET_HERO"
+	"AbilityUnitDamageType"			"DAMAGE_TYPE_MAGICAL"
+	"AbilityCastRange"				"500"
+	"AbilityCastPoint"				"0.3"
+	"AbilityCooldown"				"16 14 12 10"
+	"AbilityManaCost"				"120"
+	"AbilityDamage"					"80 120 160 200"
+
+	"AbilitySpecial"
+	{
+		"01"
+		{
+			"var_type"			"FIELD_INTEGER"
+			"radius"			"50 100 150 200"
+		}
+		"02"
+		{
+			"var_type"			"FIELD_FLOAT"
+			"duration"			"6"
+		}
+		"03"
+		{
+			"var_type"			"FIELD_FLOAT"
+			"delay"				"0.5 0.66 0.83 1"
+		}
+	}
+
+	"OnSpellStart"
+	{
+		"ActOnTargets"
+		{
+			"Target"
+			{
+				"Center"  	"TARGET"
+				"Radius" 	"%radius"
+				"Teams" 	"DOTA_UNIT_TARGET_TEAM_ENEMY"
+				"Types" 	"DOTA_UNIT_TARGET_HERO"
+			}
+		
+			"Action"    
+			{	
+				"Damage"
+				{
+					"Target"		"TARGET"
+					"Type"			"DAMAGE_TYPE_MAGICAL"
+					"Damage"		"%AbilityDamage"
+				}
+				"ApplyModifier"
+				{
+					"ModifierName"	"modifier_ddosed"
+					"Target" 		"TARGET"
+					"Duration"		"%duration"
+				}
+			}
+		}
+	}
+	"Modifiers"
+	{
+		"modifier_ddosed"
+		{
+			"Passive"			"0"
+			"IsHidden"			"0"
+			"IsDebuff"			"1"
+			"IsPurgable"		"1"
+	
+			"OnCreated"
+			{
+				"RunScript"
+				{
+					"ScriptFile"	"heroes/whizzi/ddos.lua"
+					"Function"		"STOP"
+				}
+			}
+			"Properties"
+			{
+			    "MODIFIER_PROPERTY_DISABLE_AUTOATTACK" "0" 
+			}
+		}
+	}
+}

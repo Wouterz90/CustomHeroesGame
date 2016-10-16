@@ -1,0 +1,174 @@
+"Metal_Rod"
+	{
+		"BaseClass"             		"ability_datadriven"
+		"AbilityTextureName"			"borus/Borus_Metal_Rod"
+		"MaxLevel" 						"4"
+		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_POINT"
+		"AbilityUnitDamageType"			"DAMAGE_TYPE_MAGICAL"
+		"AbilityCastRange"				"700"
+		"AbilityCastPoint"				"0.3"
+		"AbilityCooldown"				"18"
+		"AbilityManaCost"				"90"
+		"AbilityDuration"				"4 5 6 7"
+	
+		"AbilitySpecial"
+		{
+			"01"
+			{
+				"var_type"			"FIELD_INTEGER"
+				"Metal_Rod_Size"	"400"
+			}
+			"02"
+			{
+				"var_type"			"FIELD_FLOAT"
+				"leash_duration"	"2 2.33 2.66 3"
+			}
+			"03"
+			{
+				"var_type"			"FIELD_INTEGER"
+				"Positive_Damage"	"50 100 150 200"
+			}
+			"04"
+			{
+				"var_type"			"FIELD_INTEGER"
+				"Negative_Damage"	"50 100 150 200"
+			}
+			"05"
+			{
+				"var_type"			"FIELD_INTEGER"
+				"Silence_duration"	"2 3 4 5"
+			}
+			"06"
+			{
+				"var_type"			"FIELD_INTEGER"
+				"Disarm_duration"	"2 3 4 5"
+			}
+			"07"
+			{
+				"var_type"			"FIELD_INTEGER"
+				"Rod_AOE"			"500"
+			}
+			"08"
+			{	
+				"var_type"			"FIELD_INTEGER"
+				"Rod_Charges"		"3"
+			}
+			"09"
+			{
+				"var_type"			"FIELD_INTEGER"
+				"metal_rod_charge_replenish_time"		"30"
+	
+			}
+	
+		}
+		"OnUpgrade"
+		{
+			"RunScript"
+			{
+				"ScriptFile"	"heroes/borus/Metal_Rod.lua"
+				"Function"		"metal_rod_start_charge"
+			}
+			"ApplyModifier"
+			{
+				"ModifierName"	"metal_rod_stack_counter"
+				"Target" 		"CASTER"
+				"Duration"		"-1"
+			}
+		}
+	
+		"OnSpellStart"
+		{
+			"RunScript"
+			{
+				"ScriptFile"	"heroes/borus/Metal_Rod.lua"
+				"Function"		"Metal_Rod"
+				"Target"		"POINT"
+			}
+		}
+	
+		"Modifiers"
+		{
+			"metal_rod_stack_counter"
+			{
+				"IsHidden" 			"0"
+				"IsPurgable"		"0"
+				"IsBuff"			"0"
+				"IsDebuff"			"0"
+				"IsStunDebuff"		"0"
+			}
+			"metal_rod_modifier_dummy"
+			{
+				"Passive"			"0"
+				"IsHidden" 			"0"
+				"IsBuff"			"0"
+				"IsDebuff"			"0"
+				"IsPurgable"		"0"
+			
+				"States"
+				{
+					"MODIFIER_STATE_NO_UNIT_COLLISION"  	"MODIFIER_STATE_VALUE_ENABLED"
+					//"MODIFIER_STATE_NO_TEAM_MOVE_TO"    	"MODIFIER_STATE_VALUE_ENABLED"
+					//"MODIFIER_STATE_NO_TEAM_SELECT" 		"MODIFIER_STATE_VALUE_ENABLED"
+					//"MODIFIER_STATE_COMMAND_RESTRICTED" 	"MODIFIER_STATE_VALUE_ENABLED"
+					//"MODIFIER_STATE_ATTACK_IMMUNE"  		"MODIFIER_STATE_VALUE_ENABLED"
+					//"MODIFIER_STATE_MAGIC_IMMUNE"       	"MODIFIER_STATE_VALUE_ENABLED"
+					"MODIFIER_STATE_INVULNERABLE"   		"MODIFIER_STATE_VALUE_ENABLED"  // When looking for units flag this!
+					//"MODIFIER_STATE_NOT_ON_MINIMAP" 		"MODIFIER_STATE_VALUE_ENABLED"
+					//"MODIFIER_STATE_UNSELECTABLE"   		"MODIFIER_STATE_VALUE_ENABLED"
+					//"MODIFIER_STATE_OUT_OF_GAME"    		"MODIFIER_STATE_VALUE_ENABLED"
+					"MODIFIER_STATE_NO_HEALTH_BAR"  		"MODIFIER_STATE_VALUE_ENABLED"
+				}
+			}
+			"rod_disarm"
+			{
+				"Passive"			"0"
+				"IsHidden"			"0"
+				"IsDebuff"			"1"
+				"IsBuff"			"0"
+				"States"
+				{
+					"MODIFIER_STATE_DISARMED"		"MODIFIER_STATE_VALUE_ENABLED"
+				}
+				
+				"EffectName"        "particles/generic_gameplay/generic_disarm.vpcf"
+				"EffectAttachType"  "follow_overhead"
+
+				"OnCreated"
+				{
+					"Damage"
+					{
+						"Target"		"TARGET"
+						"Type"			"DAMAGE_TYPE_MAGICAL"
+						"Damage"		"%Negative_Damage"
+					}
+				}
+				
+			}
+			"rod_silence"
+			{
+				"Passive"			"0"
+				"IsHidden"			"0"
+				"IsDebuff"			"1"
+				"IsBuff"			"0"
+				"States"
+				{
+					"MODIFIER_STATE_SILENCED"		"MODIFIER_STATE_VALUE_ENABLED"
+				}
+				
+				"EffectName"        "particles/generic_gameplay/generic_silenced.vpcf"
+				"EffectAttachType"  "follow_overhead"
+
+				"OnCreated"
+				{
+					"Damage"
+					{
+						"Target"		"TARGET"
+						"Type"			"DAMAGE_TYPE_MAGICAL"
+						"Damage"		"%Negative_Damage"
+					}
+				}
+				
+				
+			}	
+		}
+	}

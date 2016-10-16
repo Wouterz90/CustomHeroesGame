@@ -1,0 +1,110 @@
+"solemn_incantation"
+{
+	"BaseClass"             		"ability_datadriven"
+	"AbilityTextureName"			"yggdrasil/solemn_incantation"
+	"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_UNIT_TARGET"
+	"AbilityUnitTargetTeam"			"DOTA_UNIT_TARGET_TEAM_BOTH"
+	"AbilityUnitTargetType"			"DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
+	"AbilityCooldown"				"17 14 11 8"
+	"AbilityManaCost"				"120 135 150 165"
+	"AbilityCastRange"				"750"
+	"AbilityCastPoint"				"0.3"
+	"AbilityDuration"               "6"
+
+	"AbilitySpecial"
+	{
+		"01"
+		{
+			"var_type"			"FIELD_INTEGER"
+			"damage_amplification"	"124 136 148 160"
+		}
+		"02"
+		{
+			"var_type"		"FIELD_INTEGER"			
+			"hp_gain_per_instance"	"4.5 5 5.5 6"
+		}
+		"03"
+		{
+			"var_type"		"FIELD_INTEGER"			
+			"mp_gain_per_instance"	"2 4 6 8"
+		}
+		"04"
+		{
+			"var_type"		"FIELD_INTEGER"
+			"max_instances" "10"
+		}
+		"05"
+		{
+			"var_type"		"FIELD_INTEGER"
+			"instance_refresh_rate" "1"
+		}
+	}
+
+	"OnSpellStart"
+	{
+		"ApplyModifier"
+		{
+			"ModifierName"	"modifier_solemn_incantation_buff"
+			"Target" 		"TARGET"
+			"Duration"		"%AbilityDuration"
+		}
+		"ApplyModifier"
+		{
+			"ModifierName"	"modifier_solemn_incantation_debuff"
+			"Target" 		"TARGET"
+			"Duration"		"%AbilityDuration"
+		}
+	}
+
+	"Modifiers"
+	{
+		"modifier_solemn_incantation_buff"
+		{
+			"Passive"			"0"
+			"IsHidden"			"0"
+			"IsDebuff"			"0"
+			"IsBuff"			"1"
+		
+			"EffectName"		""
+			"EffectAttachType"	"follow_origin"
+
+			"OnDealDamage"
+			// "%attack_damage" is set to the damage value after mitigation
+			{
+				"RunScript"
+				{
+					"ScriptFile"	"heroes/yggdrasil/solemn_incantation.lua"
+					"Function"		"DealingDamage"
+				}
+			}
+		
+			
+		}
+		"modifier_solemn_incantation_debuff"
+		{
+			"Passive"			"0"
+			"IsHidden"			"0"
+			"IsDebuff"			"1"
+	
+			"EffectName"		""
+			"EffectAttachType"	"follow_origin"
+	
+			"Properties"
+			{
+				"MODIFIER_PROPERTY_INCOMING_DAMAGE_PERCENTAGE" "%damage_amplification"
+			}
+		}
+
+		"modifier_solemn_incantation_counter"
+		{
+			"Passive"			"0"
+			"IsHidden"			"0"
+			"IsDebuff"			"0"
+		
+			"EffectName"		""
+			"EffectAttachType"	"follow_origin"
+		
+			"Attributes"		"MODIFIER_ATTRIBUTE_MULTIPLE"
+		}
+	}
+}

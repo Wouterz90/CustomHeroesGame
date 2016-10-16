@@ -1,0 +1,57 @@
+"Mikhail_Offense_is_the_best_Defense"
+{
+	"BaseClass"             		"ability_datadriven"
+	"AbilityTextureName"			"red/offense_is_the_best_defense"
+	"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_PASSIVE"
+	"AbilityUnitTargetTeam"			"DOTA_UNIT_TARGET_TEAM_ENEMY"
+	"AbilityCoolDown"				"10"
+
+	"AbilitySpecial"
+	{
+		"01"
+		{
+			"var_type"			"FIELD_FLOAT"
+			"debuff_shortening_time"	"10 12.5 15 17.5"
+		}
+		"02"
+		{
+			"var_type"			"FIELD_FLOAT"
+			"duration"			"5 6 7 8"
+		}
+	}
+
+	"Modifiers"
+	{
+		"modifier_Offense_is_the_best_defense"
+		{
+			"Passive"			"1"
+			"IsHidden"			"1"
+			"IsDebuff"			"0"
+	
+			"EffectName"		""
+			"EffectAttachType"	"follow_origin"
+	
+			"OnAttackLanded"
+			// "%attack_damage" is set to the damage value before mitigation
+			{
+				"ApplyModifier"
+				{
+					"ModifierName"	"modifier_Offense_is_the_best_defense_debuff_decrease"
+					"Target" 		"CASTER"
+					"Duration"		"%duration"
+				}
+			}
+		}
+		"modifier_Offense_is_the_best_defense_debuff_decrease"
+		{
+			"Passive"			"0"
+			"IsHidden"			"0"
+			"IsDebuff"			"1"
+	
+			"EffectName"		""
+			"EffectAttachType"	"follow_origin"
+
+		}
+	}
+}
+

@@ -1,0 +1,26 @@
+"Nigerian_Scam_CASH"
+{
+	"BaseClass"             		"ability_datadriven"
+	"AbilityTextureName"			"whizzi/Nigerian_Scam_CASH"
+	"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_NO_TARGET|DOTA_ABILITY_BEHAVIOR_NOT_LEARNABLE"
+	"AbilityUnitDamageType"			"DAMAGE_TYPE_MAGICAL"
+	"AbilityCastPoint"				"0.15"
+	"AbilityCooldown"				"10"
+	"AbilityManaCost"				"0"
+	"AbilityCastRange"				"650 750 850 950"
+
+	"OnSpellStart"
+	{
+		"RunScript"
+		{
+			"ScriptFile"	"heroes/whizzi/Nigerian_Scam.lua"
+			"Function"		"StopSpell"
+			"sub_ability_name"		"Nigerian_Scam"
+		}
+		"RemoveModifier"
+		{
+			"ModifierName"	"Scamming"
+			"Target" 		"CASTER"
+		}
+	}
+}

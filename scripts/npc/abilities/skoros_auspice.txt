@@ -1,0 +1,99 @@
+"Auspice"
+{
+	"BaseClass"             		"ability_datadriven"
+	"AbilityTextureName"			"skoros/skoros_auspice"
+	"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_PASSIVE"
+	"AbilityUnitTargetTeam"			"DOTA_UNIT_TARGET_TEAM_ENEMY"
+	"AbilityUnitTargetType"			"DOTA_UNIT_TARGET_HERO"
+	"AbilityCastRange"				"1050 1600 2150 2700"
+
+
+	"OnUpgrade"
+	{
+		"ApplyModifier"
+		{
+			"ModifierName"	"modifier_Auspice"
+			"Target" 		"CASTER"
+			"Duration"		"-1"
+		}
+	}
+
+	"Modifiers"
+	{
+
+		"modifier_Auspice"
+		{
+			"Aura"          	"modifier_auspice_ghosts"
+			"Aura_Radius"   	"1050 1600 2150 2700"
+			"Aura_Teams"    	"DOTA_UNIT_TARGET_TEAM_ENEMY"
+			"Aura_Types"    	"DOTA_UNIT_TARGET_HERO"
+			"Aura_Flags"    	"DOTA_UNIT_TARGET_FLAG_NO_INVIS"
+			"Aura_ApplyToCaster" "0"
+		}
+
+		"modifier_auspice_ghosts"
+		{
+			"IsHidden" "0"
+			"IsDebuff" "1"
+
+			"ThinkInterval"  "0.05"
+			"OnIntervalThink"
+			{
+				"RunScript"
+				{
+					"ScriptFile"	"heroes/Skoros/Auspice.lua"
+					"Function"		"Ghosts"
+				}
+			}
+			"OnDestroy"
+			{
+				"RunScript"
+				{
+					"ScriptFile"	"heroes/Skoros/Auspice.lua"
+					"Function"		"DestroyIllusion"
+				}
+			}
+		}
+	
+		"modifier_auspice_invulnerability"
+		{
+			"IsHidden"	"1"
+
+			"StatusEffectName"		"particles/status_fx/status_effect_terrorblade_reflection.vpcf"
+			"StatusEffectPriority"	"100"
+
+			"Properties"
+			{
+				"MODIFIER_PROPERTY_FIXED_DAY_VISION"	"1"
+				"MODIFIER_PROPERTY_FIXED_NIGHT_VISION"	"1"
+				//"MODIFIER_PROPERTY_PROVIDES_FOW_POSITION" "1"
+				"MODIFIER_PROPERTY_IS_ILLUSION"           "1"
+			}
+
+			"States"
+			{
+				"MODIFIER_STATE_UNSELECTABLE"		"MODIFIER_STATE_VALUE_ENABLED"
+				"MODIFIER_STATE_INVULNERABLE"		"MODIFIER_STATE_VALUE_ENABLED"
+				"MODIFIER_STATE_NO_UNIT_COLLISION"	"MODIFIER_STATE_VALUE_ENABLED"
+				"MODIFIER_STATE_NO_HEALTH_BAR"		"MODIFIER_STATE_VALUE_ENABLED"
+				"MODIFIER_STATE_DISARMED"			"MODIFIER_STATE_VALUE_ENABLED"
+				
+
+				
+			}
+		}
+		"no_collision"
+		{
+			"Passive"			"0"
+			"IsHidden"			"0"
+			"IsDebuff"			"0"
+			"IsBuff"			"0"
+
+			"States"
+			{
+				"MODIFIER_STATE_NO_UNIT_COLLISION"		"MODIFIER_STATE_VALUE_ENABLED"
+			}
+		}
+	}
+}
+

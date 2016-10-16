@@ -1,0 +1,67 @@
+"Glowing Ice"
+{	
+	"BaseClass"             		"ability_datadriven"
+	"AbilityTextureName"			"Acheron_Glowing_Ice"
+	"MaxLevel" 						"4"
+	"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_UNIT_TARGET"
+	"AbilityUnitTargetTeam"			"DOTA_UNIT_TARGET_TEAM_FRIENDLY"
+	"AbilityUnitTargetType"			"DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
+
+	"AbilityCooldown"				"11"
+	"AbilityManaCost"				"80 100 120 140"
+
+	"Precache"
+	{
+		"particle"  "particles/bellatrix/bellatrix_unholy_ecstasy.vpcf"
+	}
+
+	"AbilitySpecial"
+	{
+		"01"
+		{
+			"var_type"			"FIELD_INTEGER"
+			"healvalue"			"80 100 120 140"
+		}
+		"02"
+		{
+			"var_type"			"FIELD_FLOAT"
+			"restarttime"		"3.25 2.75 2.25 1.75"
+		}
+	}
+
+	"OnSpellStart"
+	{
+		"Heal"
+		{
+			"Target"        "TARGET"
+			"HealAmount"	"%healvalue"
+		}
+		"RunScript"
+		{
+			"ScriptFile"	"Glowing_Ice.lua"
+			"Function"		"glowing_ice"
+		}
+	}
+	"Modifiers"
+	{
+		"glowing_ice_heal"
+		{
+			"Passive"			"0"
+			"IsHidden"			"1"
+			"IsDebuff"			"0"
+			"OnDestroy"
+			{
+				"Heal"
+				{
+					"Target"        "TARGET"
+					"HealAmount"	"%healvalue"
+				}
+				"RunScript"
+				{
+					"ScriptFile"	"Glowing_Ice.lua"
+					"Function"		"glowing_ice"
+				}
+			}
+		}
+	}
+}

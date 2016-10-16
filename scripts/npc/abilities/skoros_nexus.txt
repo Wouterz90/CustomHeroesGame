@@ -1,0 +1,203 @@
+
+"Nexus"
+
+{
+	"BaseClass"             		"ability_datadriven"
+	"AbilityTextureName"			"Skoros/skoros_nexus"
+	"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_UNIT_TARGET"
+	"AbilityUnitTargetTeam"			"DOTA_UNIT_TARGET_TEAM_FRIENDLY"
+	"AbilityUnitTargetType"			"DOTA_UNIT_TARGET_HERO"
+	"AbilityType"					"DOTA_ABILITY_TYPE_ULTIMATE"
+	"CastFilterRejectCaster" 		"1"
+	"AbilityCooldown"				"10"
+	"AbilityCastPoint"				"0.3"
+	"AbilityManaCost"				"60"
+	"AbilityCastRange"				"700"
+
+	"AbilitySpecial"
+	{
+		"01"
+		{
+			"var_type"			"FIELD_INTEGER"
+			"sight_aoe"			"800"
+		}
+		"02"
+		{
+			"var_type"			"FIELD_FLOAT"
+			"duration"			"25"
+		}
+		"03"
+		{
+			"var_type"			"FIELD_FLOAT"
+			"armor_change"		"10 15 20"
+		}
+		"04"
+		{
+			"var_type"			"FIELD_FLOAT"
+			"interval"			"0.05"
+		}
+		"05"
+		{
+			"var_type"			"FIELD_FLOAT"
+			"armor_penalty"		"-5 -7.5 -10"
+		}
+	}
+	"precache"
+	{						
+		
+		"particle"			"particles/units/heroes/hero_phantom_assasin/phantom_assassin_blur.vpcf"
+		"particle"			"particles/units/heroes/hero_undying/undying_fg_heal.vpcf"
+	}
+	"OnSpellStart"
+	{
+		"ApplyModifier"
+		{
+			"ModifierName"	"Nexus_on_ally"
+			"Target" 		"TARGET"
+			"Duration"		"%duration"
+		}
+		"ApplyModifier"
+		{
+			"ModifierName"	"Nexus_Sync_Casts"
+			"Target" 		"CASTER"
+			"Duration"		"%duration"
+		}
+	}
+	"Modifiers"
+	{
+		"Nexus_on_ally"
+		{
+			"Passive"			"0"
+			"IsHidden"			"0"
+			"IsDebuff"			"0"
+			"IsBuff"			"1"
+	
+			"EffectName"		""
+			"EffectAttachType"	""
+			"Properties"
+			{
+			    "MODIFIER_PROPERTY_PHYSICAL_ARMOR_BONUS" "%armor_change" 
+			}
+			
+			"OnCreated"
+			{
+				"FireEffect"
+				{
+					"EffectName"        "particles/units/heroes/hero_undying/undying_fg_heal.vpcf"
+					"EffectAttachType"  "follow_origin"
+					"Target"            "CASTER"
+				}
+				"DelayedAction"
+				{
+					"Delay"     "0.3"
+					"Action"    
+					{
+						"FireEffect"
+						{
+							"EffectName"        "particles/units/heroes/hero_undying/undying_fg_heal.vpcf"
+							"EffectAttachType"  "follow_origin"
+							"Target"            "TARGET"
+						}
+					}
+				}
+				
+				"RunScript"
+				{
+					"ScriptFile"	"heroes/Skoros/Nexus.lua"
+					"Function"		"CreateSuperIllusion"
+
+				}
+			}
+			"OnDestroy"
+			{
+				"RunScript"
+				{
+					"ScriptFile"	"heroes/Skoros/Nexus.lua"
+					"Function"		"KILLSELF"
+				}
+			}
+		}
+		"Nexus_Sync_Casts"
+		{
+			"IsHidden" 			"1"
+
+			"Properties"
+			{
+			    "MODIFIER_PROPERTY_PHYSICAL_ARMOR_BONUS" "%armor_penalty" 
+			}
+
+			"RunScript"
+			{
+				"ScriptFile"	"heroes/Skoros/Nexus.lua"
+				"Function"		"start"
+				"Target"
+				{
+					"Center"  	"CASTER"
+					"Radius" 	"100000"
+					"Teams" 	"DOTA_UNIT_TARGET_TEAM_FRIENDLY"
+					"Types" 	"DOTA_UNIT_TARGET_HERO"
+					"Flags"		"DOTA_UNIT_TARGET_FLAG_INVULNERABLE"
+				}
+			}
+
+			"ThinkInterval"  	"%interval"
+			"OnIntervalThink"
+			{
+				"RunScript"
+				{
+					"ScriptFile"	"heroes/Skoros/Nexus.lua"
+					"Function"		"SyncSpells"
+				}
+				"RunScript"
+				{
+					"ScriptFile"	"heroes/Skoros/Nexus.lua"
+					"Function"		"Check_Mana"
+					"Target"
+					{
+						"Center"  	"CASTER"
+						"Radius" 	"100000"
+						"Teams" 	"DOTA_UNIT_TARGET_TEAM_FRIENDLY"
+						"Types" 	"DOTA_UNIT_TARGET_HERO"
+						"Flags"		"DOTA_UNIT_TARGET_FLAG_INVULNERABLE"
+					}
+				}
+			}
+		}
+		"Nexus_ManaSpent"
+		{
+			"IsHidden"	"0"
+			"OnSpentMana"
+			{
+			// Example: Nether ward
+				"RunScript"
+				{
+					"ScriptFile"	"heroes/Skoros/Nexus.lua"
+					"Function"		"Remove_Caster_Mana"
+				}
+			}
+		}
+	}
+}
+"Third_Eye_Blind"
+	{
+		"BaseClass"             		"ability_datadriven"
+		"AbilityTextureName"			"Skoros/skoros_Third_Eye_Blind"
+		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_UNIT_TARGET|DOTA_ABILITY_BEHAVIOR_NOT_LEARNABLE"
+		"AbilityUnitTargetTeam"			"DOTA_UNIT_TARGET_TEAM_FRIENDLY"
+		"AbilityUnitTargetType"			"DOTA_UNIT_TARGET_HERO"
+		"AbilityCooldown"				"90"
+		"AbilityCastPoint"				"0.3"
+		"AbilityManaCost"				"150"
+		"AbilityCastRange"				"70000"
+		"MaxLevel"						"1"
+		
+	
+		"OnSpellStart"
+		{
+			"RunScript"
+			{
+				"ScriptFile"	"heroes/Skoros/Nexus.lua"
+				"Function"		"MoveToTarget"
+			}
+		}
+	}

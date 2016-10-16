@@ -1,0 +1,216 @@
+//FATMAN
+
+"Presence of the Fat Man"
+
+
+{
+	//General
+	"BaseClass"						"ability_datadriven"
+	"AbilityTextureName"			"fatman/Fatman_presenceofthefatman"
+	"AbilityBehavior" 				"DOTA_ABILITY_BEHAVIOR_PASSIVE"
+	"AbilityUnitTargetTeam"			"DOTA_UNIT_TARGET_TEAM_ENEMY"
+	"AbilityUnitTargetType"			"DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
+	"AbilityUnitDamageType"			"DAMAGE_TYPE_HP_REMOVAL"
+	"AbilityType"					"DOTA_ABILITY_TYPE_ULTIMATE"	
+	"SpellImmunityType"				"SPELL_IMMUNITY_ENEMIES_YES"
+	"FightRecapLevel"				"1"
+	"MaxLevel" 						"3"
+	"RequiredLevel"					"6"
+	"LevelsBetweenUpgrades"			"5"
+
+	"AbilitySpecial"
+	{
+		"01"
+		{
+			"var_type"			"FIELD_INTEGER"
+			"AuraRadius1"		"1000"
+		}
+		"02"
+		{
+			"var_type"			"FIELD_FLOAT"
+			"DamageInterval"	"0.2"
+		}
+		"03"
+		{
+			"var_type"			"FIELD_INTEGER"
+			"DamageTick"		"2"
+		}
+		"04"
+		{
+			"var_type"			"FIELD_INTEGER"
+			"AuraRadius2"		"700"
+		}
+		"05"
+		{
+			"var_type"			"FIELD_INTEGER"
+			"AuraRadius3"		"400"
+		}
+		"06"
+		{
+			"var_type"			"FIELD_INTEGER"
+			"AreaRadius"		"1000 700 400"			
+		}
+	}
+	"OnUpgrade"
+	{
+		"RunScript"
+		{
+			"ScriptFile"	"heroes/fatman/Presence_of_the_Fat_Man.lua"
+			"Function"		"LevelingUp"
+		}
+	}
+	"Modifiers"
+	{
+		"Extra_Strength"
+		{
+			"IsHidden"			"0"
+			"IsPurgable"		"0"
+			"IsBuff"			"1"
+			"IsDebuff"			"0"
+			"IsStunDebuff"		"0"
+			"Attributes"    "MODIFIER_ATTRIBUTE_PERMANENT"
+
+			"Properties"
+			{
+				"MODIFIER_PROPERTY_STATS_STRENGTH_BONUS" "1"
+			}
+		}
+		"Minus_Strength"
+		{
+			"IsHidden"			"0"
+			"IsPurgable"		"0"
+			"IsBuff"			"0"
+			"IsDebuff"			"1"
+			"IsStunDebuff"		"0"
+			"Attributes"    "MODIFIER_ATTRIBUTE_PERMANENT | MODIFIER_ATTRIBUTE_MULTIPLE"
+
+			"Properties"
+			{
+				"MODIFIER_PROPERTY_STATS_STRENGTH_BONUS" "-1"
+			}
+		}
+		"Presence_of_the_Fat_Man_aura1"
+		{
+			"Passive"		"1"
+			"IsHidden"		"0"
+
+			"Aura" 			"Presence_of_the_Fat_Man_buff1"
+			"Aura_Radius" 	"%AuraRadius1"
+			"Aura_Teams" 	"DOTA_UNIT_TARGET_TEAM_ENEMY"
+			"Aura_Types" 	"DOTA_UNIT_TARGET_HERO"
+			"Aura_Flags"	"DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES"
+		}
+
+		"Presence_of_the_Fat_Man_aura2"
+		{
+			"Passive"		"1"
+			"IsHidden"		"1"
+
+			"Aura" 			"Presence_of_the_Fat_Man_buff2"
+			"Aura_Radius" 	"%AuraRadius2"
+			"Aura_Teams" 	"DOTA_UNIT_TARGET_TEAM_ENEMY"
+			"Aura_Types" 	"DOTA_UNIT_TARGET_HERO"
+			"Aura_Flags"	"DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES"
+		}
+
+		"Presence_of_the_Fat_Man_aura3"
+		{
+			"Passive"		"1"
+			"IsHidden"		"1"
+
+			"Aura" 			"Presence_of_the_Fat_Man_buff3"
+			"Aura_Radius" 	"%AuraRadius3"
+			"Aura_Teams" 	"DOTA_UNIT_TARGET_TEAM_ENEMY"
+			"Aura_Types" 	"DOTA_UNIT_TARGET_HERO"
+			"Aura_Flags"	"DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES"
+		}
+		"Presence_of_the_Fat_Man_buff1"
+		{
+			"IsDebuff"	"1"
+			"IsHidden"	"0"
+
+			"ThinkInterval"	"%DamageInterval"
+
+			"OnIntervalThink"
+			{
+				"RunScript"
+				{
+					"ScriptFile"			"heroes/fatman/Presence_of_the_Fat_Man.lua"
+					"Function"				"DamageInterval"
+				}
+			}
+
+			"OnDeath"
+			{
+				"RunScript"
+				{
+					"ScriptFile"	"heroes/fatman/Presence_of_the_Fat_Man.lua"
+					"Function"		"Extra_Strength"
+				}
+			}
+		}
+		"Presence_of_the_Fat_Man_buff2"
+		{
+			"IsDebuff"	"1"
+			"IsHidden"	"1"
+
+			"ThinkInterval"	"%DamageInterval"
+
+			"OnIntervalThink"
+			{
+				"RunScript"
+				{
+					"ScriptFile"			"heroes/fatman/Presence_of_the_Fat_Man.lua"
+					"Function"				"DamageInterval"
+				}
+			}
+			"OnDeath"
+			{
+				"DelayedAction"
+				{
+					"Delay"     "0.01"
+					"Action"    
+					{
+						"RunScript"
+						{
+							"ScriptFile"	"heroes/fatman/Presence_of_the_Fat_Man.lua"
+							"Function"		"Extra_Strength"
+						}
+					}
+				}
+			}
+		}
+		"Presence_of_the_Fat_Man_buff3"
+		{
+			"IsDebuff"	"1"
+			"IsHidden"	"1"
+
+			"ThinkInterval"	"%DamageInterval"
+
+			"OnIntervalThink"
+			{
+				"RunScript"
+				{
+					"ScriptFile"			"heroes/fatman/Presence_of_the_Fat_Man.lua"
+					"Function"				"DamageInterval"
+				}
+			}
+			"OnDeath"
+			{
+				"DelayedAction"
+				{
+					"Delay"     "0.02"
+					"Action"    
+					{
+						"RunScript"
+						{
+							"ScriptFile"	"heroes/fatman/Presence_of_the_Fat_Man.lua"
+							"Function"		"Extra_Strength"
+						}
+					}
+				}
+			}
+		}
+
+	}
+}
